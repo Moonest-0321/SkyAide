@@ -1,0 +1,72 @@
+{
+ "報告": {
+  "報告編號": "SKY-DANAS-2025-SIM-0062",
+  "坵塊": {
+   "編號": 62,
+   "面積_公頃": 2.4,
+   "內縮後像素": 176
+  },
+  "生產事實": {
+   "判釋作物": "果樹",
+   "申報作物": "水稻",
+   "災前NDVI平均": 0.659,
+   "災前在生產": true
+  },
+  "損失區間": {
+   "第10百分位": 0.546,
+   "第50百分位": 0.696,
+   "第90百分位": 0.846
+  },
+  "分級": "C",
+  "原因": [
+   "C3 作物與申報不符"
+  ],
+  "可信度": {
+   "等級": "中",
+   "檢核": {
+    "影像條件": true,
+    "觀測完整": true,
+    "多源一致": true,
+    "申報一致": false,
+    "生產事實": true
+   },
+   "未通過": [
+    "申報一致"
+   ]
+  },
+  "主要證據": [
+   "雷達淹水投票：99% 像素至少兩法判為淹水",
+   "Sentinel-2 NDVI 較同作物未受災田低 22.2 個標準差"
+  ],
+  "溯源": {
+   "輸入清單雜湊": "7c3cb582bc51a3977930fec5a1afece4ea5a90b21a23406e2c8d9bb2a880ef93",
+   "輸入檔": {
+    "parcel.npy": "d9cbe3b35da01a231912400b15f68445a6366866503ddab6687c9226d07d63eb",
+    "vv_pre.npy": "4b4fd1346081970641c8a4b2ff4428e4aa01327145c61ae5f536170b70858267",
+    "vh_pre.npy": "a16a54222ce9696ea2aa4afea39ea8dc1455884bf0e4271ba2051219af3b2a28",
+    "vv_post.npy": "c02a015e1d888ca1ab6f85bec560042d5b2488c450482fb969457702133a776d",
+    "vh_post.npy": "50913e9839c31753f7b28fc3afe86538cd033bdeeaea4e70aae6ba5a0898b050",
+    "coh_pre.npy": "557c39c55e15ea221115bdcf2bd4b9666b66474aba64e3df75be7e5c749428d1",
+    "coh_post.npy": "5d7174b1e7030fe130160bf3d1865e14b5a32d29ece21066a572561e673f3f89",
+    "ndvi_pre.npy": "621c3df3dbf8ab2fdf7f0166d90f8a7868631f8b50e9472877eebc0cf373089f",
+    "ndvi_post.npy": "798feac9e7348cd892054dd8a53cd109b9cfc7ab3c775eaefcd5024545fa827f",
+    "declarations.json": "af082a79ce714733def7caa41ae23bb659fe382d1f0f88000c0cd3518803a8ab"
+   },
+   "環境雜湊": "0a2ea6b42e433032a8605107d876451b6a1d2558c0663713d914427f6abb7b17",
+   "參數雜湊": "f69515fcec7d09c79016cf32a3e0c4462182d1106d725a9a0219680732f9a0f4",
+   "版本": {
+    "判讀": "skyaide-demo-0.1",
+    "作業流程": "skyaide-sop-0.1"
+   }
+  },
+  "效力說明": "影像存證參考，尚非種植客觀證明文件；以公所認定為準"
+ },
+ "報告雜湊": "a8ecc7d519d319b13238e719a6f38c51e7dc013dff3b826bf9325f57e5a997bb",
+ "資料中心簽章": "1809fa7dfef37258069e349dfbfae047ae2b87a7aa5330113ff0b03e07bd8047e8efb3d01a476df5be21e6a8ec7a25941537cf7df62a64d8aa7238a5927dfe09",
+ "時戳": {
+  "報告雜湊": "a8ecc7d519d319b13238e719a6f38c51e7dc013dff3b826bf9325f57e5a997bb",
+  "時間": "2026-10-22T12:09:45+00:00",
+  "時戳簽章": "aa03036bcee490e9a4a454debffd3b78cde6c20d88c1c275aef7977450bb80c55f72d8f574155e0e11fba3430485bd1bb7b4fcf72b3245e2cf1af9904e8b5c0c"
+ },
+ "查驗碼": "SKY|SKY-DANAS-2025-SIM-0062|a8ecc7d519d319b1"
+}

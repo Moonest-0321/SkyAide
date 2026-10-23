@@ -1,0 +1,29 @@
+{
+ "程式": {
+  "skyaide_demo.py": "c23e4e20afb1c6d927c5d0b054ae3597e289e7a6e3b0aaa334a439aabb3e6c23",
+  "sop_pipeline.py": "37051af5806c82fac745cfa767d5d63513725bac9c016f693b2a15f129862671"
+ },
+ "版本": {
+  "判讀": "skyaide-demo-0.1",
+  "作業流程": "skyaide-sop-0.1"
+ },
+ "參數": {
+  "lee_size": 5,
+  "inset_iter": 1,
+  "flood_diff_db": -3.0,
+  "flood_z": -3.0,
+  "lodge_db": 2.5,
+  "coh_buried": 0.5,
+  "gate_a_q10": 0.4,
+  "gate_b_q90": 0.1,
+  "min_pix": 5,
+  "bare_ndvi": 0.3
+ },
+ "參數雜湊": "f69515fcec7d09c79016cf32a3e0c4462182d1106d725a9a0219680732f9a0f4",
+ "套件": {
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1"
+ },
+ "環境雜湊": "0a2ea6b42e433032a8605107d876451b6a1d2558c0663713d914427f6abb7b17"
+}
