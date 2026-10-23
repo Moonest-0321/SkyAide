@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<style>
+:root{
+  --ink:#26323a; --sub:#4d5b63; --muted:#7a8a92;
+  --box:#eef3f5; --boxline:#b9ccd4;
+  --acc:#b0602a; --accbg:#f7ece3; --accline:#e2c2a8;
+  --teal:#4f7f8c; --ok:#3f7a5a; --okbg:#e9f3ec; --okline:#b6d4c1;
+  --warn:#9a7a1e; --warnbg:#f8f2df; --warnline:#e0d09a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;font-family:"Noto Sans CJK TC","Noto Sans CJK JP",sans-serif;color:var(--ink);width:1400px;padding:28px 30px 24px}
+h1{font-size:28px;font-weight:700;display:flex;align-items:baseline;gap:16px}
+h1 span{font-size:16px;font-weight:400;color:var(--muted)}
+h2{font-size:18.5px;font-weight:700;color:var(--teal);margin:20px 0 9px}
+h2 small{font-size:14px;font-weight:400;color:var(--muted);margin-left:8px}
+.b{background:var(--box);border:1.5px solid var(--boxline);border-radius:9px;padding:10px 13px}
+.b h4{font-size:16px;font-weight:700;margin-bottom:4px}
+.b p{font-size:13.5px;line-height:1.55;color:var(--sub)}
+.b p b{color:var(--ink)}
+
+/* 問題 */
+.prob{display:grid;grid-template-columns:repeat(3,1fr) 1.35fr;gap:10px}
+.prob .b{background:var(--accbg);border-color:var(--accline)}
+.num{font-size:24px;font-weight:700;color:var(--acc);line-height:1.2}
+.num small{font-size:15px}
+.prob .gap{display:flex;align-items:center}
+.prob .gap p{font-size:14.5px;color:var(--ink);line-height:1.6}
+
+/* SOP */
+.sop{display:grid;grid-template-columns:1fr 18px 1fr 18px 1.3fr 18px 1fr 18px 1fr;align-items:stretch}
+.ar{display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:18px;font-weight:700}
+.sid{font-size:12.5px;font-weight:700;color:var(--teal);letter-spacing:.5px}
+.chain{margin-top:8px;border:1.5px dashed var(--teal);border-radius:9px;padding:7px 13px;font-size:13.5px;color:var(--sub);background:#fff;line-height:1.5}
+.chain b{color:var(--teal)}
+
+/* 分級＋等級 */
+.mid{display:grid;grid-template-columns:1fr 1.25fr;gap:16px}
+.grades{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gq{font-size:13.5px;color:var(--sub);margin-bottom:8px;line-height:1.5}
+.gq b{color:var(--ink)}
+.okb{background:var(--okbg);border-color:var(--okline)} .okb h4{color:var(--ok)}
+.wb{background:var(--warnbg);border-color:var(--warnline)} .wb h4{color:var(--warn)}
+.cb{background:var(--accbg);border-color:var(--accline)} .cb h4{color:var(--acc)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative}
+.tiers .b h4{display:flex;align-items:baseline;gap:8px}
+.tiers .b h4 em{font-style:normal;font-size:24px;line-height:1}
+.tiers .lbl{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:6px}
+.up{font-size:13px;color:var(--sub);margin-top:8px;line-height:1.55}
+.up b{color:var(--teal)}
+
+/* 驗證＋效果 */
+.bot{display:grid;grid-template-columns:1fr 1.45fr;gap:16px}
+.demo{display:grid;grid-template-columns:1fr;gap:6px}
+.demo .b{padding:7px 12px;display:grid;grid-template-columns:118px 1fr;gap:8px;align-items:center}
+.demo .b h4{font-size:14.5px;margin:0}
+.demo .b p{font-size:13px}
+.eff{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.eff .b{background:var(--okbg);border-color:var(--okline);padding:9px 13px}
+.eff .num{color:var(--ok);font-size:23px}
+.foot{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+</style></head><body>
+
+<h1>天相星 SkyAide 計畫總覽<span>公所災後勘查衛星快篩平台</span></h1>
+
+<h2>問題：救助慢在公所勘查</h2>
+<div class="prob">
+  <div class="b"><div class="num">4 人 <small>／</small> 370 筆</div><p>農業課平均人數；大型災害時每人須勘查筆數</p></div>
+  <div class="b"><div class="num">58 <small>天</small> vs 24–30 <small>天</small></div><p>須現勘案件與具客觀證明免勘案件的平均撥款天數</p></div>
+  <div class="b"><div class="num">3.7%</div><p>免勘案件占比；10 個縣市因擔心溢領維持逐筆現勘</p></div>
+  <div class="b gap"><p>規定已允許免勘，公所缺的是一份<b>可以採信、事後經得起查核</b>的證據。</p></div>
+</div>
+
+<h2>做法：八步標準作業流程</h2>
+<div class="sop">
+  <div class="b"><div class="sid">平時・S1</div><h4>累積災前紀錄</h4><p>衛星替每塊田存多年時序；公所每年 1 月確認災前基準。輸入檔記錄來源與雜湊</p></div>
+  <div class="ar">→</div>
+  <div class="b"><div class="sid">S2–S3</div><h4>鎖定版本、判讀</h4><p>災害開始即鎖定程式與參數；雷達到站 8 小時內完成判讀與損失區間</p></div>
+  <div class="ar">→</div>
+  <div class="b"><div class="sid">S4</div><h4>分級：先看證據，再看損失</h4><p>可信度五項檢核任一未過列 C；全過才看<span style="white-space:nowrap">第 10–90 百分位</span>損失區間與 20% 門檻，分 A 達標、A 未達標、B 邊緣</p></div>
+  <div class="ar">→</div>
+  <div class="b"><div class="sid">S5–S6</div><h4>存證與交付</h4><p>報告附簽章、時戳、查驗碼；預填申請。公所判定另行簽章，與系統結果並列</p></div>
+  <div class="ar">→</div>
+  <div class="b"><div class="sid">S7–S8</div><h4>封存與評等</h4><p>批次封存、現勘回填；逐類別算精確度下界，決定下一場升等或降等</p></div>
+</div>
+<div class="chain"><b>貫穿全程的作業日誌：</b>每一步寫入一筆，記下前一筆的雜湊。任何人掃描查驗碼即可確認報告未經改動；審計以同一批輸入可重算出同一份報告。</div>
+
+<div class="mid">
+  <div>
+    <h2>案件分級<small>這一筆要不要人處理</small></h2>
+    <div class="grades">
+      <div class="b okb"><h4>A 達標</h4><p>區間下限 ≥ 40%，明確超過門檻</p></div>
+      <div class="b okb"><h4>A 未達標</h4><p>區間上限 ≤ 10%；通知附影像日期與理由，可補件或申訴</p></div>
+      <div class="b wb"><h4>B 邊緣</h4><p>證據完整，區間跨過 20%，公所到場確認</p></div>
+      <div class="b cb"><h4>C 缺失</h4><p>雲遮、對位、作物不符、災前未見作物生長等；補件或派無人機</p></div>
+    </div>
+  </div>
+  <div>
+    <h2>系統等級<small>系統的結果能不能交給公所用</small></h2>
+    <div class="tiers">
+      <div class="b"><h4><em>丙</em>收集期</h4><p>照常分級，結果不交公所；公所全部現勘並回填</p><div class="lbl">公所已可用</div><p>熱區圖、縣市提報</p></div>
+      <div class="b"><h4><em>乙</em>考察期</h4><p>分級與存證報告作為參考資料；仍依現行規定勘查</p><div class="lbl">公所已可用</div><p>現勘排序、預填申請、補件提醒</p></div>
+      <div class="b okb"><h4><em>甲</em>參與判定</h4><p>A 達標書面審核、A 未達標通知，各抽查 20%；B 到場、C 補件</p><div class="lbl">升等還須</div><p>連續 10 場達標＋政府審核</p></div>
+    </div>
+    <div class="up"><b>升乙等：</b>兩種 A 精確度下界 ≥ 95%、直接判定率 ≥ 50%、B 邊緣確認率下界 ≥ 80%。逐「作物 × 災害類型」評等，任一場下界不足即降一等；降等只會讓更多案件到場。</div>
+  </div>
+</div>
+
+<div class="bot">
+  <div>
+    <h2>已完成的方向驗證</h2>
+    <div class="demo">
+      <div class="b"><h4>丹娜絲真實影像</h4><p>嘉義布袋至臺南北門約 25,450 公頃，Sentinel-1／2 災前災後比對</p></div>
+      <div class="b"><h4>模擬工況</h4><p>83 坵塊、40 口魚塭跑完分級流程；直接判定案件無一錯邊</p></div>
+      <div class="b"><h4>作業流程原型</h4><p>通過 12 項竄改、偽造與品質評估測試；兩端 12 個互動畫面</p></div>
+    </div>
+  </div>
+  <div>
+    <h2>甲等目標效果<small>直接判定率 50%、B／C 級每人日 12 筆，一場大型災害</small></h2>
+    <div class="eff">
+      <div class="b"><div class="num">−12.6 萬筆</div><p>實地現勘減少約 4 成</p></div>
+      <div class="b"><div class="num">約 6.7 萬件</div><p>提早約 28 天完成審核</p></div>
+      <div class="b"><div class="num">113% → 86%</div><p>公所勘查需求占 30 日量能</p></div>
+      <div class="b"><div class="num">2–4 成</div><p>新增支出約為增聘人力方案的比例；不裁減人力</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">效果數字為本作品推估，推算見第四章。基礎版由政府統一採購，公所與農民免費使用；進階版供農會與產險採購。</div>
+</body></html>

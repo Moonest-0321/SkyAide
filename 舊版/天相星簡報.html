@@ -1,0 +1,901 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>天相星 SkyAide 簡報</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap">
+<style>
+/* Layout: a fixed 1600x900 stage scaled to fit the window (no scrolling); detail pages open as a scrollable reading layer */
+:root{
+  --bg:#DDE3EA; --paper:#FAFAF7; --card:#FFFFFF; --ink:#14213D; --muted:#4F5B70; --line:#D3D9E2;
+  --accent:#2C5BBA; --warm:#B4511A; --good:#2E7D4F; --band:#EFF2F6;
+  --inv-bg:#14213D; --inv-fg:#F3F5F8; --inv-muted:#B7C2D6; --inv-accent:#9DBDF7;
+  --f-display:'Noto Serif TC','Songti TC',Georgia,serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A101C; --paper:#131C2E; --card:#1A253C; --ink:#E7EBF2; --muted:#A5AFC1; --line:#2C3853;
+  --accent:#8EAEF2; --warm:#F09A62; --good:#7BCB98; --band:#18223A;
+  --inv-bg:#1F3A75; --inv-fg:#F3F5F8; --inv-muted:#C4D0E6; --inv-accent:#BFD3FA; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A101C; --paper:#131C2E; --card:#1A253C; --ink:#E7EBF2; --muted:#A5AFC1; --line:#2C3853;
+  --accent:#8EAEF2; --warm:#F09A62; --good:#7BCB98; --band:#18223A;
+  --inv-bg:#1F3A75; --inv-fg:#F3F5F8; --inv-muted:#C4D0E6; --inv-accent:#BFD3FA; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.5;
+  padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* stage */
+#vp{position:fixed;inset:0 0 40px 0;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:0 0}
+.slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);padding:64px 80px 100px;display:flex;flex-direction:column;gap:40px;overflow:hidden;border-radius:6px}
+.slide.inv{background:var(--inv-bg);color:var(--inv-fg);justify-content:center}
+.slide h1{font-family:var(--f-display);font-weight:900;font-size:96px;line-height:1.1}
+.slide h2{font-family:var(--f-display);font-weight:900;font-size:56px;line-height:1.2;text-wrap:balance}
+.slide h3{font-size:32px;font-weight:700;line-height:1.3}
+.slide p,.slide li,.slide td,.slide th{font-size:28px;line-height:1.5}
+.slide .lead{color:var(--muted)}
+.slide.inv .lead{color:var(--inv-muted)}
+.slide .sec{font-size:20px!important;letter-spacing:.16em;font-weight:700;color:var(--accent);margin-bottom:-28px}
+.slide .eyebrow{font-size:22px;letter-spacing:.2em;color:var(--inv-accent)}
+.slide .src{font-size:19px;line-height:1.45;color:var(--muted)}
+.slide.inv .src{color:var(--inv-muted)}
+.slide .src a{color:inherit}
+.foot{position:absolute;left:80px;right:80px;bottom:30px;display:flex;gap:20px;align-items:baseline}
+.foot .pg{font-size:19px;font-variant-numeric:tabular-nums;color:var(--muted);min-width:44px}
+.slide.inv .foot .pg{color:var(--inv-muted)}
+.foot .src{flex:1}
+
+.row{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:30px 32px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.hot{border:2px solid var(--warm)}
+.card.top-a{border-top:6px solid var(--accent)}
+.card.top-w{border-top:6px solid var(--warm)}
+.card.top-g{border-top:6px solid var(--good)}
+.card.dark{background:var(--inv-bg);color:var(--inv-fg);border-color:transparent}
+.card.dark p{color:var(--inv-muted)}
+.slide .big{font-weight:900;font-size:88px;line-height:1.05;font-variant-numeric:tabular-nums}
+.slide .big.mid{font-size:64px}
+.c-a{color:var(--accent)}.c-w{color:var(--warm)}.c-g{color:var(--good)}
+
+a.go{color:inherit;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px;cursor:pointer}
+a.go::after{content:"↗";color:var(--accent);font-weight:700;margin-left:2px}
+.slide.inv a.go,.card.dark a.go{text-decoration-color:var(--inv-accent)}
+.slide.inv a.go::after,.card.dark a.go::after{color:var(--inv-accent)}
+.src a.go{text-decoration-thickness:1px}
+
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-weight:700;border-bottom:2px solid var(--ink);padding:12px 14px;font-size:24px!important}
+.tbl td{border-bottom:1px solid var(--line);padding:14px 14px;vertical-align:top;font-size:24px!important;line-height:1.4!important}
+.tbl tr:nth-child(even) td{background:var(--band)}
+.tbl td.s{font-size:18px!important;color:var(--muted)}
+.tbl td.s a{color:inherit}
+
+.bars{display:flex;flex-direction:column;gap:24px}
+.bars .r{display:grid;grid-template-columns:290px 1fr 160px 320px;align-items:center;gap:18px}
+.bars .lab{text-align:right;font-size:27px}
+.bars .track{height:52px;background:var(--band);border-radius:6px;overflow:hidden}
+.bars .fill{height:100%;background:var(--muted);opacity:.5}
+.bars .fill.a{background:var(--accent);opacity:1}
+.bars .val{font-weight:700;font-size:28px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bars .src{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.flow{display:grid;grid-template-columns:1fr 50px 1fr 50px 1.15fr;gap:12px;align-items:stretch}
+.flow .arr{align-self:center;text-align:center;font-size:40px;color:var(--muted)}
+
+.tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 28px}
+.step{border-top:6px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.step.done{border-top-color:var(--good)}
+.step.now{border-top-color:var(--warm)}
+.step .d{font-size:21px!important;color:var(--muted);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:18px!important;font-weight:700;padding:2px 10px;border-radius:999px;border:1.5px solid currentColor;width:max-content}
+
+/* bottom bar */
+#bar{position:fixed;left:0;right:0;bottom:0;height:40px;display:flex;align-items:center;gap:10px;padding:0 max(14px,env(safe-area-inset-right,0px)) 0 max(14px,env(safe-area-inset-left,0px));font-size:13px;color:var(--muted)}
+#bar .brand{font-weight:700;color:var(--ink)}
+#bar .sp{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.btn{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:4px 12px;border-radius:999px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn[disabled]{opacity:.4;cursor:default}
+#count{font-variant-numeric:tabular-nums;min-width:48px;text-align:center}
+
+/* detail layer */
+#detail{position:fixed;inset:0;background:var(--bg);overflow-y:auto;z-index:5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+#detail .sheet{max-width:52rem;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:clamp(20px,4vw,44px);display:flex;flex-direction:column;gap:16px}
+#detail .tag{display:inline-block;font-size:12px;letter-spacing:.12em;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);width:max-content}
+#detail .tag.ext{border-color:var(--accent);color:var(--accent)}
+#detail h1{font-family:var(--f-display);font-weight:900;font-size:clamp(24px,3.2vw,34px);line-height:1.25;text-wrap:balance}
+#detail h2{font-size:18px;font-weight:700;margin-top:10px}
+#detail p,#detail li{font-size:16px;line-height:1.75}
+#detail ul,#detail ol{padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+#detail .meta{color:var(--muted);font-size:14px}
+#detail .srcbox{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+#detail .srcbox .u{font-size:13px;color:var(--muted);word-break:break-all;user-select:all}
+#detail .tw{overflow-x:auto}
+#detail table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+#detail th{text-align:left;border-bottom:2px solid var(--ink);padding:6px 8px}
+#detail td{border-bottom:1px solid var(--line);padding:6px 8px;vertical-align:top}
+#detail .note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+#detail .note::before{content:"整理者註：";font-weight:700}
+#detail .backrow{display:flex;gap:10px;flex-wrap:wrap}
+#detail .btn{font-size:14px;padding:7px 14px}
+</style>
+
+<div id="vp" aria-live="polite"><div id="stage"></div></div>
+<div id="bar">
+  <span class="brand">天相星 SkyAide</span>
+  <span class="sp" id="hint">← → 換頁　點畫底線、標 ↗ 的資訊看依據</span>
+  <button class="btn" id="prev" aria-label="上一頁">←</button>
+  <span id="count">1 / 20</span>
+  <button class="btn" id="next" aria-label="下一頁">→</button>
+  <button class="btn" id="all">所有依據</button>
+</div>
+<div id="detail" hidden tabindex="-1"></div>
+
+<script>
+const R = 'https://claude.ai/code/artifact/ad3e23de-020e-4158-8216-42d832574372';
+const SLIDES = [
+{ t:'封面', inv:true, h:`
+<p class="eyebrow">2026 衛星數位應用創新大賽｜創意組｜題目六</p>
+<h1>天相星 SkyAide</h1>
+<h2 style="font-weight:600;font-size:56px">天象天相，無相萬象。</h2>
+<p class="lead" style="font-size:28px">災前災後衛星比對快篩平台</p>
+<p class="lead">2025 年台灣天災農損與救助效率調查｜<a class="go" href="#r-summary">調查重點摘要</a></p>`},
+
+{ t:'三個重點', h:`
+<h2>這次報告的三個重點</h2>
+<div class="row">
+ <div class="card top-a"><p class="big mid c-a">一</p><h3>資金比對</h3><p class="lead">損失多少、經費夠不夠、錢卡在哪</p><p class="src">關鍵數字：<a class="go" href="#d-udn-relief">丹娜絲災後 86 天，核撥只有初勘合格金額的 58.6%</a></p></div>
+ <div class="card top-a"><p class="big mid c-a">二</p><h3>農損確認</h3><p class="lead">誰來確認、怎麼確認、要多久</p><p class="src">關鍵數字：<a class="go" href="#d-cy-audit">須現勘損失率的案件，平均 58 天撥款</a></p></div>
+ <div class="card top-a"><p class="big mid c-a">三</p><h3>處理方向</h3><p class="lead">天相星用衛星證據，讓沒有爭議的案件免現勘</p><p class="src">關鍵數字：<a class="go" href="#d-cy-audit">免勘案件平均 24–30 天撥款</a></p></div>
+</div>
+<div class="foot"><span class="pg">02</span><span class="src">撥款天數皆為審計部 2021 年 8 月豪雨統計｜<a class="go" href="#r-summary">調查重點摘要</a></span></div>`},
+
+{ t:'2025 年農損', h:`
+<p class="sec">一｜資金比對</p>
+<h2>2025 年五起颱風豪雨，農損合計 50.66 億元</h2>
+<div class="bars">
+ <div class="r"><span class="lab">丹娜絲＋0708 豪雨</span><div class="track"><div class="fill a" style="width:100%"></div></div><span class="val c-a">32.81 億</span><span class="src">依據：<a class="go" href="#d-moa-danas">農業部災情報告 7/21</a></span></div>
+ <div class="r"><span class="lab">樺加沙颱風</span><div class="track"><div class="fill" style="width:18.4%"></div></div><span class="val">6.04 億</span><span class="src">依據：<a class="go" href="#d-moa-ragasa">農業部災情報告 10/22</a></span></div>
+ <div class="r"><span class="lab">楊柳颱風</span><div class="track"><div class="fill" style="width:17.2%"></div></div><span class="val">5.65 億</span><span class="src">依據：<a class="go" href="#d-moa-yangliu">農業部災情報告 8/21</a></span></div>
+ <div class="r"><span class="lab">0728 豪雨</span><div class="track"><div class="fill" style="width:15.0%"></div></div><span class="val">4.94 億</span><span class="src">依據：<a class="go" href="#d-moa-0728">農業部最末報 8/11</a></span></div>
+ <div class="r"><span class="lab">鳳凰颱風</span><div class="track"><div class="fill" style="width:3.8%"></div></div><span class="val">1.24 億</span><span class="src">依據：<a class="go" href="#d-fengwong">農業部速報 11/14</a></span></div>
+</div>
+<p class="lead">丹娜絲一起占 64.8%（32.81 ÷ 50.66）。寒害沒有單一報告，但<a class="go" href="#d-cna-budget">部長表示年初低溫已用掉約 22 億救助經費</a>，全年預算約 39 億。</p>
+<div class="foot"><span class="pg">03</span><span class="src">金額為各事件農業產物及民間設施估計損失；鳳凰為速報、非最末報｜<a class="go" href="#r-events">事件總表與計算</a></span></div>`},
+
+{ t:'經費夠不夠', h:`
+<p class="sec">一｜資金比對</p>
+<h2>救助經費年年不夠，2025 年年初就用掉一半以上</h2>
+<div class="row">
+ <div class="card"><p class="big mid">39 億</p><p>2025 年農業災害救助預算</p><p class="src">依據：<a class="go" href="#d-cna-budget">農業部長立法院答詢（中央社 2025/7/21）</a></p></div>
+ <div class="card hot"><p class="big mid c-w">約 22 億</p><p>丹娜絲之前，年初低溫已用掉</p><p class="src">依據：<a class="go" href="#d-cna-budget">同一場答詢；22 ÷ 39 ≈ 56%</a></p></div>
+ <div class="card"><p class="big mid">71.23 億</p><p>丹娜絲＋0708 豪雨現金救助經費，約 9,400 戶</p><p class="src">依據：<a class="go" href="#d-udn-relief">農業部長 2025/10/13 立法院報告</a></p></div>
+</div>
+<div class="row" style="--n:2">
+ <div class="card"><p class="big mid">90.5 → 163.71 億</p><p>2017–2022 年救助預算 vs 實際支出，六年中五年超支</p><p class="src">依據：<a class="go" href="#d-cy-audit">監察院調查報告</a></p></div>
+ <div class="card"><p class="big mid">約 28%</p><p>近 5 年平均每年農損 123 億，現金救助約 34 億</p><p class="src">依據：<a class="go" href="#d-agri-ratio">時任農委會主委說法（農傳媒 2021）</a>；34 ÷ 123 為整理者計算</p></div>
+</div>
+<div class="foot"><span class="pg">04</span><span class="src">救助額度本來就只補一部分：<a class="go" href="#d-cy-audit">約為平均生產成本的 2 成</a>。損失為速報估計，與救助經費統計口徑不同，不宜直接相減。</span></div>`},
+
+{ t:'丹娜絲只撥 59%', h:`
+<p class="sec">一｜資金比對</p>
+<h2>丹娜絲災後 86 天，只撥出初勘合格金額的 59%</h2>
+<div class="bars">
+ <div class="r" style="grid-template-columns:280px 1fr 260px"><span class="lab">公所初勘合格</span><div class="track" style="height:64px"><div class="fill" style="width:100%"></div></div><span class="val">51.5 億</span></div>
+ <div class="r" style="grid-template-columns:280px 1fr 260px"><span class="lab">縣府提報</span><div class="track" style="height:64px"><div class="fill" style="width:67.2%"></div></div><span class="val">34.6 億（67.2%）</span></div>
+ <div class="r" style="grid-template-columns:280px 1fr 260px"><span class="lab">農業部核撥</span><div class="track" style="height:64px"><div class="fill a" style="width:58.6%"></div></div><span class="val c-a">30.18 億（58.6%）</span></div>
+</div>
+<p class="lead">三分之一的錢卡在「公所勘查 → 縣府提報」；已提報的部分，農業部核撥率 87.2%（30.18 ÷ 34.6）。</p>
+<div class="foot"><span class="pg">05</span><span class="src">依據：<a class="go" href="#d-udn-relief">農業部長 2025/10/13 立法院報告（經濟日報），截至 9 月底，丹娜絲＋0708 豪雨合計</a>；86 天＝7/6 至 9/30｜<a class="go" href="#r-delay">遲滯分析</a></span></div>`},
+
+{ t:'公告快、撥款慢', h:`
+<p class="sec">二｜農損確認</p>
+<h2>颱風後隔天就公告，但撥款平均要 55 天</h2>
+<div class="row">
+ <div class="card"><p class="big">1 天</p><p>颱風過境到公告救助</p><p class="src">依據：丹娜絲 7/6 登陸、<a class="go" href="#d-agri-first">7/7 晚間公告</a>；樺加沙 9/23 溢流、<a class="go" href="#d-udn-ragasa">9/24 公告</a>；楊柳 8/13 過境、<a class="go" href="#d-ltn-yangliu">8/14 公告</a></p></div>
+ <div class="card"><p class="big">44 天</p><p>法定：申請到撥款上限</p><p class="src">依據：<a class="go" href="#d-cy-audit">救助辦法第 12 條：申請 10 日＋勘查 30 日內＋抽查 7 日＋撥款 7 日</a>（監察院報告整理）</p></div>
+ <div class="card hot"><p class="big c-w">55 天</p><p>實際平均撥款，超過法定 11 天</p><p class="src">依據：<a class="go" href="#d-cy-audit">審計部統計 2021 年 8 月豪雨 209,189 件，申請日到撥款日平均</a></p></div>
+</div>
+<p class="lead">慢的不是公告，是公告之後的勘查、抽查與提報。2025 年各案的撥款天數未公開，55 天是目前唯一的全國逐案統計。</p>
+<div class="foot"><span class="pg">06</span><span class="src"><a class="go" href="#r-process">救助流程與法定時程</a></span></div>`},
+
+{ t:'兩個極端', h:`
+<p class="sec">二｜農損確認</p>
+<h2>兩個極端：隔天公告 vs 等了 360 天</h2>
+<div class="row" style="--n:2">
+ <div class="card top-a"><h3 class="c-a">最快端</h3>
+  <p><b>1 天</b>　<a class="go" href="#d-agri-first">丹娜絲 7/6 登陸，7/7 晚間公告，文旦酪梨免現勘</a></p>
+  <p><b>1 天</b>　<a class="go" href="#d-udn-ragasa">樺加沙 9/23 溢流，9/24 公告光復鄉全品項免勘</a></p>
+  <p><b>24 天</b>　<a class="go" href="#d-cy-audit">視同具種植事實案件的平均撥款天數（2021 年 1,716 件）</a></p></div>
+ <div class="card top-w"><h3 class="c-w">最慢端</h3>
+  <p><b>360 天</b>　<a class="go" href="#d-ltn-wendan">丹娜絲 2025/7/6 受災，台南文旦延續性災損 2026/7/1 才公告</a></p>
+  <p><b>約 76 天</b>　<a class="go" href="#d-ltn-mango">台東芒果 1–2 月寒害，4/15 才公告</a></p>
+  <p><b>100 天</b>　<a class="go" href="#d-cy-audit">2021 年最長撥款案件；181 件超過 58 天</a></p></div>
+</div>
+<div class="foot"><span class="pg">07</span><span class="src">另見：<a class="go" href="#d-yam-hualien">花蓮 9/25–11/14 分 8 波公告，跨 52 天</a>　<a class="go" href="#d-tn-pear">新北梨 1 月寒害，3/19 公告</a>｜<a class="go" href="#r-extremes">極端案例全表</a></span></div>`},
+
+{ t:'現有勘驗方式', h:`
+<p class="sec">二｜農損確認</p>
+<h2>現有勘驗方式，沒有一種能同時證明種植事實與損失率</h2>
+<table class="tbl">
+<tr><th style="width:18%">勘驗方式</th><th style="width:15%">能證明</th><th style="width:12%">平均撥款</th><th style="width:27%">現實限制</th><th>依據</th></tr>
+<tr><td>逐筆現地勘查</td><td>種植＋損失率</td><td>58 天</td><td>人力不足、認定主觀</td><td class="s"><a class="go" href="#d-cy-audit">審計部 2021 年 134,006 件</a></td></tr>
+<tr><td>免勘損失率（參數類簡化措施）</td><td>只有損失率</td><td>51 天</td><td>仍須現勘種植事實；天氣參數為測站、1 公里網格</td><td class="s"><a class="go" href="#d-cy-audit">審計部表 7：「免現勘損失率、現地勘查種植事實」67,535 件</a>；網格：<a class="go" href="#d-moa-app">農業部</a></td></tr>
+<tr><td>種植客觀證明</td><td>只有種植事實</td><td>24–30 天</td><td>登錄資料常與實況不符</td><td class="s"><a class="go" href="#d-proof">僅占 2.8%、10 縣市不採用的原因</a></td></tr>
+<tr><td>現地照相 App</td><td>佐證</td><td>未公開</td><td>只能佐證、非判定依據；GPS 約 ±20 公尺</td><td class="s"><a class="go" href="#d-pts-gukeng">農糧署（公視 2023）</a>、<a class="go" href="#d-moa-app">農業部</a></td></tr>
+<tr><td>無人機試辦</td><td>損失率</td><td>無實績</td><td>6 件計畫共 2,050 萬元皆未執行</td><td class="s"><a class="go" href="#d-cy-audit">審計部表 8</a></td></tr>
+<tr><td>雲林衛星 NDVI 試算</td><td>疑似受災範圍</td><td>未用於核定</td><td>與核定救助區重疊約 64%</td><td class="s"><a class="go" href="#d-ithome-ndvi">iThome 2026/10/8</a></td></tr>
+</table>
+<div class="foot"><span class="pg">08</span><span class="src">撥款天數皆為 2021 年 8 月豪雨的申請日到撥款日平均｜<a class="go" href="#r-methods">各方式做法詳述</a></span></div>`},
+
+{ t:'種植證明的問題', h:`
+<p class="sec">二｜農損確認</p>
+<h2>種植客觀證明能加速，但 2021 年只有 2.8% 的案件用上</h2>
+<div style="display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:start">
+<table class="tbl">
+<tr><th>案件類型</th><th>件數</th><th>占比</th><th>平均撥款</th></tr>
+<tr><td>有種植證明，免勘</td><td>5,932</td><td>2.8%</td><td>30 天</td></tr>
+<tr><td>視同具種植事實</td><td>1,716</td><td>0.8%</td><td>24 天</td></tr>
+<tr><td>仍現勘種植事實</td><td>67,535</td><td>32.3%</td><td>51 天</td></tr>
+<tr><td>須現勘損失率</td><td>134,006</td><td>64.1%</td><td>58 天</td></tr>
+</table>
+<div class="card"><h3>縣市為什麼不敢用</h3>
+<p>農民依市場改種，登錄作物不等於今年作物（苗栗、臺南）</p>
+<p>二期作約一半還沒種，照文件免勘可能「沒種也救助」（雲林）</p>
+<p>核對文件比直接勘查更耗時（嘉義縣、嘉義市）</p></div>
+</div>
+<div class="foot"><span class="pg">09</span><span class="src">依據：<a class="go" href="#d-proof">監察院報告：2021 年 8 月豪雨件數、10 縣市反映與錯誤率</a>；占比為整理者計算。2025 年後的使用件數無公開資料。</span></div>`},
+
+{ t:'公所量能', h:`
+<p class="sec">二｜農損確認</p>
+<h2>公所量能：農業課平均 4 人，每人約 370 筆地</h2>
+<div class="row" style="--n:2">
+ <div class="card"><p class="big mid">4 人</p><p>公所農業課平均編制</p><p class="src">依據：<a class="go" href="#d-cy-audit">農委會查復監察院（2023 年調查報告）</a></p></div>
+ <div class="card hot"><p class="big mid c-w">約 370 筆／人</p><p>單次災害每人平均負荷</p><p class="src">計算：<a class="go" href="#d-cy-audit">2021 年 8 月豪雨申請 327,230 筆 ÷ 221 個公所 ÷ 4 人</a></p></div>
+ <div class="card"><p class="big mid">5,232 筆</p><p>溪州鄉 26 人勘查 1,817 戶</p><p class="src">依據：<a class="go" href="#d-ctee-xizhou">溪州鄉公所說明（工商時報 2025/9/5），7/11–7/28 受理，9 月初寄出結果</a></p></div>
+ <div class="card"><p class="big mid">逾 1 萬筆</p><p>雲林單次麻竹筍申請</p><p class="src">依據：<a class="go" href="#d-ithome-ndvi">雲林縣說明（iThome 2026/10/8），公所全員投入仍難如期</a></p></div>
+</div>
+<p class="lead">後果：<a class="go" href="#d-ctee-xizhou">香菜田被認成空田</a>、<a class="go" href="#d-wr-changhua">「一個庄頭要走好多次」</a>、<a class="go" href="#d-ithome-ndvi">2025 年 9 月古坑勘災人員受傷送醫</a>。</p>
+<div class="foot"><span class="pg">10</span><span class="src"><a class="go" href="#r-capacity">公所量能全表</a></span></div>`},
+
+{ t:'瓶頸', inv:true, h:`
+<p class="eyebrow">三｜農損處理的方向</p>
+<h1 style="font-size:72px">免現勘的案件，撥款天數約少一半</h1>
+<div class="row" style="--n:2;max-width:1000px">
+ <div class="card dark"><p class="big">58 天</p><p>須現勘損失率的一般案件</p></div>
+ <div class="card dark" style="border-left:6px solid var(--inv-accent)"><p class="big">24–30 天</p><p>有種植證明免勘查／視同具種植事實</p></div>
+</div>
+<div class="foot"><span class="pg">11</span><span class="src">依據：<a class="go" href="#d-cy-audit">審計部 2021 年 8 月豪雨撥款天數表（表 7）</a></span></div>`},
+
+{ t:'天相星做法', h:`
+<p class="sec">三｜處理方向</p>
+<h2>天相星：同一份衛星證據，證明種植事實與損失率</h2>
+<div class="flow">
+ <div class="card"><h3>災前影像</h3><p class="lead">作物判釋，綁定地號坵塊</p><p><b>→ 種植事實</b></p></div>
+ <span class="arr" aria-hidden="true">→</span>
+ <div class="card"><h3>災後影像</h3><p class="lead">SAR 雷達穿雲＋光學植生差異</p><p><b>→ 損失率</b></p></div>
+ <span class="arr" aria-hidden="true">→</span>
+ <div class="card dark"><h3 style="color:var(--inv-fg)">三級分流</h3><p><b style="color:var(--inv-fg)">A 明確受損</b>　估損 ≥ 40% → 存證送件</p><p><b style="color:var(--inv-fg)">B 明確未受損</b>　≤ 10% → 不派人</p><p><b style="color:var(--inv-fg)">C 爭議</b>　10–40%、影像不清、申報不符 → 優先現勘</p></div>
+</div>
+<p class="lead">為什麼是 20%：<a class="go" href="#d-moa-20pct">救助公告：損失率達 20% 以上才救助</a>，A／B 刻意離門檻夠遠，邊緣案件一律交給人判定。</p>
+<div class="foot"><span class="pg">12</span><span class="src">10%／40% 為本隊建議起始值，需以丹娜絲等歷史災例校正（<a class="go" href="#d-team-plan">本隊評估報告</a>）｜<a class="go" href="#r-evidence">證明文件內容</a></span></div>`},
+
+{ t:'與雲林試算的差異', h:`
+<p class="sec">三｜處理方向</p>
+<h2>與雲林試算的差異：種植事實與接進流程</h2>
+<table class="tbl">
+<tr><th style="width:15%">項目</th><th style="width:40%">雲林縣試算（已做，2025）</th><th>天相星（本隊規劃）</th></tr>
+<tr><td>看什麼</td><td>只看植生變化（Sentinel-2 NDVI）</td><td>災前作物判釋＋災後變化（光學＋雷達）</td></tr>
+<tr><td>輸出</td><td>農地範圍內的疑似衰退像元熱區</td><td>每筆地號一個 A／B／C 判定與存證頁</td></tr>
+<tr><td>判定標準</td><td>NDVI 差 &lt; −0.15、&lt; −0.25（報導註明非法規標準）</td><td>以法定損失率 20% 為錨，10–40% 的邊緣案件交給人</td></tr>
+<tr><td>災後影像</td><td>8/7 光學影像，距丹娜絲登陸 32 天，期間還有 0728 豪雨</td><td>雷達 6 天重訪，雲下也能取像</td></tr>
+<tr><td>用在哪</td><td>通報災情時的初判說明（已送農業部研議）</td><td>勘查優先清單、優先抽查 C 級、配合免勘送件</td></tr>
+<tr><td>驗證結果</td><td>與實際核定救助區重疊約 64%</td><td>尚無數據，待原型與公所現勘比對</td></tr>
+</table>
+<div class="foot"><span class="pg">13</span><span class="src">雲林欄依據：<a class="go" href="#d-ithome-ndvi">iThome 2026/10/8</a>；32 天＝7/6 至 8/7，0728 豪雨見<a class="go" href="#d-moa-0728">農業部報告</a>。天相星欄為<a class="go" href="#d-team-plan">本隊規劃</a>，不是已完成的成果。</span></div>`},
+
+{ t:'對照一：時間與人力', h:`
+<p class="sec">三｜處理方向</p>
+<h2>現實問題 × 我們的處理方式（一）時間與人力</h2>
+<table class="tbl">
+<tr><th style="width:27%">現實問題</th><th style="width:30%">天相星的處理方式</th><th style="width:21%">目前進度</th><th>事實依據</th></tr>
+<tr><td>須現勘案件平均 58 天才撥款</td><td>A／B 級出具衛星存證，配合「種植客觀證明」免勘規定送件</td><td>構想完成；分級門檻已訂建議值</td><td class="s"><a class="go" href="#d-cy-audit">審計部表 7</a></td></tr>
+<tr><td>每人約 370 筆、雲林單次逾萬筆</td><td>C 級排出優先勘查清單，匯入農災 App 本機調查專案</td><td>構想完成；匯入格式待與農業部確認</td><td class="s"><a class="go" href="#d-cy-audit">審計部</a>、<a class="go" href="#d-ithome-ndvi">iThome</a></td></tr>
+<tr><td>錢卡在「勘查→提報」，86 天只撥 59%</td><td>災後全區熱區圖，支援縣市在 7 天內提報災情範圍</td><td>尚未製作；計劃 10/21–10/23 做丹娜絲示意圖</td><td class="s"><a class="go" href="#d-udn-relief">農業部立法院報告</a></td></tr>
+<tr><td>法定抽查 20% 以上，抽誰沒有依據</td><td>比例不變，改為優先抽 C 級與衛星、申報不符的案件</td><td>構想完成</td><td class="s"><a class="go" href="#d-moa-notice">2025 年 5 月公告（原文未能核對）</a></td></tr>
+</table>
+<div class="foot"><span class="pg">14</span><span class="src">進度依據：<a class="go" href="#d-team-plan">本隊初步計劃（2026/10/19）與創意構想書初稿</a>｜<a class="go" href="#r-capability">完整對照表</a></span></div>`},
+
+{ t:'對照二：證據與公平', h:`
+<p class="sec">三｜處理方向</p>
+<h2>現實問題 × 我們的處理方式（二）證據與公平</h2>
+<table class="tbl">
+<tr><th style="width:27%">現實問題</th><th style="width:30%">天相星的處理方式</th><th style="width:21%">目前進度</th><th>事實依據</th></tr>
+<tr><td>登錄的種植資料與實況不符，10 縣市不敢用簡化措施</td><td>災前最近一期影像判釋作物，作為種植事實證據</td><td>尚未製作；計劃用丹娜絲前後 Sentinel-2 影像</td><td class="s"><a class="go" href="#d-proof">審計部：10 縣市反映與錯誤率</a></td></tr>
+<tr><td>古坑深山竹林無法即時存證，被判不合格</td><td>衛星不需人到場；小田用福衛八號 1 米影像</td><td>構想完成</td><td class="s"><a class="go" href="#d-pts-gukeng">公視 2023/5/31</a>、<a class="go" href="#d-ey-fs8">行政院</a></td></tr>
+<tr><td>颱風後雲層厚，光學影像拍不到</td><td>Sentinel-1 雷達穿雲，6 天重訪；未來接福衛九號</td><td>尚未製作；計劃取災前災後各一景 SAR</td><td class="s"><a class="go" href="#d-esa-s1">ESA：Sentinel-1 6 天重訪</a></td></tr>
+<tr><td>延遲性災損：文旦 360 天後才公告</td><td>災後持續追蹤植生時序，提早留下衰退證據</td><td>構想完成；需多期影像</td><td class="s"><a class="go" href="#d-ltn-wendan">自由時報 2026/7/1</a></td></tr>
+</table>
+<div class="foot"><span class="pg">15</span><span class="src">進度依據：<a class="go" href="#d-team-plan">本隊初步計劃與創意構想書初稿</a>｜<a class="go" href="#r-capability">完整對照表</a></span></div>`},
+
+{ t:'進階做法', h:`
+<p class="sec">三｜處理方向</p>
+<h2>進階做法：從快篩走向正式證據</h2>
+<div class="row" style="--n:3">
+ <div class="card top-a"><h3>福衛八號 1 米＋紅邊波段</h3><p class="lead">處理 0.3 公頃以下小田與作物判釋，提高臺灣自主技術比重</p><p class="src">已證實：<a class="go" href="#d-ey-fs8">1 米、後製 0.7 米、紅邊波段、2026/7 營運（行政院）</a>；0.3 公頃門檻為本隊規劃</p></div>
+ <div class="card top-a"><h3>SAR 時序變化偵測</h3><p class="lead">比對雷達回波時序，在雲下判斷倒伏與淹水</p><p class="src">已證實：<a class="go" href="#d-esa-s1">Sentinel-1 目前 6 天重訪（ESA）</a>；判斷倒伏的準確度尚無數據，待原型驗證</p></div>
+ <div class="card top-a"><h3>現勘結果回饋學習</h3><p class="lead">C 級現勘結果回傳，逐次校正 10%／40% 門檻與模型</p><p class="src">依據：<a class="go" href="#d-ithome-ndvi">雲林試算與核定區重疊約 64%，報導指 NDVI 只能篩熱區、仍須現勘</a></p></div>
+ <div class="card top-g"><h3>接上既有資料系統</h3><p class="lead">疊合農地覆蓋物資料庫坵塊，結果同步進救助系統</p><p class="src">依據：<a class="go" href="#d-moa-app">農業部：逾 30 萬公頃坵塊；App 每小時同步救助系統</a></p></div>
+ <div class="card top-g"><h3>衛星災損參數</h3><p class="lead">比照天氣參數，累積準確度後提案列為免勘條件</p><p class="src">依據：<a class="go" href="#d-agri-first">2025 年起符合天氣參數且有種植證明者視同確認災害、免現勘（農傳媒引農業部）</a></p></div>
+ <div class="card top-g"><h3>遲發性災損追蹤</h3><p class="lead">寒害、根系受損持續追蹤植生曲線，提早佐證</p><p class="src">依據：<a class="go" href="#d-ltn-mango">芒果約 76 天</a>、<a class="go" href="#d-ltn-wendan">文旦 360 天</a>才公告</p></div>
+</div>
+<div class="foot"><span class="pg">16</span><span class="src"><a class="go" href="#r-advanced">進階做法詳述與時程</a></span></div>`},
+
+{ t:'法律效力路徑', h:`
+<p class="sec">三｜處理方向</p>
+<h2>取得法律效力：法源已經有，不必先修法</h2>
+<div class="row" style="--n:4">
+ <div class="card top-a"><p class="big mid c-a">1</p><h3>法源</h3><p class="lead">勘查得以科學技術輔助</p><p class="src">依據：<a class="go" href="#d-cy-audit">救助辦法 2017 年修正（監察院報告引述）</a></p></div>
+ <div class="card top-a"><p class="big mid c-a">2</p><h3>列為種植證明</h3><p class="lead">與產銷履歷、轉契作紀錄並列</p><p class="src">依據：<a class="go" href="#d-agri-first">農業部 2025/7/7：符合參數且有種植客觀證明者免現勘</a></p></div>
+ <div class="card top-a"><p class="big mid c-a">3</p><h3>對接資料</h3><p class="lead">農地覆蓋物資料庫的災時加值層</p><p class="src">依據：<a class="go" href="#d-moa-app">農業部</a></p></div>
+ <div class="card top-a"><p class="big mid c-a">4</p><h3>縣市試辦</h3><p class="lead">雲林已自行試算 NDVI 並提案；天相星補上作物判釋與逐筆判定</p><p class="src">依據：<a class="go" href="#d-ithome-ndvi">iThome 2026/10/8</a></p></div>
+</div>
+<p class="lead">商業模式：基礎版由政府採購，進階版付費；救助金額與資格不因版本改變。</p>
+<div class="foot"><span class="pg">17</span><span class="src">商業模式依據：<a class="go" href="#d-team-plan">本隊創意構想書初稿</a>｜<a class="go" href="#r-legal">法律效力路徑詳述</a></span></div>`},
+
+{ t:'加速效果推估', h:`
+<p class="sec">三｜處理方向</p>
+<h2>推估：全體平均撥款可少 5–13 天</h2>
+<table class="tbl">
+<tr><th>現勘案件轉為免勘的比例</th><th>轉換件數</th><th>全體平均撥款</th><th>縮短</th></tr>
+<tr><td>目前（實際統計）</td><td>—</td><td>55 天</td><td>—</td></tr>
+<tr><td>30%</td><td>40,202 件</td><td>49.6 天</td><td>5.4 天</td></tr>
+<tr><td>50%</td><td>67,003 件</td><td>46.0 天</td><td>9.0 天</td></tr>
+<tr><td>70%</td><td>93,804 件</td><td>42.4 天</td><td>12.6 天</td></tr>
+</table>
+<p class="lead">公式：新平均 ＝ 55 − 轉換件數 ×（58 − 30）÷ 209,189。轉換比例是假設，實際比例需原型與公所試行後才知道。</p>
+<div class="foot"><span class="pg">18</span><span class="src">基準數字依據：<a class="go" href="#d-cy-audit">審計部 2021 年 209,189 件（平均 55 天）、須現勘 134,006 件（58 天）、免勘 30 天</a>｜<a class="go" href="#r-estimate">計算方式</a></span></div>`},
+
+{ t:'限制與對策', h:`
+<p class="sec">三｜處理方向</p>
+<h2>現實限制與對策</h2>
+<table class="tbl">
+<tr><th style="width:24%">限制</th><th style="width:44%">對策</th><th>事實依據</th></tr>
+<tr><td>颱風後多雲</td><td>以 SAR 雷達為災後第一時間來源，天晴再用光學比對</td><td class="s"><a class="go" href="#d-esa-s1">Sentinel-1 為雷達衛星、6 天重訪</a></td></tr>
+<tr><td>小坵塊</td><td>Sentinel-2 10 米只做熱區；小田用福衛八號 1 米，再不清楚列 C 級</td><td class="s"><a class="go" href="#d-ey-fs8">福衛八號 1 米</a></td></tr>
+<tr><td>無法判定原因</td><td>結合天氣參數確認是天災所致</td><td class="s"><a class="go" href="#d-ithome-ndvi">報導指 NDVI 無法單獨判定受災原因</a>；對策為本隊規劃</td></tr>
+<tr><td>準確度未經驗證</td><td>定位為分流，邊緣案件一律現勘；以現勘結果校正</td><td class="s"><a class="go" href="#d-ithome-ndvi">雲林重疊約 64%</a></td></tr>
+<tr><td>衛星證據尚非法定證明</td><td>先試辦，再爭取列為種植客觀證明；不宣稱已有效力</td><td class="s"><a class="go" href="#d-pts-gukeng">2023 年農糧署：App 照片只能佐證、非判定依據</a></td></tr>
+</table>
+<div class="foot"><span class="pg">19</span><span class="src"><a class="go" href="#r-limits">限制與資料說明</a></span></div>`},
+
+{ t:'結語', inv:true, h:`
+<h1 style="font-size:84px">天象天相，無相萬象。</h1>
+<div class="row">
+ <div class="card dark" style="border-left:6px solid var(--inv-accent);border-radius:0"><p class="big mid">58.6%</p><p><a class="go" href="#d-udn-relief">丹娜絲災後 86 天的核撥比例（對初勘合格）</a></p></div>
+ <div class="card dark" style="border-left:6px solid var(--inv-accent);border-radius:0"><p class="big mid">58 → 30 天</p><p><a class="go" href="#d-cy-audit">須現勘 vs 免勘案件的平均撥款天數</a></p></div>
+ <div class="card dark" style="border-left:6px solid var(--inv-accent);border-radius:0"><p class="big mid">約 370 筆</p><p><a class="go" href="#d-cy-audit">公所每人單次災害勘查負荷</a></p></div>
+</div>
+<p class="lead"><a class="go" href="#r-sources">所有依據與原始網址</a></p>`}
+];
+
+/* ---------- detail pages ---------- */
+const D = {};
+function ext(id, o){ D[id] = Object.assign({kind:'ext'}, o); }
+function rep(id, o){ D[id] = Object.assign({kind:'rep'}, o); }
+
+ext('d-moa-danas',{title:'114 年丹娜絲颱風及 0708 豪雨農業災情報告',pub:'農業部統計處',date:'資料至 2025/7/21 17 時',
+url:'https://www.moa.gov.tw/theme_data.php?theme=news&sub_theme=agri&id=9818',body:`
+<p>這是丹娜絲颱風（7/6 嘉義登陸）與 0708 豪雨的合併災情報告，也是 2025 年損失最大的一起事件。</p>
+<h2>重點數字</h2>
+<ul><li>農業產物及民間設施估計損失：<b>32 億 8,050 萬元</b></li>
+<li>農產損失 19 億 1,831 萬元（含養蜂 704 萬元）；作物被害 19,433 公頃，損害程度 37%，換算無收穫 7,121 公頃</li>
+<li>受損最重作物為香蕉：被害 2,178 公頃，損失 2 億 3,378 萬元；其次為文旦柚、番石榴、竹筍、柳橙</li>
+<li>民間設施損失約 4 億 9,704 萬元</li></ul>
+<h2>縣市損失</h2>
+<table><tr><th>縣市</th><th>損失</th><th>占比</th></tr>
+<tr><td>臺南市</td><td>14 億 6,430 萬元</td><td>45%</td></tr><tr><td>嘉義縣</td><td>7 億 2,961 萬元</td><td>22%</td></tr>
+<tr><td>雲林縣</td><td>5 億 1,573 萬元</td><td>16%</td></tr><tr><td>彰化縣</td><td>2 億 7,102 萬元</td><td>8%</td></tr>
+<tr><td>屏東縣</td><td>1 億 3,015 萬元</td><td>4%</td></tr><tr><td>高雄市</td><td>1 億 2,159 萬元</td><td>4%</td></tr></table>
+<p class="note">最早的 7/7 速報只有 10 億 527 萬元，兩週內上修約 3.3 倍：災損數字會隨查報持續增加。</p>`});
+
+ext('d-moa-0728',{title:'114 年 0728 豪雨農業災情報告（最末報）',pub:'農業部統計處',date:'資料至 2025/8/11 17 時',
+url:'https://www.moa.gov.tw/redirect_files.php?id=57397',body:`
+<ul><li>農業產物及民間設施估計損失：<b>4 億 9,350 萬元</b></li>
+<li>縣市：屏東 1 億 2,770 萬元（26%）、臺中 1 億 109 萬元（20%）、高雄 7,720 萬元（16%）、南投 6,935 萬元（14%）、嘉義縣 3,204 萬元（6%）、彰化 2,676 萬元（5%）</li>
+<li>農田流失 29.5 公頃、埋沒 38.8 公頃；畜禽設施損失 640 萬元</li>
+<li>報告附表：丹娜絲颱風與近期豪雨累計損失 37 億 8,932 萬元</li></ul>
+<p class="note">7/29 首報只有 2,438 萬元，到 8/11 最末報增為約 20 倍。豪雨災損常在雨停後陸續浮現。</p>`});
+
+ext('d-moa-yangliu',{title:'114 年楊柳颱風農業災情報告',pub:'農業部統計處',date:'資料至 2025/8/21 17 時',
+url:'https://www.moa.gov.tw/theme_data.php?id=9863&sub_theme=agri&theme=news',body:`
+<ul><li>農業產物及民間設施估計損失：<b>5 億 6,474 萬元</b></li>
+<li>縣市：臺東 3 億 2,240 萬元（57%）、臺中 1 億 3,047 萬元（23%）、屏東 2,907 萬元、嘉義縣 2,875 萬元、南投 2,737 萬元</li>
+<li>農產損失 5 億 1,660 萬元；被害 4,374 公頃，損害程度 27%</li>
+<li>最重為番荔枝（釋迦）：被害 2,231 公頃，損失約 2 億 38 萬元；其次為梨（622 公頃、1 億 2,784 萬元）、香蕉、柑桔、薑</li></ul>
+<p class="note">楊柳 8/13 過境，農業部 8/14 經專家會議主動公告救助，台東全品項、釋迦等五項免勘查。</p>`});
+
+ext('d-moa-ragasa',{title:'114 年樺加沙颱風農業災情報告',pub:'農業部統計處',date:'資料至 2025/10/22 17 時',
+url:'https://www.moa.gov.tw/redirect_files.php?id=58194',body:`
+<ul><li>農業產物及民間設施估計損失：<b>6 億 382 萬元</b></li>
+<li>花蓮縣 5 億 9,589 萬元，占 99%；其餘為高雄、宜蘭、屏東、臺東等</li>
+<li>民間設施損失 5 億 6,625 萬元，主要是馬太鞍溪堰塞湖溢流造成的農田流失與埋沒</li>
+<li>產物損失僅 3,757 萬元，二期水稻為主</li></ul>
+<p class="note">9/24 首報為 2 億 4,728 萬元，當時已估農田埋沒 300 公頃。這起災害的損失主體是「農地被埋」，作物種類在現場已無法辨認。</p>`});
+
+ext('d-fengwong',{title:'鳳凰颱風農業災情與救助公告',pub:'旺得富理財網（工商時報）',date:'2025/11/14',
+url:'https://wantrich.chinatimes.com/news/20251114900646-420501',body:`
+<ul><li>農業部 11/14 災情報告：農業產物及民間設施估計損失 <b>1 億 2,363 萬元</b>（資料至 11/14 17 時，非最末報）</li>
+<li>農業部 11/13 開專家會議，決定主動公告宜蘭、花蓮、臺東為救助地區，11/14 公告</li>
+<li>宜蘭連日累積雨量超過 600 毫米，柑桔落果裂果、淹水根腐、雞隻死亡</li>
+<li>公告宜蘭全縣 14 項農糧作物、蘇澳鎮雞全品項</li>
+<li>花蓮鳳林、萬榮部分地段受堰塞湖溢流泥流掩埋，公告為農產業全品項救助</li></ul>
+<p class="note">鳳凰 11/12 晚間在恆春登陸，是 58 年來第一個 11 月登陸台灣的颱風。</p>`});
+
+ext('d-udn-relief',{title:'丹娜絲、0708 豪雨救助經費 71.23 億元',pub:'經濟日報',date:'2025/10/13',
+url:'https://money.udn.com/money/story/7307/9066040',body:`
+<p>農業部長陳駿季在立法院經濟委員會報告丹娜絲颱風與豪雨的災後復原進度。</p>
+<ul><li>農業天然災害現金救助經費 <b>71.23 億元</b>，協助約 9,400 戶農漁民</li>
+<li>7/6 起主動公告 15 個縣市辦理現金救助</li>
+<li>截至 9 月底：公所初勘合格 <b>51.5 億元</b>、縣府提報 <b>34.6 億元</b>、農業部已核撥 <b>30.18 億元</b>，核撥率 87.2%（以縣府提報為分母）</li>
+<li>馬太鞍溪堰塞湖：已公告花蓮全縣大豆、光復鄉農產與畜牧全品項、鳳林與壽豐水平棚架網室、大同鄉南瓜</li></ul>
+<h2>換算</h2>
+<table><tr><th>比較</th><th>比例</th></tr>
+<tr><td>縣府提報 ÷ 初勘合格</td><td>67.2%</td></tr><tr><td>核撥 ÷ 縣府提報</td><td>87.2%</td></tr><tr><td>核撥 ÷ 初勘合格</td><td>58.6%</td></tr></table>
+<p class="note">從 7/6 登陸到 9/30 為 86 天。</p>`});
+
+ext('d-cy-audit',{title:'監察院調查：農業天然災害現金救助撥款逾期等問題',pub:'監察院（依審計部 110 年度決算審核報告）',date:'2023/6/7',
+url:'https://cybsbox.cy.gov.tw/CYBSBoxSSL/edoc/download/61399',body:`
+<p>這是目前唯一逐案統計「申請到撥款」天數的官方資料，樣本為 2021 年 8 月上旬西南氣流豪雨。</p>
+<h2>法定時程（救助辦法第 12 條）</h2>
+<ul><li>農民：公告翌日起 10 日內申請</li><li>公所：公告翌日起 30 日內完成勘查</li><li>縣市：收件翌日起 7 日內抽查</li><li>農委會（現農業部）：收件翌日起 7 日內審核撥款</li><li>合計 44 天；農委會另依作業要點算為公告後 58 天</li></ul>
+<h2>實際撥款天數</h2>
+<table><tr><th>案件類型</th><th>件數</th><th>平均天數</th></tr>
+<tr><td>全部</td><td>209,189</td><td>55</td></tr><tr><td>須現勘損失率的一般案件</td><td>134,006</td><td>58</td></tr>
+<tr><td>簡化措施但仍現勘種植事實</td><td>67,535</td><td>51</td></tr><tr><td>有客觀證明、免勘查</td><td>5,932</td><td>30</td></tr>
+<tr><td>無證明、視同具種植事實</td><td>1,716</td><td>24</td></tr></table>
+<ul><li>縣市差距大：嘉義縣平均 72 天最慢，桃園市 12 天最快</li><li>181 件撥款超過 58 天，最長 100 天</li></ul>
+<h2>公所人力</h2>
+<ul><li>該次申請土地 32 萬 7,230 筆，由 221 個公所辦理</li><li>公所農業課平均編制 4 人，每人約處理 370 筆，還要兼辦農情調查、推廣等業務</li></ul>
+<h2>其他發現</h2>
+<ul><li>未達豪雨標準仍獲救助 36,059 件、2.61 億元，其中 11,696 件免現勘</li>
+<li>10 個縣市因擔心溢領、未種植仍申報，幾乎都維持逐筆現勘，簡化措施效果打折</li>
+<li>2019–2020 年無人機輔助勘災補助 6 件、共 2,050 萬元，全數未執行</li>
+<li>照相 APP 2022 年只辦 5 場訓練、251 人參加，未含農民；公所只把照片當佐證，不敢據以免勘</li>
+<li>救助辦法 2017 年修正後已明定「勘查得以科學技術輔助之」</li>
+<li>2017–2022 年預算累計 90.5 億元，實際支出 163.71 億元，六年中有五年超支</li><li>救助額度以平均生產成本約 2 成計算（農委會查復）；果樹類實際占比從 9.45% 到 74.44% 不等</li></ul>`});
+
+ext('d-agri-first',{title:'丹娜絲首波現金救助公告',pub:'農傳媒',date:'2025/7/7',
+url:'https://www.agriharvest.tw/archives/126980/',body:`
+<ul><li>截至 7/7 17 時，損失 10 億 527 萬元：嘉義縣 4 億 7,755 萬元（48%）、臺南 2 億 6,053 萬元（26%）、雲林 2 億 4,566 萬元（24%）</li>
+<li>農業部在 7/7 晚間 10 時半前公告首波救助：嘉義縣市、臺南市稻米以外農產業全品項，以及竹筍、部分漁港漁船</li>
+<li>臺南文旦、酪梨與嘉義縣市酪梨，直接公告得免現勘</li>
+<li>今年新增多項天氣參數：符合參數且有種植客觀證明者，視同確認災害、免現勘</li>
+<li>沒有客觀證明者，可用「農產業天然災害現地照相 APP」拍照作為佐證</li></ul>
+<p class="note">颱風 7/6 登陸，公告在隔天晚上，是 2025 年最快的公告速度之一。</p>`});
+
+ext('d-udn-ragasa',{title:'樺加沙：光復鄉全品項救助、溢流地段免勘',pub:'聯合報',date:'2025/9/24',
+url:'https://udn.com/news/story/124615/9029691',body:`
+<ul><li>截至 9/24 17 時，農業損失 2 億 5,408 萬元，大多在花蓮、屬農田埋沒</li>
+<li>9/24 專家會議後，主動公告花蓮縣光復鄉農產業全品項為現金救助及低利貸款地區</li>
+<li>馬太鞍溪堰塞湖溢流影響的地段，以公告方式全品項免勘</li>
+<li>因土壤流失無法判斷作物品項與面積，改參考前一年種植資料作為種植事實佐證</li>
+<li>勘查發現花蓮其他地區大豆受損嚴重，主動公告全縣大豆救助</li></ul>
+<p class="note">「用過去資料證明種植事實」正是衛星災前影像能更精準提供的證據。</p>`});
+
+ext('d-ltn-wendan',{title:'丹娜絲延續性災損：台南文旦救助',pub:'自由時報',date:'2026/7/1',
+url:'https://news.ltn.com.tw/news/life/breakingnews/5490839',body:`
+<ul><li>農業部 2026/7/1 晚間公告臺南市文旦為丹娜絲颱風（延續性災損）現金救助地區</li>
+<li>每公頃救助 8 萬元，7/2 至 7/15 由各公所受理；損失率須達 20%</li>
+<li>原因：2025 年丹娜絲重創文旦根系，加上 2026 上半年乾旱，3 月開花與著果不佳</li>
+<li>主產區為麻豆、下營，柚農已連續兩年受極端氣候衝擊</li></ul>
+<p class="note">從 2025/7/6 受災到 2026/7/1 公告，相隔 360 天。延續性災損要等到隔年開花結果才看得出來。</p>`});
+
+ext('d-ltn-mango',{title:'台東改良種芒果寒害現金救助',pub:'自由時報',date:'2025/4/15',
+url:'https://news.ltn.com.tw/news/Taitung/breakingnews/5012857',body:`
+<ul><li>農業部 4/15 公告「改良種芒果低溫農業天然災害現金救助」，4/16 至 4/29 受理</li>
+<li>每公頃救助 10 萬元</li>
+<li>年節前後多波寒流，讓許多夏雪芒果結成無子空果</li>
+<li>台東改良種芒果約 350 公頃，其中夏雪芒果約 230 公頃</li>
+<li>立委多次帶農業部與相關單位到果園勘查後才核定</li></ul>
+<p class="note">寒流在 1–2 月，公告在 4/15，約晚了 76 天。</p>`});
+
+ext('d-tn-pear',{title:'新北梨寒害現金救助',pub:'台灣英文新聞（新北市政府新聞）',date:'2025/3',
+url:'https://www.taiwannews.com.tw/zh/news/6064545',body:`
+<ul><li>2025 年 1 月連續寒流，3 月初梨樹出現授粉與著果不良</li>
+<li>新北市農業局邀桃園區農改場、農糧署北區分署到八里、淡水、三芝、金山勘查</li>
+<li>農業部 3/19 公告上述四區為高接梨穗救助地區，每公頃 6 萬 2,000 元，3/20 至 4/2 受理</li>
+<li>新北梨種植面積約 12.01 公頃</li>
+<li>低溫對作物的影響緩慢且持續，農損不會立刻顯現</li></ul>
+<p class="note">從寒流到公告約 63 天。</p>`});
+
+ext('d-yam-hualien',{title:'樺加沙、鳳凰重創花蓮：分 8 波公告救助',pub:'新頭條（yam）',date:'2025/12/4',
+url:'https://n.yam.com/Article/20251204106380',body:`
+<ul><li>兩颱接連造成馬太鞍溪堰塞湖潰決，光復、鳳林、萬榮等鄉鎮農田遭土石毀損約 835 公頃</li>
+<li>縣府向農業部爭取 8 次現金救助公告，9/25 起陸續公告：光復鄉全品項、全縣大豆、壽豐與鳳林網室結構</li>
+<li>之後再補公告鳳林多個地段全品項與食用玉米、秀林鄉蔬菜、鳳林河川地西瓜南瓜竹筍等</li>
+<li>10 月下旬再公告壽豐、鳳林部分地段西瓜與玉米；11/14 擴大到全縣蕎麥、大豆與鳳林、萬榮多地段</li>
+<li>農地重建：每公頃補助 10 萬元，受理到 2025/12/31</li>
+<li>縣府另啟動實耕者農田埋沒救助，每公頃最高 5 萬元；果樹廢園每公頃 15 萬元</li></ul>
+<p class="note">9/25 第一波到 11/14 最後一波，跨 52 天。農民與公所要依各波公告多次申報與勘查。</p>`});
+
+ext('d-ctee-xizhou',{title:'溪州鄉農損勘查爭議',pub:'工商時報',date:'2025/9/5',
+url:'https://www.ctee.com.tw/news/20250905701005-431401',body:`
+<h2>公所的數字</h2>
+<ul><li>丹娜絲與 0708 豪雨後，溪州鄉公所 7/11 至 7/28 受理申報，動員 26 人勘查</li>
+<li>受理 1,817 戶、5,232 筆；初勘通過 1,587 戶（87%）、230 戶未通過</li>
+<li>核定補助 5,834 萬 5,425 元，報導時才剛寄出通知</li>
+<li>未通過多為番石榴幼苗、空田或申報作物與實際不符，可帶資料申請複查</li>
+<li>0728 豪雨另於 8/6 至 8/19 受理，將一併勘查</li></ul>
+<h2>農民的反映</h2>
+<ul><li>種約一甲香菜，雨後只剩約兩成，卻因勘查人員不懂香菜種法，把田看成只有稻草的空田而遭駁回</li>
+<li>災後十多天才有人來勘查</li><li>有人指公所派工讀生下田勘查，認定落差大</li></ul>
+<p class="note">從 7/6 受災到 9 月初寄出結果，約 2 個月。</p>`});
+
+ext('d-ithome-ndvi',{title:'雲林縣用衛星 NDVI 試算災損熱區',pub:'iThome',date:'2026/10/8',
+url:'https://www.ithome.com.tw/news/179527',body:`
+<h2>做法</h2>
+<ul><li>使用歐盟 Copernicus 的 Sentinel-2 影像（EO Browser 下載），以紅光 B04 與近紅外 B08 計算 NDVI</li>
+<li>災前 2025/6/15、災後 2025/8/7，挑雲量少、完整覆蓋雲林的影像</li>
+<li>Python 計算差值，QGIS 統一為 TWD97、依縣界裁切，只保留農地範圍像元</li>
+<li>NDVI 差值小於 −0.15 為疑似植生衰退、小於 −0.25 為預測重災熱區（非法規標準）</li></ul>
+<h2>結果與限制</h2>
+<ul><li>衛星判出的衰退區與實際核定救助區重疊約 64%（分析丹娜絲與 0708 豪雨）</li>
+<li>NDVI 下降只能篩出疑似熱區，無法單獨判定受災原因或法定損害程度，仍需現勘</li></ul>
+<h2>雲林的勘災痛點</h2>
+<ul><li>某次風災麻竹筍申請超過 1 萬筆，公所幾乎全員投入現勘仍難如期</li>
+<li>古坑山區道路可能中斷，2025 年 9 月有勘災人員現勘時受傷送醫</li>
+<li>2023–2025 年雲林農損約 19 億元、被害約 3 萬公頃</li>
+<li>2019–2021 年農業部補助 300 萬元試辦無人機勘災，因基層擔心爭議、技術未成熟而未落地</li></ul>
+<h2>雲林的提案</h2>
+<ul><li>NDVI 差異圖可作為通報災情時的初判說明</li><li>若航測能可靠判釋作物類別，可作為免逐筆現勘的佐證，已送農業部研議</li><li>建議增訂高災損作物天氣參數，並新增 12 處氣象站</li></ul>
+<p class="note">災後影像 8/7 距丹娜絲登陸（7/6）32 天，期間還有 0708、0728 兩場豪雨，所以這張差異圖無法分出是哪一場災害造成的。報導本身也說明 NDVI 只能篩出疑似熱區。</p>`});
+
+ext('d-moa-app',{title:'農災 APP、天氣參數與農地資料庫',pub:'農業部',date:'2025–2026',
+url:'https://www.moa.gov.tw/ws.php?id=2517236',body:`
+<h2>現地照相 APP</h2>
+<ul><li>每張照片自動套印拍攝時間、上傳時間、地段號與經緯度，須拍遠景與近景</li>
+<li>一般手機 GPS 誤差約 ±20 公尺</li><li>每小時透過 API 同步到農業現調相片圖臺與農糧署救助系統</li>
+<li>2025 年辦 64 場推廣講習、3,236 人參加（農民約 2,736 人）；2026 年規劃至少 90 場</li></ul>
+<h2>天氣參數</h2>
+<ul><li>農業氣象資料中心 2023 年起與中央氣象署合作，1 公里網格，災害期間每日自動更新 4 次</li>
+<li>統計 3 小時、24 小時、3 日、5 日累積雨量與最大風速</li>
+<li>例：西瓜中大果期 24 小時雨量 ≥ 280 毫米，或 3 日 ≥ 450 毫米且連 2 日每日 ≥ 100 毫米，即達災損參數</li>
+<li>樺加沙期間，花蓮 8 個測站達西瓜災損指標</li></ul>
+<h2>全國農地覆蓋物動態資料庫</h2>
+<ul><li>以坵塊為單元掌握逾 30 萬公頃農地，已納入航遙測影像的作物判釋成果</li></ul>
+<p class="note">這個資料庫是天相星最自然的對接點：災時在同一套坵塊上加入災前災後比對。</p>`});
+
+ext('d-moa-epaper',{title:'照相 APP 與機車街景取像',pub:'農業部農業資訊科技電子報',date:'2024',
+url:'https://www.moa.gov.tw/office_epaper/epaper/infoexplorer/online/71/content_2.html',body:`
+<ul><li>APP 用手機 GPS 與雙鏡頭推算拍攝位置與距離，再比對 GIS 找出受災坵塊的地籍</li>
+<li>2023 年杜蘇芮、卡努、小犬颱風期間，累積超過 9 萬張現地災害影像</li>
+<li>2019 年修法後，農民可用 APP 照片作為申請救助的佐證</li>
+<li>農情調查另有「機車街景」：機車以時速約 20 公里行駛、每 2 秒拍一張 360 度影像，再以 AI 辨識稻米、雜糧、甘藍與部分果樹</li></ul>
+<p class="note">APP 依賴農民事後拍照，只證明單點、當下；無法回頭證明災前種了什麼。</p>`});
+
+ext('d-cna-budget',{title:'農業災害救助金不夠用',pub:'中央社',date:'2025/7/21',
+url:'https://www.cna.com.tw/news/ahel/202507210050.aspx',body:`
+<ul><li>2025 年農業災害救助預算約 <b>39 億元</b></li>
+<li>年初低溫災害已用掉約 <b>22 億元</b></li>
+<li>丹娜絲與豪雨的農損當時已達 32.5 億元，部長表示經費絕對不夠，將以移緩濟急等方式處理</li></ul>
+<p class="note">寒害沒有單一農損報告，這是目前能看到寒害規模的少數數字。</p>`});
+
+ext('d-wr-changhua',{title:'彰化、屏東縣長談分批公告與資材補助',pub:'旺得富理財網',date:'2025/7/12',
+url:'https://wantrich.chinatimes.com/news/20250712900079-420501',body:`
+<ul><li>彰化縣長王惠美指出，延遲性農損由中央分批公告，農民容易搞混申報日期，基層人員疲於奔命，「1 個庄頭要走好多次」，勘查期拉長</li>
+<li>她建議修改天氣參數，全縣雨量達標就立即公告全縣全品項救助，減少行政流程</li>
+<li>屏東農損逾 9,526 萬元，香蕉逾 4,198 萬元最多</li>
+<li>屏東縣長周春米指出，錏管等耐災設施未列入補助，將向中央爭取</li></ul>`});
+
+ext('d-tp-flow',{title:'農產業天然災害查報及救助作業流程圖',pub:'農產業天然災害救助作業要點附圖',date:'2023/5/29 修正',
+url:'https://www.laws.taipei.gov.tw/lawatt/Law/A040270041026600-20230529-8000-001.pdf',body:`
+<ol><li>公所查報並通報作物災損</li><li>縣市政府彙整、審核後通報農糧署</li><li>農糧署複審並通報農業部；致災原因不明時，勘災小組可請改良場協助（一次為限）</li>
+<li>農業部公告辦理救助</li><li>公所受理申請並勘查</li>
+<li>縣市組抽查小組抽查，最多兩次；同一作物鄉鎮間災損落差大時退回查明，依第二次抽查結果匡列救助金</li>
+<li>農糧署撥付救助金到公所，公所核實申撥，入農民帳戶</li></ol>
+<h2>啟動條件（擇一）</h2>
+<ul><li>經縣市政府或勘災小組勘查確認，或符合公告的災害性天氣參數</li><li>縣市轄內農產損失達近三年平均農產值千分之五，且逾 500 萬元</li></ul>`});
+
+
+
+/* additional sources */
+ext('d-agri-ratio',{title:'近年農業天然災害損失與現金救助比例',pub:'農傳媒',date:'2021 年 8 月',
+url:'https://www.agriharvest.tw/archives/65358',body:`
+<ul><li>依農業統計年報，民國 100 至 109 年，每年農業災害產物及民間設施損失平均約 100 億元</li>
+<li>十年間最高為 105 年 383.4 億元，其次為 104 年 160.5 億元</li>
+<li>時任農委會主委陳吉仲表示：近 5 年平均每年損失 123 億元，農民拿到的現金救助僅約 34 億元，其餘損失無法補償，這是推廣農業保險的原因</li></ul>
+<p class="note">34 ÷ 123 ≈ 27.6% 為整理者計算。這是 2021 年的說法，之後年度的比例沒有找到公開數字。</p>`});
+
+ext('d-moa-20pct',{title:'救助門檻：損失率 20%（農業部救助公告）',pub:'農業部公告（彰化縣政府轉載）',date:'2024/11/4',
+url:'https://files.chcg.gov.tw/files/53_20241106104158090_113康芮救助公告.pdf',body:`
+<p>這是 113 年康芮颱風的救助公告，條文格式與其他年度公告相同，作為「20% 門檻」的直接依據。</p>
+<ul><li>發文：農業部，2024/11/4，農糧字第 1131110163 號</li>
+<li>公告彰化縣為食用玉米、硬質玉米、胡（芝）麻的現金救助及低利貸款地區</li>
+<li>受理期限：2024/11/5 至 11/18，例假日照常受理</li>
+<li><b>辦理救助項目損害率達 20% 以上者，依救助額度予以救助；未達 20% 者不予救助</b></li>
+<li>短期作農產品於同產季，救助以一次為限</li>
+<li>額度：硬質玉米每公頃 2.8 萬元、胡麻 3 萬元、食用玉米 4.1 萬元</li></ul>`});
+
+ext('d-proof',{title:'種植客觀證明：實際問題與數據',pub:'監察院調查報告（依審計部 110 年度決算審核）；臺南市政府 Q&A',date:'2023/6/7；2025/8/12',
+url:'https://cybsbox.cy.gov.tw/CYBSBoxSSL/edoc/download/61399',body:`
+<h2>先講結論：有哪些數據、缺哪些數據</h2>
+<ul><li><b>有</b>：2021 年 8 月豪雨的使用件數、撥款天數、各縣市沒採用的原因，以及審計部比對登錄資料後的錯誤率。這些全部出自同一份監察院調查報告。</li>
+<li><b>沒有</b>：2025 年丹娜絲等事件中，用種植客觀證明免勘的件數、比例或問題統計，目前查不到公開資料。</li>
+<li><b>沒有</b>：種植客觀證明「與實況不符」的整體比例。報告只有各縣市的文字反映，沒有全國數字。</li>
+<li><b>無法核對</b>：2025 年 5 月農業部公告原文本頁讀不到，請見<a href="#d-moa-notice">該頁說明</a>。</li></ul>
+
+<h2>什麼算種植客觀證明</h2>
+<ul><li>監察院報告：種植或養殖「登記有案」的實耕證據</li>
+<li>臺南市政府丹娜絲 Q&amp;A（2025/8/12）：須參與政策紀錄在案，例如產銷履歷、休耕轉作、救助紀錄；沒有的可用照相 App 上傳照片佐證</li></ul>
+
+<h2>數據一：真正用上的很少（2021 年 8 月豪雨）</h2>
+<div class="tw"><table><tr><th>案件類型</th><th>件數</th><th>占全部</th><th>平均撥款</th></tr>
+<tr><td>有客觀證明，免勘查種植事實</td><td>5,932</td><td>2.8%</td><td>30 天</td></tr>
+<tr><td>無客觀證明，視同具種植事實</td><td>1,716</td><td>0.8%</td><td>24 天</td></tr>
+<tr><td>無客觀證明，現地勘查種植事實</td><td>67,535</td><td>32.3%</td><td>51 天</td></tr>
+<tr><td>須現勘損失率的一般案件</td><td>134,006</td><td>64.1%</td><td>58 天</td></tr>
+<tr><td>合計</td><td>209,189</td><td>100%</td><td>55 天</td></tr></table></div>
+<p class="note">占比為本頁依報告件數計算。用了客觀證明的案件撥款快約一半，但只占 2.8%。</p>
+
+<h2>數據二：各縣市差很多</h2>
+<div class="tw"><table><tr><th>縣市</th><th>有客觀證明免勘件數</th><th>平均撥款</th></tr>
+<tr><td>高雄市</td><td>2,972</td><td>21 天</td></tr><tr><td>臺南市</td><td>2,887</td><td>38 天</td></tr>
+<tr><td>屏東縣</td><td>49</td><td>9 天</td></tr><tr><td>嘉義縣</td><td>24</td><td>70 天</td></tr>
+<tr><td>彰化、雲林、苗栗、南投等</td><td>0</td><td>—</td></tr></table></div>
+
+<h2>數據三：10 個縣市說明為什麼不用（原因摘要）</h2>
+<ul><li>苗栗縣：農友會依喜好或市場改種，基層無法相信客觀文件，仍逐案到場</li>
+<li>南投縣：發現有些農民今年並非種植或未種植該項目</li>
+<li>彰化縣：客觀證明文件採認的期間太長，今年可能已改種或未種</li>
+<li>雲林縣：豪雨時二期作約一半面積還沒種，照文件免勘可能造成「未種植也救助」</li>
+<li>嘉義縣：系統查詢比對耗時，作物每期都可能變，且有未種植仍申報</li>
+<li>嘉義市：農民未附產銷履歷等文件，公所核對比直接勘查更耗時</li>
+<li>臺南市：短期作物的種植現況不一定與歷史資料相符</li>
+<li>高雄市、屏東縣：初次辦理或已到鄰近田區，仍逐筆勘查</li></ul>
+
+<h2>數據四：登錄資料和申報對不上的錯誤率</h2>
+<div class="tw"><table><tr><th>審計部比對項目</th><th>回報件數</th><th>確屬錯誤</th></tr>
+<tr><td>申請受災作物與契作作物不同</td><td>2,565</td><td>36 件（1.40%）</td></tr>
+<tr><td>休耕或種綠肥仍申領救助</td><td>6,317</td><td>66 件（1.04%）</td></tr>
+<tr><td>以同類中救助額度較高的作物申請</td><td>986</td><td>27 件（2.74%）</td></tr></table></div>
+<p class="note">農委會說明：轉契作只登載「荔枝」，救助卻分「黑葉荔枝」「玉荷包」，兩套資料寫法不同，硬性勾稽會產生大量異常，所以沒有強制比對。</p>
+
+<h2>數據五：簡化措施的風險</h2>
+<ul><li>未達豪雨標準仍獲救助 36,059 件、2 億 6,153 萬元</li><li>其中免現勘 11,696 件（32.44%）、9,004 萬元</li><li>審計部認為簡化措施案件的誤報或虛報風險高於一般案件</li></ul>
+
+<h2>對天相星的意義</h2>
+<p>現行種植客觀證明是「登記資料」，記的是過去或申報的作物，不一定是災前那一天田裡真正長的東西，所以公所不敢信。衛星災前影像能直接補上「災前當下」這一點；但它能不能比登記資料更準，目前沒有數據，要靠原型與公所現勘比對才知道。</p>`});
+
+ext('d-ltn-yangliu',{title:'楊柳颱風：主動公告花東中投雲嘉救助',pub:'自由時報',date:'2025/8/14',
+url:'https://news.ltn.com.tw/news/life/breakingnews/5145325',body:`
+<ul><li>楊柳風災全國農損超過 3.7 億元（當時速報）</li>
+<li>農業部 8/14 經專家會議，主動公告花蓮、臺東、臺中、南投、雲林、嘉義為現金救助及低利貸款地區</li>
+<li>臺東：農產業全品項（稻米除外）、畜牧全品項、竹筍（麻竹）、漁港漁船</li>
+<li>鳳梨釋迦與大目釋迦、香蕉、番石榴、文旦柚等普遍嚴重受損作物，依規定得免勘查</li>
+<li>7 月已申請救助的農民不必重複申請，可合併審理</li></ul>
+<p class="note">楊柳 8/13 過境臺東，隔天公告救助。</p>`});
+
+ext('d-pts-gukeng',{title:'古坑竹林勘災：農災 App 只能佐證',pub:'公視新聞',date:'2023/5/31',
+url:'https://news.pts.org.tw/article/639374',body:`
+<ul><li>2023 年初雨水少，雲林古坑竹筍缺水大幅減產</li>
+<li>部分竹林位在深山、不易勘查，無法立即存證，因此被判定不合格</li>
+<li>雲林縣府農業處呼籲修訂辦法，開放照相 App 作為申報系統，以縮短勘查時間</li>
+<li>農糧署副署長說明：App 資料是公告後的參考佐證，不是判定依據，實際救助仍需公所人員到場確認作物種類與損害程度</li>
+<li>救助作業允許以科技工具輔助勘查，但區域統計仍須公所實地會勘</li></ul>
+<p class="note">這是「人到不了的田，越容易失去救助」的直接案例，也說明新證據要取得效力，須經主管機關認可。</p>`});
+
+ext('d-ey-fs8',{title:'福衛八號（齊柏林衛星）運作現況',pub:'行政院',date:'2026/5/14',
+url:'https://www.ey.gov.tw/Page/9277F759E41CCD91//33227d4a-9a06-4391-9abb-578a72c378ce',body:`
+<ul><li>首顆 2025 年 11 月發射，2026 年 1 月開始正式取像，預計 2026 年 7 月正式營運</li>
+<li>原始影像符合 1 米解析度規格，後製處理可達 0.7 米</li>
+<li>提供全色態、多光譜與融合影像，並具全球解析度最高的紅邊波段影像</li>
+<li>臺灣首個自製次米級遙測星系，2025 至 2031 年逐年部署</li>
+<li>目標應用包括精準農業、災害防救、國安與環境監測</li></ul>
+<p class="note">本頁證明解析度、紅邊波段與營運時程。它對小田災損判讀的實際效果，目前沒有公開數據。</p>`});
+
+ext('d-esa-s1',{title:'Sentinel-1C／1D 完成最終軌道配置',pub:'ESA Copernicus',date:'2026/6/24',
+url:'https://sentinels.copernicus.eu/-/sentinel-1c/1d-final-orbital-configuration-achieved',body:`
+<ul><li>Sentinel-1 星系由 Sentinel-1C 與 Sentinel-1D 組成</li>
+<li>2026 年 6 月 24 日恢復標準的 6 天干涉重複週期</li>
+<li>Sentinel-1A 預定 6 月 29 日結束任務</li></ul>
+<p class="note">本頁只證明 Sentinel-1 目前的重訪週期。「雷達不受雲層影響」是 SAR 的一般原理，不是這篇公告的內容；它能否可靠判斷臺灣農田倒伏，目前沒有數據。</p>`});
+
+ext('d-moa-notice',{title:'2025 年 5 月農業部公告：種植客觀證明與抽樣勘查',pub:'農業部公告（彰化縣政府轉載）',date:'2025/5',
+url:'https://files.chcg.gov.tw/files/71_20250502104232659_農業部　公告.pdf',body:`
+<p class="note">此公告 PDF 無法由本頁直接讀取，以下依本隊評估報告的整理，請以原始公告為準。</p>
+<ul><li>達災損天氣參數或災損嚴重公告，且具種植客觀證明（含農災 App 照片）者，公所得免勘查</li>
+<li>沒有種植客觀證明者，公所應抽樣勘查 20% 以上的申請案件</li></ul>
+<p>天相星的接點：衛星存證若被認可為種植客觀證明，A／B 級即可走免勘；抽查比例不變，但優先抽 C 級。</p>`});
+
+D['d-team-plan']={kind:'team',title:'本隊文件：初步計劃、評估報告與創意構想書初稿',pub:'天相星團隊',date:'2026/10/19–10/20',body:`
+<p class="note">本頁是團隊自己的規劃，屬「進度與主張」，不是外部事實；外部數據請見各來源頁。</p>
+<h2>作品定位</h2>
+<ul><li>災前災後衛星比對快篩平台：不改勘查制度，讓公所用同樣人力更快、更準完成勘查</li><li>報名創意組、題目六「偏鄉農林牧智慧連線與精準作業定位」；截止 2026/10/30 17:00</li></ul>
+<h2>A／B／C 分級（建議起始值）</h2>
+<div class="tw"><table><tr><th>分級</th><th>條件</th><th>處理</th></tr>
+<tr><td>A 明確受損</td><td>估損 ≥ 40%，SAR 與光學一致，坵塊夠大、影像清楚</td><td>存證送件，走簡化措施</td></tr>
+<tr><td>B 明確未受損</td><td>估損 ≤ 10%、影像無變化、未申報</td><td>不派人</td></tr>
+<tr><td>C 爭議</td><td>10–40%、影像信心低、申報不一致、延遲性災損</td><td>列入公所優先現勘</td></tr></table></div>
+<p>門檻需以丹娜絲等歷史災例校正。</p>
+<h2>原型驗證計劃（尚未開始）</h2>
+<ul><li>案例：2025 丹娜絲颱風，嘉義縣竹崎或中埔約 10×10 公里</li><li>資料：Sentinel-2 災前災後少雲影像；Sentinel-1 災前災後各一景</li><li>產出：災前災後對照圖、A／B／C 熱區示意圖、方法說明；標明為概念驗證，不宣稱精確度</li><li>工具：Copernicus Browser 或 Google Earth Engine</li></ul>
+<h2>團隊狀態（10/20）</h2>
+<ul><li>隊長＋已找到 1 名隊友；指導老師待詢問</li><li>構想書初稿已完成，隊伍名稱待填</li></ul>
+<h2>商業模式</h2>
+<ul><li>基礎版：農業部或縣市政府採購（轄區取像、A／B／C 分級、勘查清單）</li><li>進階版：農民訂閱（可由公所或農會補助）、產險公司或農會採購</li><li>救助金額與資格不因版本改變</li></ul>`};
+
+/* report pages */
+rep('r-summary',{title:'調查重點摘要',body:`
+<ul><li>2025 年五起颱風豪雨，農損合計 50.66 億元；丹娜絲（含 0708 豪雨）占 64.8%。<a href="#r-events">事件總表</a></li>
+<li>颱風類公告很快：丹娜絲、楊柳、樺加沙都在過境隔天公告。<a href="#d-agri-first">丹娜絲首波公告</a></li>
+<li>公告之後很慢：丹娜絲災後 86 天，核撥金額只有初勘合格金額的 58.6%。<a href="#d-udn-relief">農業部立法院報告</a></li>
+<li>遲發性災害最慢：寒害約 63–76 天才公告，延續性災損 360 天。<a href="#r-extremes">極端案例</a></li>
+<li>免現勘可把撥款從 58 天降到 24–30 天。<a href="#d-cy-audit">審計部統計</a></li></ul>
+<p>結論：瓶頸在確認種植事實與損失率，正是衛星災前災後比對能提供證據的環節。</p>`});
+
+rep('r-events',{title:'2025 年各災害事件總表',body:`
+<div class="tw"><table><tr><th>事件</th><th>發生</th><th>損失</th><th>首次公告</th><th>依據</th></tr>
+<tr><td>丹娜絲＋0708</td><td>7/6 登陸</td><td>32.81 億</td><td>7/7 晚間</td><td><a href="#d-moa-danas">災情報告</a>、<a href="#d-agri-first">公告</a></td></tr>
+<tr><td>0728 豪雨</td><td>7/28 起</td><td>4.94 億</td><td>分批（溪州 8/6 起受理）</td><td><a href="#d-moa-0728">災情報告</a>、<a href="#d-ctee-xizhou">溪州</a></td></tr>
+<tr><td>楊柳</td><td>8/13 過境</td><td>5.65 億</td><td>8/14</td><td><a href="#d-moa-yangliu">災情報告</a>、<a href="#d-ltn-yangliu">公告</a></td></tr>
+<tr><td>樺加沙</td><td>9/23 溢流</td><td>6.04 億</td><td>9/24</td><td><a href="#d-moa-ragasa">災情報告</a>、<a href="#d-udn-ragasa">公告</a></td></tr>
+<tr><td>鳳凰</td><td>11/12 登陸</td><td>1.24 億（速報）</td><td>11/14</td><td><a href="#d-fengwong">旺得富</a></td></tr>
+<tr><td>寒害：新北梨</td><td>1 月</td><td>無單獨報告</td><td>3/19</td><td><a href="#d-tn-pear">新北市</a></td></tr>
+<tr><td>寒害：台東芒果</td><td>1–2 月</td><td>無單獨報告</td><td>4/15</td><td><a href="#d-ltn-mango">自由時報</a></td></tr></table></div>
+<h2>計算</h2><ul><li>合計：32.81 + 4.94 + 5.65 + 6.04 + 1.24 = 50.66 億元</li><li>平均 10.13 億元；中位數 5.65 億元；丹娜絲占 64.8%</li></ul>
+<p class="note">寒害規模僅有<a href="#d-cna-budget">年初低溫已用掉約 22 億救助經費</a>這個數字。</p>`});
+
+rep('r-process',{title:'救助流程與法定時程',body:`
+<ol><li>災害發生，公所查報，縣市彙整報農糧署</li><li>農業部公告救助地區與品項（可依速報主動公告）</li><li>農民於公告翌日起 10 日內申請</li><li>公所於公告翌日起 30 日內完成勘查</li><li>縣市於收件翌日起 7 日內抽查，最多兩次</li><li>農業部於收件翌日起 7 日內審核撥款</li></ol>
+<p>申請到撥款法定合計 44 天；農委會另依作業要點算為公告後 58 天。救助門檻是單一品項損失率達 20%。</p>
+<p>依據：時程見<a href="#d-cy-audit">監察院調查報告</a>、流程見<a href="#d-tp-flow">作業流程圖</a>、20% 門檻見<a href="#d-moa-20pct">救助公告</a></p>`});
+
+rep('r-delay',{title:'遲滯時間：卡在哪一段',body:`
+<div class="tw"><table><tr><th>階段</th><th>法定期限</th><th>實際案例與依據</th></tr>
+<tr><td>災害到公告</td><td>無明文</td><td>颱風 1 天（<a href="#d-agri-first">丹娜絲</a>）；寒害約 76 天（<a href="#d-ltn-mango">芒果</a>）；延續性 360 天（<a href="#d-ltn-wendan">文旦</a>）</td></tr>
+<tr><td>受理申請</td><td>10 日</td><td>溪州鄉 7/11–7/28（<a href="#d-ctee-xizhou">工商時報</a>）</td></tr>
+<tr><td>公所勘查</td><td>30 日</td><td>農民反映災後十多天才到田；雲林麻竹筍逾萬筆（<a href="#d-ithome-ndvi">iThome</a>）</td></tr>
+<tr><td>縣府抽查</td><td>7 日，最多 2 次</td><td>落差大即退回重抽（<a href="#d-tp-flow">流程圖</a>）</td></tr>
+<tr><td>農業部撥款</td><td>7 日</td><td>已提報部分核撥 87.2%（<a href="#d-udn-relief">立法院報告</a>）</td></tr>
+<tr><td>合計</td><td>44 天</td><td>2021 年平均 55 天，最長 100 天（<a href="#d-cy-audit">審計部</a>）</td></tr></table></div>`});
+
+rep('r-extremes',{title:'極端案例：最快與最慢',body:`
+<h2>最快端</h2><ul><li><a href="#d-agri-first">丹娜絲</a>：7/6 登陸、7/7 晚間公告，文旦與酪梨免現勘</li><li><a href="#d-udn-ragasa">樺加沙</a>：9/23 溢流，9/24 公告光復鄉全品項，溢流地段免勘，以前一年資料認定種植</li><li><a href="#d-cy-audit">免勘案件</a>：平均 24–30 天撥款；桃園市平均 12 天</li></ul>
+<h2>最慢端</h2><ul><li><a href="#d-ltn-wendan">文旦延續性災損</a>：受災 360 天後公告</li><li><a href="#d-ltn-mango">台東芒果寒害</a>約 76 天、<a href="#d-tn-pear">新北梨</a>約 63 天</li><li><a href="#d-yam-hualien">花蓮</a>：分 8 波公告，跨 52 天</li><li><a href="#d-cy-audit">撥款最長</a> 100 天；嘉義縣平均 72 天</li></ul>`});
+
+rep('r-methods',{title:'勘驗方式：現在怎麼確認災損',body:`
+<p>每筆救助要確認兩件事：種植事實（災前確實種了申報作物）與損失率（達 20%）。</p>
+<div class="tw"><table><tr><th>方式</th><th>做法</th><th>能證明</th><th>平均撥款</th></tr>
+<tr><td><a href="#d-cy-audit">逐筆現勘</a></td><td>公所人員到每筆田目視拍照估損</td><td>兩者</td><td>58 天</td></tr>
+<tr><td><a href="#d-moa-app">天氣參數</a></td><td>測站雨量風速達門檻即視為損失率達標</td><td>損失率</td><td>51 天</td></tr>
+<tr><td><a href="#d-proof">種植客觀證明</a></td><td>產銷履歷、轉契作、過去救助紀錄</td><td>種植事實</td><td>24–30 天</td></tr>
+<tr><td><a href="#d-moa-epaper">照相 App</a></td><td>農民拍遠近景，套印時間與地號</td><td>佐證</td><td>未公開</td></tr>
+<tr><td><a href="#d-cy-audit">無人機</a></td><td>2019–2021 試辦，限三種作物</td><td>損失率</td><td>無實績</td></tr>
+<tr><td><a href="#d-ithome-ndvi">衛星 NDVI</a></td><td>雲林 Sentinel-2 災前災後相減</td><td>疑似範圍</td><td>未用於核定</td></tr></table></div>`});
+
+rep('r-capacity',{title:'公所量能：誰在勘、勘多少',body:`
+<div class="tw"><table><tr><th>指標</th><th>數值</th><th>依據</th></tr>
+<tr><td>參與公所</td><td>221 個</td><td><a href="#d-cy-audit">審計部 2021</a></td></tr>
+<tr><td>單次申請土地</td><td>327,230 筆</td><td><a href="#d-cy-audit">同上</a></td></tr>
+<tr><td>農業課平均編制</td><td>4 人</td><td><a href="#d-cy-audit">同上</a></td></tr>
+<tr><td>每人負荷</td><td>約 370 筆</td><td>計算：327,230 ÷ 221 ÷ 4</td></tr>
+<tr><td>溪州鄉</td><td>26 人、1,817 戶、5,232 筆（每人約 201 筆）</td><td><a href="#d-ctee-xizhou">工商時報 2025</a></td></tr>
+<tr><td>雲林麻竹筍</td><td>單次逾 1 萬筆</td><td><a href="#d-ithome-ndvi">iThome 2026</a></td></tr>
+<tr><td>App 推廣講習</td><td>2025 年 64 場、3,236 人</td><td><a href="#d-moa-app">農業部</a></td></tr></table></div>`});
+
+rep('r-evidence',{title:'證明文件內容與各環節對照',body:`
+<p>每筆地號一頁：地號與坵塊圖、災前與災後影像日期、植生與雷達變化值、A／B／C 判定、可信度、資料來源；比照<a href="#d-moa-app">照相 App 每小時同步</a>的方式進救助系統。</p>
+<div class="tw"><table><tr><th>環節</th><th>現況（依據）</th><th>天相星提供</th></tr>
+<tr><td>公告前研判</td><td><a href="#d-yam-hualien">花蓮分 8 波補公告</a></td><td>災後第一張可用影像取得即產出全區熱區圖</td></tr>
+<tr><td>種植事實</td><td><a href="#d-proof">登錄資料不符實況</a></td><td>災前作物判釋</td></tr>
+<tr><td>損失率</td><td><a href="#d-ctee-xizhou">目視主觀</a></td><td>變化分級；邊緣案件交人判定</td></tr>
+<tr><td>縣府抽查</td><td><a href="#d-moa-notice">抽樣 20% 以上</a></td><td>優先抽 C 級</td></tr>
+<tr><td>遲發性災損</td><td><a href="#d-ltn-wendan">等 360 天</a></td><td>時序植生追蹤</td></tr>
+<tr><td>防溢領</td><td><a href="#d-cy-audit">夾雜農路、未種植仍申報</a></td><td>坵塊比對扣除非農地</td></tr></table></div>`});
+
+rep('r-capability',{title:'完整對照：現實問題 × 處理方式 × 進度',body:`
+<div class="tw"><table><tr><th>現實問題（依據）</th><th>天相星處理方式</th><th>目前進度</th><th>進階做法</th></tr>
+<tr><td>須現勘案件平均 58 天（<a href="#d-cy-audit">審計部</a>）</td><td>A／B 級衛星存證走免勘</td><td>分級門檻已訂建議值</td><td>累積準確度後提案「衛星災損參數」</td></tr>
+<tr><td>每人約 370 筆（<a href="#d-cy-audit">審計部</a>）</td><td>C 級優先勘查清單匯入農災 App</td><td>匯入格式待確認</td><td>結果直接同步救助系統</td></tr>
+<tr><td>86 天只撥 59%（<a href="#d-udn-relief">立法院報告</a>）</td><td>全區熱區圖支援 7 天內提報</td><td>尚未製作（計劃 10/21–10/23）</td><td>縣市層級常態取像</td></tr>
+<tr><td>抽查 20% 以上（<a href="#d-moa-notice">公告</a>）</td><td>優先抽 C 級</td><td>構想完成</td><td>以抽查結果回饋校正模型</td></tr>
+<tr><td>種植資料不符（<a href="#d-proof">審計部</a>）</td><td>災前影像判釋作物</td><td>尚未製作（計劃用 Sentinel-2）</td><td>福衛八號紅邊波段提高判釋</td></tr>
+<tr><td>深山竹林無法存證（<a href="#d-pts-gukeng">公視</a>）</td><td>衛星不需人到場</td><td>構想完成</td><td>遮蔽坡地布設 GNSS 定位樁</td></tr>
+<tr><td>颱風後多雲（<a href="#d-esa-s1">ESA</a>）</td><td>Sentinel-1 SAR</td><td>尚未製作（計劃取前後各一景）</td><td>2028 年後接福衛九號</td></tr>
+<tr><td>延遲性災損 360 天（<a href="#d-ltn-wendan">自由時報</a>）</td><td>時序植生追蹤</td><td>構想完成</td><td>建立作物別衰退曲線</td></tr></table></div>
+<p class="note">進度依據：<a href="#d-team-plan">本隊文件</a>。福衛九號時程引自本隊評估報告所列聯合報報導，本頁未另行查證。</p>`});
+
+rep('r-advanced',{title:'進階做法詳述',body:`
+<ol><li><b>福衛八號 1 米＋紅邊</b>：處理小於 0.3 公頃的小田與作物判釋；提高臺灣自主技術比重。依據：<a href="#d-ey-fs8">行政院</a></li>
+<li><b>SAR 時序變化偵測</b>：用雷達回波時序判斷倒伏、淹水。已證實的只有 <a href="#d-esa-s1">Sentinel-1 6 天重訪</a>；判斷準確度待原型驗證</li>
+<li><b>現勘回饋學習</b>：C 級現勘與抽查結果回傳，校正門檻與模型。依據：<a href="#d-ithome-ndvi">雲林試算重疊約 64%</a></li>
+<li><b>接上既有系統</b>：疊合農地覆蓋物資料庫坵塊，結果同步救助系統。依據：<a href="#d-moa-app">農業部</a></li>
+<li><b>衛星災損參數</b>：比照天氣參數，提案列為免勘條件。依據：<a href="#d-agri-first">天氣參數免現勘機制</a></li>
+<li><b>遲發性災損追蹤</b>：寒害與根系受損以植生曲線提早佐證。依據：<a href="#d-ltn-mango">芒果</a>、<a href="#d-ltn-wendan">文旦</a></li>
+<li><b>GNSS 定位樁</b>：衛星難觀測的遮蔽坡地補位（構想書規劃，第 3 年）。依據：<a href="#d-team-plan">本隊構想書</a></li></ol>
+<h2>時程（本隊規劃）</h2><ul><li>第 1 年：一個鄉鎮試行，與公所現勘比對準確度</li><li>第 2 年：縣市層級試辦，爭取衛星存證成為認可的種植證明；導入福衛八號</li><li>第 3 年：提案衛星災損參數；坡地布設定位樁</li></ul>`});
+
+rep('r-legal',{title:'取得法律效力的路徑',body:`
+<ol><li><b>法源</b>：救助辦法 2017 年修正明定「勘查得以科學技術輔助之」。<a href="#d-cy-audit">監察院報告</a></li>
+<li><b>列為種植客觀證明</b>：符合參數且有種植客觀證明者免現勘。<a href="#d-agri-first">農業部 2025/7/7</a>；現行證明的問題見<a href="#d-proof">種植客觀證明數據</a></li>
+<li><b>對接資料</b>：農地覆蓋物動態資料庫，逾 30 萬公頃坵塊。<a href="#d-moa-app">農業部</a></li>
+<li><b>縣市試辦</b>：雲林已試算 NDVI 並向農業部提案。<a href="#d-ithome-ndvi">iThome</a></li></ol>
+<p class="note">目前 App 照片仍「只能佐證」（<a href="#d-pts-gukeng">公視 2023</a>），所以衛星證據要取得效力，須先經試辦與主管機關認可，不宣稱已有效力。</p>`});
+
+rep('r-estimate',{title:'加速效果推估與計算方式',body:`
+<p>基準：<a href="#d-cy-audit">2021 年 8 月豪雨</a> 209,189 件，平均 55 天；須現勘一般案件 134,006 件、平均 58 天；免勘案件平均 30 天。</p>
+<div class="tw"><table><tr><th>轉換比例</th><th>件數</th><th>平均撥款</th><th>縮短</th></tr>
+<tr><td>30%</td><td>40,202</td><td>49.6 天</td><td>5.4 天</td></tr><tr><td>50%</td><td>67,003</td><td>46.0 天</td><td>9.0 天</td></tr><tr><td>70%</td><td>93,804</td><td>42.4 天</td><td>12.6 天</td></tr></table></div>
+<p>公式：新平均 ＝ 55 − 轉換件數 ×（58 − 30）÷ 209,189</p>
+<p class="note">轉換比例是假設，不是預測；實際比例需原型與公所試行後才知道。</p>`});
+
+rep('r-limits',{title:'限制與資料說明',body:`
+<h2>技術限制</h2><ul><li>颱風後多雲：以 <a href="#d-esa-s1">SAR</a> 為主</li><li>小坵塊：<a href="#d-ey-fs8">福衛八號 1 米</a>，再不清楚列 C 級</li><li>無法判定原因：結合<a href="#d-moa-app">天氣參數</a></li><li>準確度：<a href="#d-ithome-ndvi">雲林重疊約 64%</a>，定位為分流</li></ul>
+<h2>資料限制</h2><ul><li>2025 年逐案撥款天數未公開，撥款天數皆借用 2021 年審計部統計</li><li>51.5 億與 30.18 億為丹娜絲＋0708 豪雨合計</li><li>鳳凰損失取 11/14 速報</li><li>寒害無單一農損報告</li><li><a href="#d-moa-notice">2025 年 5 月公告</a>原文本頁無法讀取，內容依本隊評估報告</li></ul>`});
+
+/* ---------- render ---------- */
+const stage=document.getElementById('stage'), vp=document.getElementById('vp'), det=document.getElementById('detail');
+const prevB=document.getElementById('prev'), nextB=document.getElementById('next'), countEl=document.getElementById('count');
+let cur=0;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function fit(){
+  const w=vp.clientWidth, h=vp.clientHeight, pad=Math.min(24,w*0.02);
+  const s=Math.min((w-pad*2)/1600,(h-pad*2)/900);
+  stage.style.transform=`translate(${(w-1600*s)/2}px,${(h-900*s)/2}px) scale(${s})`;
+}
+function showSlide(i){
+  cur=Math.max(0,Math.min(SLIDES.length-1,i));
+  const s=SLIDES[cur];
+  stage.innerHTML=`<section class="slide${s.inv?' inv':''}" aria-label="第 ${cur+1} 頁：${esc(s.t)}">${s.h}</section>`;
+  countEl.textContent=(cur+1)+' / '+SLIDES.length;
+  prevB.disabled=cur===0; nextB.disabled=cur===SLIDES.length-1;
+}
+function sourcesIndex(){
+  const g=k=>Object.entries(D).filter(([,d])=>d.kind===k);
+  return `<p>外部來源各整理成一頁並保留原始網址；調查報告依主題拆成小頁；團隊自己的規劃另列，與外部事實分開。</p>
+<h2>外部來源（${g('ext').length}）</h2><ul>${g('ext').map(([k,d])=>`<li><a href="#${k}">${esc(d.title)}</a> <span class="meta">｜${esc(d.pub)}｜${esc(d.date)}</span></li>`).join('')}</ul>
+<h2>調查報告分頁（${g('rep').length}）</h2><ul>${g('rep').map(([k,d])=>`<li><a href="#${k}">${esc(d.title)}</a></li>`).join('')}</ul>
+<h2>團隊文件（${g('team').length}）</h2><ul>${g('team').map(([k,d])=>`<li><a href="#${k}">${esc(d.title)}</a></li>`).join('')}</ul>
+<p class="meta">完整調查報告（線上文件）：<a href="${R}" target="_blank" rel="noopener">開啟 ↗</a></p>`;
+}
+function openDetail(id){
+  const d = id==='r-sources' ? {kind:'rep',title:'所有依據',body:sourcesIndex()} : D[id];
+  if(!d) return;
+  const tag = d.kind==='ext'?'外部來源整理':d.kind==='team'?'團隊文件':'調查報告整理';
+  const src = d.kind==='ext' ? `<div class="srcbox"><span class="meta">原始網址｜${esc(d.pub)}｜${esc(d.date)}</span><a href="${d.url}" target="_blank" rel="noopener">開啟原始網頁 ↗</a><span class="u">${esc(d.url)}</span></div>` : '';
+  const back=`<button class="btn" data-back>← 回到第 ${cur+1} 頁（Esc）</button>`;
+  det.innerHTML=`<div class="sheet"><div class="backrow">${back}<button class="btn" data-go="r-sources">所有依據</button></div>
+   <span class="tag ${d.kind==='ext'?'ext':''}">${tag}</span><h1>${esc(d.title)}</h1>
+   ${d.kind==='ext'?`<p class="meta">${esc(d.pub)}｜${esc(d.date)}｜以下為重點整理，非原文轉載</p>`:''}
+   ${d.body}${src}<div class="backrow">${back}</div></div>`;
+  det.hidden=false; det.scrollTop=0; det.focus({preventScroll:true});
+}
+function closeDetail(){ det.hidden=true; det.innerHTML=''; window.focus(); }
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-back]'); if(b){e.preventDefault();closeDetail();return;}
+  const g=e.target.closest('[data-go]'); if(g){e.preventDefault();openDetail(g.dataset.go);return;}
+  const a=e.target.closest('a[href^="#"]');
+  if(a){e.preventDefault();openDetail(a.getAttribute('href').slice(1));}
+});
+prevB.onclick=()=>showSlide(cur-1); nextB.onclick=()=>showSlide(cur+1);
+document.getElementById('all').onclick=()=>openDetail('r-sources');
+window.addEventListener('keydown',e=>{
+  if(!det.hidden){ if(e.key==='Escape'||e.key==='Backspace'){e.preventDefault();closeDetail();} return; }
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();showSlide(cur+1);}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();showSlide(cur-1);}
+  else if(e.key==='Home'){e.preventDefault();showSlide(0);}
+  else if(e.key==='End'){e.preventDefault();showSlide(SLIDES.length-1);}
+});
+window.addEventListener('resize',fit);
+if(window.ResizeObserver) new ResizeObserver(fit).observe(vp);
+document.addEventListener('pointerdown',()=>{ if(det.hidden) window.focus(); });
+const h0=(location.hash||'').slice(1), m=/^s(\d+)$/.exec(h0);
+showSlide(m?parseInt(m[1],10)-1:0); fit(); window.focus();
+if(/^(d|r)-/.test(h0)) openDetail(h0);
+</script>

@@ -1,0 +1,424 @@
+<title>丹娜絲颱風衛星影像分析</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;800&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 版面：單欄閱讀，比對滑桿放大到欄寬；像一份測量報告，數字用等寬字 */
+:root {
+  --paper: #f5f6f3;
+  --panel: #ffffff;
+  --ink: #1c2320;
+  --muted: #5b6661;
+  --line: #d7ddd9;
+  --accent: #0e6870;
+  --water: #1e88e5;
+  --veg: #e53935;
+  --obj: #f08c00;
+  --mix: #8e24aa;
+  --note-bg: #eaf1ef;
+  --font-display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.5rem;
+  --step-3: 2.1rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111614; --panel: #181e1c; --ink: #e4eae7; --muted: #9ba8a2; --line: #2b3431;
+    --accent: #5bc0c6; --water: #4fa8f0; --veg: #ff6b5e; --obj: #ffa733; --mix: #c06ad6; --note-bg: #17211f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111614; --panel: #181e1c; --ink: #e4eae7; --muted: #9ba8a2; --line: #2b3431;
+  --accent: #5bc0c6; --water: #4fa8f0; --veg: #ff6b5e; --obj: #ffa733; --mix: #c06ad6; --note-bg: #17211f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.75;
+}
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 56px;
+}
+.prose { max-width: 40em; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: var(--step-3); font-weight: 800; letter-spacing: 0.02em; }
+h2 { font-size: var(--step-2); font-weight: 800; }
+h3 { font-size: var(--step-1); font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); }
+
+header { display: grid; gap: 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--muted); font-size: 0.92rem; }
+.meta span { white-space: nowrap; }
+
+section { display: grid; gap: 20px; }
+.sec-head { display: grid; gap: 6px; border-top: 2px solid var(--ink); padding-top: 14px; }
+.sec-head .eyebrow { color: var(--accent); }
+
+.summary {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 22px 24px;
+  display: grid;
+  gap: 14px;
+}
+.summary ul { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+.summary li { padding-left: 2px; }
+.key { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 2px; margin-right: 6px; vertical-align: -0.05em; }
+.k-water { background: var(--water); } .k-veg { background: var(--veg); } .k-obj { background: var(--obj); } .k-mix { background: var(--mix); }
+
+/* 比對滑桿 */
+.cmp { margin: 0; display: grid; gap: 10px; }
+.cmp-frame {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #000;
+  user-select: none;
+  touch-action: pan-y;
+  --pos: 50%;
+}
+.cmp-frame.small { max-width: 640px; }
+.cmp-frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;
+}
+.cmp-frame img.before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.cmp-frame .bar {
+  position: absolute; top: 0; bottom: 0; left: var(--pos); width: 3px; margin-left: -1.5px;
+  background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.35); pointer-events: none;
+}
+.cmp-frame .knob {
+  position: absolute; top: 50%; left: var(--pos); width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,.4);
+  display: grid; place-items: center; pointer-events: none; color: #1c2320; font-size: 15px; font-weight: 700;
+}
+.cmp-frame .tag {
+  position: absolute; top: 10px; padding: 3px 10px; border-radius: 3px;
+  background: rgba(15,20,18,.78); color: #fff; font-size: 0.85rem; font-weight: 500; pointer-events: none;
+}
+.cmp-frame .tag.l { left: 10px; } .cmp-frame .tag.r { right: 10px; }
+.cmp-frame input[type=range] {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize;
+}
+figcaption { color: var(--muted); font-size: 0.92rem; max-width: 46em; }
+figcaption b { color: var(--ink); font-weight: 700; }
+
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; align-items: start; }
+.pair > * { min-width: 0; }
+
+.still { margin: 0; display: grid; gap: 10px; }
+.still img { width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); background: #fff; }
+
+.how {
+  background: var(--note-bg);
+  border-radius: 6px;
+  padding: 18px 22px;
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+.how h3 { font-size: 1.05rem; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.92rem; }
+.legend span { white-space: nowrap; }
+
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.94rem; min-width: 520px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 700; color: var(--muted); font-size: 0.85rem; letter-spacing: 0.03em; }
+td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+.bars { display: grid; gap: 12px; }
+.bar-row { display: grid; grid-template-columns: minmax(8em, 15em) 1fr; gap: 6px 14px; align-items: center; }
+.bar-row .lab { font-size: 0.93rem; }
+.bar-row .track { position: relative; height: 26px; }
+.bar-row .fill { height: 100%; border-radius: 3px; min-width: 3px; }
+.bar-row .val { position: absolute; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); font-weight: 500; font-size: 0.92rem; padding-left: 8px; white-space: nowrap; }
+@media (max-width: 560px) { .bar-row { grid-template-columns: 1fr; } }
+
+ol.list, ul.list { margin: 0; padding-left: 1.3em; display: grid; gap: 12px; }
+
+footer { color: var(--muted); font-size: 0.86rem; display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 18px; }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">天相星 SkyAide｜衛星影像測試報告</div>
+  <h1>丹娜絲颱風衛星影像分析</h1>
+  <p class="prose">2025 年 7 月 6 日深夜，丹娜絲颱風從嘉義布袋登陸。我們用歐盟免費公開的 Sentinel-1 雷達衛星與 Sentinel-2 光學衛星，比對登陸點附近約 15 × 17 公里的範圍，看颱風前後地面有什麼變化。下面每一組影像都可以<strong>左右拖動中間的白線</strong>，直接比較前後差別。</p>
+  <div class="meta">
+    <span>範圍：嘉義布袋、義竹～台南北門沿海</span>
+    <span class="mono">E120.10–120.25°　N23.25–23.40°</span>
+    <span>約 25,450 公頃</span>
+    <span>解析度：每格約 10 公尺</span>
+  </div>
+</header>
+
+<figure class="cmp">
+  <div class="cmp-frame" data-cmp>
+    <img src="img/photo_post.jpg" alt="颱風後 7 月 18 日的衛星照片，雲較多，河口外海呈土黃色">
+    <img class="before" src="img/photo_pre.jpg" alt="颱風前 6 月 15 日的衛星照片">
+    <span class="tag l">颱風前　6/15</span><span class="tag r">颱風後　7/18</span>
+    <div class="bar"></div><div class="knob">⇆</div>
+    <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較颱風前後的衛星照片" id="cmp-hero">
+  </div>
+  <figcaption><b>整個研究區的衛星照片。</b>拖到右邊看颱風前，拖到左邊看颱風後。最明顯的變化在左側中間：河水和河口外海從綠色變成土黃色。颱風後雲也多了很多，被雲擋住的地方照片看不到。</figcaption>
+</figure>
+
+<section aria-labelledby="sum">
+  <div class="sec-head"><div class="eyebrow">重點</div><h2 id="sum">這次看到什麼</h2></div>
+  <div class="summary">
+    <ul>
+      <li><span class="key k-veg"></span><b>約 480 公頃作物，颱風後植物比往年同期多掉很多。</b>這是在能比較的 3,164 公頃作物中，扣掉每年 7 月收割造成的正常下降之後剩下的部分，約占 15%。</li>
+      <li><span class="key k-water"></span><b>約 157 公頃的田在雷達上明顯變暗，疑似積水。</b>其中只有約 28% 暗到接近水面的程度，其餘比較像土壤泡水或田裡有部分積水。</li>
+      <li><span class="key k-obj"></span><b>約 26 公頃原本很亮的人造物，颱風後在雷達上變暗。</b>原因從衛星看不出來，需要人到現場確認。</li>
+      <li><b>河水變成土黃色</b>，豪雨把大量泥沙帶進河道和河口。</li>
+      <li><b>雷達穿得過雲，照片穿不過。</b>這次能用的颱風後照片是 12 天後拍的，而且仍有不少雲；雷達第 4 天就有完整影像。</li>
+    </ul>
+    <p style="color:var(--muted);font-size:.92rem">這些都是「衛星看到的變化」，還沒有和公所的實際勘查結果比對，所以只能說是疑似受災，不能當作確定的損失。</p>
+  </div>
+</section>
+
+<section aria-labelledby="read">
+  <div class="sec-head"><div class="eyebrow">閱讀前</div><h2 id="read">兩種衛星影像怎麼看</h2></div>
+  <div class="pair">
+    <div class="how">
+      <h3>光學衛星（Sentinel-2）</h3>
+      <p>就像從太空拍照，看起來和手機照片差不多。缺點是會被雲擋住。</p>
+      <p>另外可以算出「<b>植物茂密程度</b>」：深綠是植物很茂密，淺黃是稀疏，褐色是沒有植物。</p>
+    </div>
+    <div class="how">
+      <h3>雷達衛星（Sentinel-1）</h3>
+      <p>衛星自己發出微波再收回來，雲、夜晚都擋不住。影像是黑白的：</p>
+      <p><b>亮</b>＝房子、陸地、作物　<b>暗</b>＝水面。原本是灰色的田變暗，就可能是積水了。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="s-a">
+  <div class="sec-head"><div class="eyebrow">放大區 A</div><h2 id="s-a">河水變成土黃色</h2></div>
+  <figure class="cmp">
+    <div class="cmp-frame small" data-cmp>
+      <img src="img/zoomA_post.jpg" alt="河口附近，颱風後河水呈土黃色">
+      <img class="before" src="img/zoomA_pre.jpg" alt="河口附近，颱風前河水呈綠色">
+      <span class="tag l">颱風前　6/15</span><span class="tag r">颱風後　7/18</span>
+      <div class="bar"></div><div class="knob">⇆</div>
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較放大區 A 颱風前後" id="cmp-a">
+    </div>
+    <figcaption><b>約 4 × 4 公里。</b>颱風前河水是綠色，颱風後變成土黃色，是豪雨把上游泥沙沖下來。左上的潟湖颱風後露出一條條泥灘水道，這部分也可能只是拍攝時剛好退潮，不能全算成颱風造成的。</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="s-b">
+  <div class="sec-head"><div class="eyebrow">放大區 B</div><h2 id="s-b">照片被雲擋住，雷達照樣看得到</h2></div>
+  <figure class="cmp">
+    <div class="cmp-frame small" data-cmp>
+      <img src="img/zoomB_radar.jpg" alt="同一地點的雷達影像，沒有雲的遮擋">
+      <img class="before" src="img/zoomB_photo.jpg" alt="颱風後的衛星照片，大片被雲遮住">
+      <span class="tag l">照片　7/18</span><span class="tag r">雷達　7/10</span>
+      <div class="bar"></div><div class="knob">⇆</div>
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較照片與雷達" id="cmp-b">
+    </div>
+    <figcaption><b>同一個地方，左邊是照片、右邊是雷達。</b>照片上的白色雲團，在雷達上完全不存在。颱風過後常常連續好幾天都是雲，這也是天相星把雷達當作第一手資料的原因。</figcaption>
+  </figure>
+  <figure class="still">
+    <img src="img/fig3_B_cloud.jpg" alt="圖 3：照片、雷達、以及把雲的部分換成雷達的合成圖" loading="lazy">
+    <figcaption><b>圖 3</b>　右圖把照片中被雲遮住的部分換成雷達影像，整個範圍就沒有死角。</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="s-c">
+  <div class="sec-head"><div class="eyebrow">放大區 C　＋　全區</div><h2 id="s-c">植物變少的田</h2></div>
+  <figure class="cmp">
+    <div class="cmp-frame" data-cmp>
+      <img src="img/veg_post.jpg" alt="颱風後 7 月 18 日的植物茂密程度圖">
+      <img class="before" src="img/veg_pre.jpg" alt="颱風前 6 月 28 日的植物茂密程度圖">
+      <span class="tag l">颱風前　6/28</span><span class="tag r">颱風後　7/18</span>
+      <div class="bar"></div><div class="knob">⇆</div>
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較全區植物茂密程度" id="cmp-veg">
+    </div>
+    <figcaption><b>全區植物茂密程度。</b>深綠＝茂密、淺黃＝稀疏、褐色＝沒有植物、淺灰＝被雲遮。颱風後整片明顯偏黃、偏褐。不過 7 月本來就是一期稻收割季，綠色變少不全是颱風造成的，下面說明怎麼分辨。</figcaption>
+  </figure>
+  <div class="how prose">
+    <h3>怎麼排除正常收割？</h3>
+    <p>拿<b>同一塊田去年同期</b>（2024 年 7 月 3 日到 18 日）的變化當基準。每年收割都會掉的部分扣掉，剩下「今年掉得比往年多很多」的，才標為疑似受損。只看今年會標出 899 公頃，扣掉往年同期之後剩 480 公頃，將近一半是正常收割。</p>
+  </div>
+  <figure class="cmp">
+    <div class="cmp-frame small" data-cmp>
+      <img src="img/zoomC_post.jpg" alt="放大區 C 颱風後照片">
+      <img class="before" src="img/zoomC_pre.jpg" alt="放大區 C 颱風前照片">
+      <span class="tag l">颱風前　6/15</span><span class="tag r">颱風後　7/18</span>
+      <div class="bar"></div><div class="knob">⇆</div>
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較放大區 C 颱風前後照片" id="cmp-c">
+    </div>
+    <figcaption><b>放大區 C，約 2 × 2 公里。</b>河道兩側的田，颱風前是鮮綠色，颱風後顏色變淡、變黃。</figcaption>
+  </figure>
+  <figure class="still">
+    <img src="img/fig4_C_vegetation.jpg" alt="圖 4：放大區 C 的照片與植物茂密程度，紅框為比往年多掉很多的田" loading="lazy">
+    <figcaption><b>圖 4</b>　紅框是扣掉往年同期後仍明顯變少的田。下排可以看到紅框裡由深綠變成淺綠或淺黃。</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="s-d">
+  <div class="sec-head"><div class="eyebrow">放大區 D</div><h2 id="s-d">雷達上變暗的田：疑似積水</h2></div>
+  <figure class="cmp">
+    <div class="cmp-frame small" data-cmp>
+      <img src="img/zoomD_post.jpg" alt="放大區 D 颱風後雷達影像，部分田塊變暗">
+      <img class="before" src="img/zoomD_pre.jpg" alt="放大區 D 颱風前雷達影像">
+      <span class="tag l">颱風前雷達</span><span class="tag r">颱風後雷達　7/10</span>
+      <div class="bar"></div><div class="knob">⇆</div>
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較放大區 D 颱風前後雷達" id="cmp-d">
+    </div>
+    <figcaption><b>約 1.6 × 1.8 公里。</b>拖動時注意右邊幾塊田：颱風前是淺灰色，颱風後變成深灰色。雷達上越暗，越可能有水。中間彎曲的黑線是河道，前後都是黑的，所以不算積水。</figcaption>
+  </figure>
+  <figure class="still">
+    <img src="img/fig5_D_water.jpg" alt="圖 5：放大區 D 颱風前後雷達，藍色標出明顯變暗的田" loading="lazy">
+    <figcaption><b>圖 5</b>　黃框和藍色是被判為疑似積水的田。</figcaption>
+  </figure>
+  <div class="how prose">
+    <h3>為什麼只說「疑似」？</h3>
+    <p>雷達只能說「這裡變暗了」，說不出為什麼。7 月剛好是二期稻插秧前灌水整地的時候，正常灌溉在雷達上也會變暗。而且這張雷達影像是颱風後第 4 天拍的，最嚴重的積水可能已經退了。要分辨是災害還是灌溉，需要對照農民的申請資料或現場勘查。</p>
+  </div>
+</section>
+
+<section aria-labelledby="s-e">
+  <div class="sec-head"><div class="eyebrow">放大區 E</div><h2 id="s-e">原本很亮的人造物變暗了</h2></div>
+  <div class="pair">
+    <figure class="cmp">
+      <div class="cmp-frame" data-cmp>
+        <img src="img/zoomE_photo_post.jpg" alt="放大區 E 颱風後照片">
+        <img class="before" src="img/zoomE_photo_pre.jpg" alt="放大區 E 颱風前照片">
+        <span class="tag l">照片　7/3</span><span class="tag r">照片　7/23</span>
+        <div class="bar"></div><div class="knob">⇆</div>
+        <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較放大區 E 颱風前後照片" id="cmp-e1">
+      </div>
+      <figcaption><b>照片。</b>紫灰色方塊是太陽能光電板。中間那塊空地颱風前偏白，颱風後變成淺綠色。</figcaption>
+    </figure>
+    <figure class="cmp">
+      <div class="cmp-frame" data-cmp>
+        <img src="img/zoomE_post.jpg" alt="放大區 E 颱風後雷達，中間亮點消失">
+        <img class="before" src="img/zoomE_pre.jpg" alt="放大區 E 颱風前雷達，中間非常亮">
+        <span class="tag l">雷達　6/28～7/4</span><span class="tag r">雷達　7/10</span>
+        <div class="bar"></div><div class="knob">⇆</div>
+        <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較放大區 E 颱風前後雷達" id="cmp-e2">
+      </div>
+      <figcaption><b>雷達（黃＝很亮、黑＝很暗）。</b>中間那塊颱風前非常亮，颱風後暗了約 10 dB，也就是反射回來的訊號只剩十分之一左右。</figcaption>
+    </figure>
+  </div>
+  <div class="how prose">
+    <h3>這是什麼？</h3>
+    <p>一開始我們以為是光電板被吹壞，因為丹娜絲確實在布袋一帶造成水面型光電嚴重損壞。但補看颱風前 3 天的照片後發現，這一塊本來就是空地，不是光電板。比較可能是空地上原本堆放金屬材料或停著機具，颱風前後被移走或整理過。衛星只能指出「這裡有東西變了」，原因要靠人去看。這類地點適合列入公所的現勘清單。</p>
+  </div>
+</section>
+
+<section aria-labelledby="s-map">
+  <div class="sec-head"><div class="eyebrow">結果</div><h2 id="s-map">衛星標出的疑似受災位置</h2></div>
+  <figure class="cmp">
+    <div class="cmp-frame" data-cmp>
+      <img src="img/result_map.jpg" alt="結果地圖，藍色為疑似積水、紅色為植物變少、橘色為人造物變暗">
+      <img class="before" src="img/result_base.jpg" alt="研究區灰階底圖">
+      <span class="tag l">底圖</span><span class="tag r">標出的變化</span>
+      <div class="bar"></div><div class="knob">⇆</div>
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="比較底圖與結果地圖" id="cmp-map">
+    </div>
+    <figcaption>
+      <span class="legend">
+        <span><span class="key k-veg"></span>植物比往年多掉很多　480 公頃</span>
+        <span><span class="key k-water"></span>雷達變暗、疑似積水　157 公頃</span>
+        <span><span class="key k-obj"></span>很亮的人造物變暗　26 公頃</span>
+        <span><span class="key k-mix"></span>積水＋植物變少都有　9 公頃</span>
+        <span><span class="key" style="background:#b8b8bf"></span>照片被雲遮過、無法比較</span>
+      </span>
+    </figcaption>
+  </figure>
+
+  <div class="bars" role="img" aria-label="各類面積比較長條圖">
+    <div class="bar-row"><div class="lab">能比較的作物（四期照片都沒雲）</div><div class="track"><div class="fill" style="width:81%;background:#a5d6a7"></div><span class="val" style="left:81%">3,164 公頃</span></div></div>
+    <div class="bar-row"><div class="lab">植物變少（只看今年）</div><div class="track"><div class="fill" style="width:23%;background:#ffcc80"></div><span class="val" style="left:23%">899 公頃</span></div></div>
+    <div class="bar-row"><div class="lab">植物比往年多掉很多</div><div class="track"><div class="fill" style="width:12.3%;background:var(--veg)"></div><span class="val" style="left:12.3%">480 公頃</span></div></div>
+    <div class="bar-row"><div class="lab">雷達變暗、疑似積水</div><div class="track"><div class="fill" style="width:4%;background:var(--water)"></div><span class="val" style="left:4%">157 公頃</span></div></div>
+    <div class="bar-row"><div class="lab">很亮的人造物變暗</div><div class="track"><div class="fill" style="width:0.7%;background:var(--obj)"></div><span class="val" style="left:0.7%">26 公頃</span></div></div>
+    <div class="bar-row"><div class="lab">積水＋植物變少都有</div><div class="track"><div class="fill" style="width:0.25%;background:var(--mix)"></div><span class="val" style="left:0.25%">9 公頃</span></div></div>
+  </div>
+  <p class="prose" style="color:var(--muted);font-size:.92rem">雷達和光學標出的位置幾乎不重疊（只有 9 公頃）。一部分是因為雷達標出的田有三分之二在照片上被雲遮住，沒辦法用照片檢查；另一部分是兩種衛星看的東西不同：雷達看「有沒有變成水」，照片看「植物有沒有變少」，作物被吹倒不一定會積水。</p>
+</section>
+
+<section aria-labelledby="s-lim">
+  <div class="sec-head"><div class="eyebrow">限制</div><h2 id="s-lim">這份分析還不能說明的事</h2></div>
+  <ol class="list prose">
+    <li><b>沒有地面的正確答案。</b>目前沒有公所或農業部的受災地號資料可以比對，所以算不出衛星判得準不準。</li>
+    <li><b>時間差。</b>颱風 7 月 6 日深夜登陸，雷達最早一張是 7 月 10 日，照片要到 7 月 18 日。最嚴重的積水可能已經退了。</li>
+    <li><b>灌溉和搶收。</b>7 月是收割與插秧的季節。田裡灌水準備插秧，雷達上也會變暗；颱風前提早收割，植物也會變少。這兩種情況衛星分不出來。</li>
+    <li><b>不分農地和非農地。</b>這次沒有套用農地範圍圖，所以西側海岸的防風林等非農地植生也被標了出來，約占植物變少面積的 6%。</li>
+    <li><b>雲。</b>四期照片都沒被雲遮的面積只有約三分之一。</li>
+  </ol>
+</section>
+
+<section aria-labelledby="s-mean">
+  <div class="sec-head"><div class="eyebrow">對天相星的意義</div><h2 id="s-mean">從這次測試確認的設計</h2></div>
+  <ul class="list prose">
+    <li><b>颱風後先靠雷達。</b>照片要等雲散，這次能用的照片是第 12 天拍的；雷達第 4 天就有完整影像。</li>
+    <li><b>一定要和「往年同期」比。</b>不扣掉每年的收割，疑似受損面積會多將近一倍。</li>
+    <li><b>不確定的交給人判斷（C 級）。</b>積水還是灌溉、受損還是搶收、人造物為什麼變暗，衛星都說不出原因，但可以把地點標出來，讓公所知道先去哪裡看。</li>
+    <li><b>魚塭要另外看停電。</b>報導指出這一區魚塭大量死魚是因為停電、增氧機停擺，雷達看不到，需要夜間燈光等其他資料。</li>
+  </ul>
+</section>
+
+<section aria-labelledby="s-data">
+  <div class="sec-head"><div class="eyebrow">附錄</div><h2 id="s-data">使用的影像</h2></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>衛星</th><th>用途</th><th>颱風前</th><th>颱風後</th></tr></thead>
+      <tbody>
+        <tr><td>Sentinel-1 雷達</td><td>積水、人造物變化</td><td class="mono">6/4、6/10、6/16、6/22、6/28、7/4</td><td class="mono">7/10</td></tr>
+        <tr><td>Sentinel-2 光學</td><td>植物茂密程度</td><td class="mono">6/28</td><td class="mono">7/18</td></tr>
+        <tr><td>Sentinel-2 光學</td><td>去年同期基準</td><td class="mono">2024/7/3</td><td class="mono">2024/7/18</td></tr>
+        <tr><td>Sentinel-2 照片</td><td>對照用</td><td class="mono">6/15（E 區 7/3）</td><td class="mono">7/18（E 區 7/23）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="prose" style="font-size:.93rem;color:var(--muted)">影像經 Microsoft Planetary Computer 取得，皆為免費公開資料。雷達先做斑點雜訊濾波，再用三種方法投票判斷積水（至少兩種同意才算）；光學用紅光與近紅外光算出植物茂密程度（NDVI）。方法細節見《演算法原理白話說明》。</p>
+</section>
+
+<footer>
+  <p>影像來源：Contains modified Copernicus Sentinel data 2024–2025, processed by Microsoft Planetary Computer.</p>
+  <p>災情對照：<a href="https://www.cna.com.tw/news/asoc/202507070072.aspx" target="_blank" rel="noopener">中央社 2025-07-07</a>、<a href="https://news.pts.org.tw/article/761163" target="_blank" rel="noopener">公視：義竹魚塭停電死魚、七股淹水</a>、<a href="https://news.pts.org.tw/article/760267" target="_blank" rel="noopener">公視：布袋新塭滯洪池光電受損</a>、<a href="https://news.pts.org.tw/article/761035" target="_blank" rel="noopener">公視：嘉義光電板破損統計</a></p>
+  <p>天相星 SkyAide 團隊　2026 衛星數位應用創新大賽</p>
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll("[data-cmp]").forEach(function (frame) {
+  var input = frame.querySelector("input[type=range]");
+  function set(v) { frame.style.setProperty("--pos", v + "%"); }
+  input.addEventListener("input", function () { set(input.value); });
+  set(input.value);
+});
+</script>

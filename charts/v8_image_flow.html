@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<style>
+:root{
+  --ink:#26323a; --sub:#4d5b63; --muted:#7a8a92;
+  --box:#eef3f5; --boxline:#b9ccd4; --lane:#f8fafb; --laneline:#d4e0e5;
+  --acc:#b0602a; --accbg:#f7ece3; --accline:#e2c2a8;
+  --teal:#4f7f8c; --ok:#3f7a5a; --okbg:#e9f3ec; --okline:#b6d4c1;
+  --warn:#9a7a1e; --warnbg:#f8f2df; --warnline:#e0d09a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;font-family:"Noto Sans CJK TC","Noto Sans CJK JP",sans-serif;color:var(--ink);width:1400px;padding:28px 30px 26px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:stretch}
+.rail{border-radius:10px;padding:12px 12px;display:flex;flex-direction:column;justify-content:center;background:#e4edf1;border:1.5px solid var(--boxline)}
+.rail .s{font-size:15px;color:var(--teal);font-weight:700;letter-spacing:.5px}
+.rail .l{font-size:21px;font-weight:700;margin-top:2px}
+.rail .t{font-size:13.5px;color:var(--sub);margin-top:4px;line-height:1.45}
+.lane{border:1.5px solid var(--laneline);background:var(--lane);border-radius:12px;padding:12px}
+.g{display:grid;gap:10px}
+.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:repeat(3,1fr)}.c4{grid-template-columns:repeat(4,1fr)}
+.b{background:var(--box);border:1.5px solid var(--boxline);border-radius:9px;padding:10px 13px}
+.b h4{font-size:17px;font-weight:700;margin-bottom:5px}
+.b p{font-size:14px;line-height:1.55;color:var(--sub)}
+.b p b{color:var(--ink);font-weight:700}
+.ev{font-size:13.5px;color:var(--acc);margin-top:5px;line-height:1.5}
+.ev::before{content:"▸ ";}
+.note{font-size:13.5px;color:var(--sub);margin-top:9px;line-height:1.5}
+.note b{color:var(--acc)}
+.arrow{display:grid;grid-template-columns:150px 1fr;gap:16px;height:24px}
+.arrow div:last-child{position:relative}
+.arrow div:last-child::before{content:"";position:absolute;left:50%;top:2px;bottom:6px;border-left:2.5px solid var(--teal)}
+.arrow div:last-child::after{content:"";position:absolute;left:calc(50% - 7px);bottom:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--teal)}
+.acc{background:var(--accbg);border-color:var(--accline)}
+.acc h4{color:var(--acc)}
+.okb{background:var(--okbg);border-color:var(--okline)} .okb h4{color:var(--ok)}
+.wb{background:var(--warnbg);border-color:var(--warnline)} .wb h4{color:var(--warn)}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;padding:1px 8px;border-radius:20px;margin-right:6px;vertical-align:2px}
+.tq{background:#dfe9ee;color:var(--teal)}
+.mini{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--sub);margin-top:6px}
+.chip{border-radius:7px;padding:6px 10px;font-size:14px;line-height:1.45}
+.step{font-size:15.5px;font-weight:700;color:var(--teal);margin:0 0 7px}
+.split{display:grid;grid-template-columns:1.05fr 1.55fr;gap:12px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grade .b h4{font-size:16.5px}
+.trig{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.loop{border:1.5px dashed var(--teal);border-radius:9px;padding:9px 13px;font-size:14px;color:var(--sub);line-height:1.55;margin-top:10px;background:#fff}
+.loop b{color:var(--teal)}
+.legend{font-size:13px;color:var(--muted);margin-top:12px;line-height:1.6}
+</style></head><body>
+
+<!-- 觸發 -->
+<div class="row">
+  <div class="rail"><div class="s">運作時點</div><div class="l">平時與災後</div></div>
+  <div class="trig">
+    <div class="b"><h4>平時：累積災前紀錄</h4><p>Sentinel-1 每 6 天、Sentinel-2 約每 5 天自動下載；每塊田的時序表持續更新，並保存多年紀錄供長時間對照。<b>災前狀態無法事後補拍</b>，所以平時就要存。</p></div>
+    <div class="b"><h4>災後：警報起啟動</h4><p>鎖定災前影像、排定災後取像，程式與參數版本於災害開始時凍結（S2）。<b>雷達到站起 8 小時內</b>完成全區分級；光學有雲時不等待。</p></div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- S1 輸入 -->
+<div class="row">
+  <div class="rail"><div class="s">S1</div><div class="l">資料輸入</div><div class="t">登錄與檢核</div></div>
+  <div class="lane">
+    <div class="g c4">
+      <div class="b"><h4>Sentinel-1 雷達</h4><p>VV、VH 後向散射與同調性；災前 6 期＋災後。<b>穿雲、日夜可拍</b>，颱風後第一手資料。</p><div class="ev">丹娜絲：災前 6/4–7/4 六期，災後 7/10（登陸後第 4 天）</div></div>
+      <div class="b"><h4>Sentinel-2 光學</h4><p>L2A 地表反射率；今年災前災後，加上<b>去年同期</b>作為基準。</p><div class="ev">丹娜絲：6/28、7/18；基準 2024/7/3、7/18</div></div>
+      <div class="b"><h4>熱區高解析影像</h4><p>福衛八號 0.7 米、商業雷達與光學 0.3–1 米；<b>只對候選 A 級集中的熱區下單</b>。</p></div>
+      <div class="b"><h4>地籍與申報</h4><p>地籍坵塊、申報作物、養殖放養申報、App 照片（含座標與拍攝時間）。</p></div>
+    </div>
+    <div class="note">每個檔案記錄來源產品編號與 SHA-256，比對官方檢查碼；檢查有效像素率、災前影像距災害 ≤ 10 日。<b>未通過：停止計算，補件或改用其他日期影像。</b></div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 前處理 -->
+<div class="row">
+  <div class="rail"><div class="s">S3-1</div><div class="l">前處理</div><div class="t">把影像變成可比較的數值</div></div>
+  <div class="lane">
+    <div class="g c3">
+      <div class="b"><h4>雷達</h4><p>輻射與地形校正（RTC），換算為 dB；<b>Lee 濾波</b>去斑點雜訊：周圍一致才平均，田與水的邊界保留。以地形模型標出雷達陰影與疊置區。</p></div>
+      <div class="b"><h4>光學</h4><p>Cloud Score+ 逐像素去雲（門檻 0.60）；計算 NDVI。雲遮日期加旗標，<b>補值日期不得作為災後證據</b>。</p><div class="ev">丹娜絲：四期都沒被雲遮的面積只有約三分之一</div></div>
+      <div class="b"><h4>對位與排除</h4><p>影像與地籍套疊，檢查偏移。災前即為水面者（海、河、魚塭）不做淹水判讀；非農地（防風林、建物）以農地範圍排除。</p><div class="ev">丹娜絲：未套農地範圍時，防風林占植生下降約 6%</div></div>
+    </div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 坵塊化 -->
+<div class="row">
+  <div class="rail"><div class="s">S3-2</div><div class="l">坵塊化</div><div class="t">從一格 10 米變成一塊田</div></div>
+  <div class="lane">
+    <div class="g c2">
+      <div class="b"><h4>內縮去邊</h4><p>坵塊向內縮 10 米，拿掉混到田埂與隔壁田的邊緣像素。<b>內縮後少於 5 格</b>：改用熱區高解析影像，沒有則該田「影像條件」檢核不通過。</p></div>
+      <div class="b"><h4>每塊田一張時序表</h4><p>每坵塊、每日期一列：各項判讀的像素比例、NDVI 統計、雲與補值旗標。<b>運算量隨坵塊數增加，與影像面積無關</b>；全國約 200 萬筆作物判釋單張 GPU 約 27 分鐘。</p></div>
+    </div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 判讀 -->
+<div class="row">
+  <div class="rail"><div class="s">S3-3</div><div class="l">影像判讀</div><div class="t">每塊田回答四個問題，加上作物與魚塭</div></div>
+  <div class="lane">
+    <div class="g c3">
+      <div class="b"><h4><span class="tag tq">變成水了嗎</span>淹水：三法投票</h4><p>① 夠不夠暗：Otsu 自動門檻，上限 −15 dB<br>② 有沒有變暗：比災前最近兩期暗 3 dB 以上<br>③ 超出平常範圍：低於自身 6 期平均 3 個標準差<br><b>至少兩法同意才算</b>；插秧灌水期稻田標「疑似灌溉」。</p><div class="ev">丹娜絲：疑似積水 157 公頃，55% 落在水稻田；模擬三法 IoU 0.857，高於任一單法</div></div>
+      <div class="b"><h4><span class="tag tq">倒了嗎</span>倒伏</h4><p>VH 對植株立體結構敏感：與災前最近兩期相差 <b>2.5 dB 以上</b>即算（水稻多半變亮、香蕉果樹變暗）；3×3 多數決去除零星雜點；已判淹水者不重複計算。正式系統加上熱區 1 米以下影像語意分割。</p></div>
+      <div class="b"><h4><span class="tag tq">地表換掉了嗎</span>埋沒、流失</h4><p>雷達同調性<b>降到 0.5 以下，且比災前少 0.3 以上</b>，表示地表被泥沙覆蓋或沖走；兩個條件同時成立，避免本來就低的高草地誤判；水面排除。雲還沒散就能判定。</p></div>
+      <div class="b"><h4><span class="tag tq">植物變少了嗎</span>植生受損</h4><p>NDVI 下降<b>扣掉去年同期的變化</b>，排除每年收割；有作物資料時改與同作物、雷達無異常的參考田比較，以中位數與 MAD 算標準分數。</p><div class="ev">丹娜絲：只看今年 899 公頃，扣掉去年同期剩 480 公頃，近半是正常收割</div></div>
+      <div class="b"><h4><span class="tag tq">種的是什麼</span>作物判釋</h4><p>災前一年 29 期雷達時序，以 Presto 預訓練模型取特徵，再以邏輯斯迴歸分類；插秧前灌水使雷達<b>下降 2 dB 以上</b>才判水稻。正式系統以時序 Transformer、公所回填資料微調。</p><div class="ev">丹娜絲研究區：水稻約 4,381 公頃，以農糧署鄉鎮稻作面積校正</div></div>
+      <div class="b"><h4><span class="tag tq">還在養嗎</span>魚塭與停電</h4><p>年度 VH 中位數抓出魚塭坵塊；池水面積減少一半以上計池水流失；夜間燈光<b>低於災前 30 天中位數一半</b>計停電天數。衛星看不到魚，在養以放養申報為準。</p><div class="ev">丹娜絲：義竹魚塭死魚主因是停電、增氧機停擺</div></div>
+    </div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 損失區間 -->
+<div class="row">
+  <div class="rail"><div class="s">S3-4</div><div class="l">損失區間</div><div class="t">給範圍，不給單一數字</div></div>
+  <div class="lane">
+    <div class="g c2">
+      <div class="b"><h4>每塊田輸出第 10、50、90 百分位</h4><p>輸入：上列各項像素比例、天氣參數、作物與生育期、面積、坡度與相對高程。以 <b>LightGBM 分位數迴歸</b>加半經驗損傷函數堆疊，再以<b>保形預測校準</b>，使區間寬度說實話。</p></div>
+      <div class="b"><h4>區間有沒有跨過 20%，比中間值重要</h4><p>整塊淹水的水稻 85%–100%：無論真值多少都超過門檻；被雲遮、只有少量淹水 4%–44%：可能高也可能低。目標每作物均方根誤差 <b>≤ 10 個百分點</b>，此時以下限 40% 判達標，誤判機率約 2.3%。</p></div>
+    </div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 分級 -->
+<div class="row">
+  <div class="rail"><div class="s">S4</div><div class="l">案件分級</div><div class="t">先看證據，<br>再看損失</div></div>
+  <div class="lane">
+    <div class="split">
+      <div>
+        <div class="step">① 證據檢核（可信度五項）</div>
+        <div class="b"><p><b>影像條件</b>：像素足夠、地籍對位可靠<br><b>觀測完整</b>：光學未雲遮過半，或雷達可單獨判定<br><b>多源一致</b>：雷達與光學結論相同<br><b>申報一致</b>：衛星判釋作物與申報相同<br><b>生產事實</b>：災前有作物生長，並通過長時間對照 L1 耕作物候、L2 作物年齡、L3 損失時點、L4 前次災損後恢復</p></div>
+        <div class="b acc" style="margin-top:10px"><h4>任一項未通過 → C 缺失</h4><p>附原因碼（雲遮、對位不確定、作物不符、災前未見作物生長、疑似灌溉）；通知補件，必要時到場。<b>即使損失看起來很明顯也一樣。</b></p></div>
+      </div>
+      <div>
+        <div class="step">② 證據完整者，看損失區間與 20% 門檻</div>
+        <div class="grade">
+          <div class="b okb"><h4>A 達標</h4><p>區間下限 ≥ 40%</p><p style="margin-top:4px">影像明確超過門檻，可直接判定</p></div>
+          <div class="b okb"><h4>A 未達標</h4><p>區間上限 ≤ 10%</p><p style="margin-top:4px">影像明確低於門檻；通知附災前災後影像日期與理由，申請人可補件或申訴</p></div>
+          <div class="b wb"><h4>B 邊緣</h4><p>區間跨過 20%</p><p style="margin-top:4px">資料夠了，但數字太接近，由公所到場確認</p></div>
+        </div>
+        <div class="b" style="margin-top:10px"><p><b>判讀元件未達使用門檻時</b>（例如倒伏尚無與現勘比對的精確度），用它判出的案件一律歸 B 或 C。<b>未申請的田不列入 A／B／C</b>：衛星看到明顯受損者主動通知可以申請，無變化者不處理。40% 與 10% 為起始值，依作物以 Learn then Test 校準。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 系統等級 -->
+<div class="row">
+  <div class="rail"><div class="s">S5–S6</div><div class="l">交付公所</div><div class="t">交付方式由系統等級決定</div></div>
+  <div class="lane">
+    <div class="g c3">
+      <div class="b"><h4>丙　收集期</h4><p>系統照常分級，<b>結果不交公所使用</b>；公所全部照現行方式現勘，結果回填作為訓練與驗證資料。每一筆都有標準答案。</p></div>
+      <div class="b"><h4>乙　考察期</h4><p>A／B／C 與存證報告<b>作為參考資料</b>；公所仍全部到場，可依分級排定現勘順序，現勘結果與系統判定比對。</p></div>
+      <div class="b okb"><h4>甲　參與判定</h4><p><b>A 達標</b>書面審核、撥款；<b>A 未達標</b>通知申請人；兩者各抽查 20%。B 到場確認，C 通知補件。</p></div>
+    </div>
+    <div class="note">存證報告附雜湊、數位簽章、時戳與查驗碼；公所判定另以機關憑證簽章，與系統結果並列。<b>先評整體等級，再逐類別（作物 × 災害類型）評等，類別不得高於整體</b>：水稻淹水達甲等，不代表香蕉倒伏也是甲等。</div>
+  </div>
+</div>
+<div class="arrow"><div></div><div></div></div>
+
+<!-- 回饋 -->
+<div class="row">
+  <div class="rail"><div class="s">S7–S8</div><div class="l">災後檢討</div><div class="t">每場災害後執行</div></div>
+  <div class="lane">
+    <div class="g c4">
+      <div class="b"><h4>① 回填</h4><p>丙、乙等全部現勘結果；甲等為抽查與 B、C 級。作物與損失率一併回傳。</p></div>
+      <div class="b"><h4>② 計算與評等</h4><p>逐類別算 A 達標、A 未達標精確度、直接判定率、B 邊緣確認率，<b>一律以 95% 單側信賴下界</b>判斷，決定升降等。</p></div>
+      <div class="b"><h4>③ 重新訓練與校準</h4><p>以累積回填微調作物與損失模型；保形校準損失區間；以 Learn then Test 重定 40%、10% 門檻。</p></div>
+      <div class="b"><h4>④ 偏差與缺失分析</h4><p>區域總量與官方統計比對，找出系統性偏差（如插秧灌溉）；統計 C 級原因碼，找出最常缺的資料。</p></div>
+    </div>
+    <div class="loop"><b>↻ 回到下一場災害：</b>任一場後某類別精確度下界低於 95%，該類別降一等、連續達標次數歸零。降等只會讓更多案件到場，不會產生錯誤的免勘或駁回。</div>
+  </div>
+</div>
+
+<div class="legend">橘色 ▸ 為團隊以 2025 年丹娜絲颱風真實影像（嘉義布袋至臺南北門約 25,450 公頃）或模擬工況實際跑出的結果；其餘為正式系統規格。S1–S8 對應標準作業流程（圖 11）。</div>
+</body></html>
