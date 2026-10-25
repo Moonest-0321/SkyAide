@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>天相星 地塊資料</title>
+<style>
+:root {
+  --navy: #15213b; --ink: #1b2233; --ink-2: #4a5468; --ink-3: #6a7487;
+  --line: #dfe2e8; --line-2: #eceef2; --bg: #f4f3ef; --card: #fff;
+  --blue: #1f4fae; --blue-bg: #e7eefb; --green: #1d6b43; --green-bg: #e3f2e9;
+  --amber: #8a5a00; --amber-bg: #fdf1d6; --red: #a63a12; --red-bg: #fbe7de;
+  --road: #e7e4dc; --lot: #8b93a3; --graphic: #c46a12; --sel: #1f4fae;
+  --c-rice: #8cc56b; --c-banana: #e2c84a; --c-bamboo: #4f9a6a; --c-papaya: #f09a52; --c-veg: #b7d96a; --c-fish: #6fa8d6; --c-none: #d4d6db;
+  --inel: #5c4a3a;
+  --font: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --navy: #0d1424; --ink: #e6e9ef; --ink-2: #b4bccb; --ink-3: #8c95a6; --line: #333b4c; --line-2: #262d3b; --bg: #141925; --card: #1c2230;
+    --blue: #86a9f0; --blue-bg: #22304f; --green: #7fcf9f; --green-bg: #1d3328; --amber: #f0c060; --amber-bg: #3a2f17; --red: #f39b78; --red-bg: #3d2219;
+    --road: #262b36; --lot: #7d8696; --graphic: #f0a050; --sel: #9cbcff; --c-none: #3a404c; --inel: #a08670;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.5; }
+header { background: var(--navy); color: #fff; padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; }
+header h1 { font-size: 17px; margin: 0; font-weight: 600; }
+header .sub { color: #b9c3d8; font-size: 13px; }
+main { max-width: 1400px; margin: 0 auto; padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 16px; }
+@media (max-width: 1000px) { main { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.card h2 { font-size: 15px; margin: 0 0 10px; }
+.full { grid-column: 1 / -1; }
+.timebar { display: grid; gap: 8px; }
+.timebar .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.date { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.season { color: var(--ink-2); }
+input[type=range] { width: 100%; accent-color: var(--blue); }
+.ticks { position: relative; height: 18px; }
+.ticks button { position: absolute; transform: translateX(-50%); top: 0; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--card); background: var(--amber); padding: 0; cursor: pointer; }
+.ticks button.typhoon { background: var(--red); }
+.btn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 5px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+.btn:hover { border-color: var(--blue); }
+.btn.on { background: var(--blue-bg); border-color: var(--blue); color: var(--blue); }
+.btn.red { color: var(--red); }
+.layers label { margin-right: 12px; font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.mapwrap { position: relative; }
+svg.map { width: 100%; height: auto; display: block; background: var(--road); border-radius: 8px; touch-action: manipulation; }
+svg.map .lot { fill: none; stroke: var(--lot); stroke-width: 0.6; }
+svg.map .lot.graphic { stroke: var(--graphic); stroke-dasharray: 3 2; stroke-width: 0.9; }
+svg.map .lot.hl { stroke: var(--sel); stroke-width: 2; stroke-dasharray: none; }
+svg.map .parcel { stroke: rgba(0,0,0,.25); stroke-width: 0.5; cursor: pointer; }
+svg.map .parcel:hover { stroke: var(--ink); stroke-width: 1.2; }
+svg.map .parcel.sel { stroke: var(--sel); stroke-width: 2.6; }
+svg.map .parcel.flag { stroke: var(--amber); stroke-width: 1.2; }
+svg.map text.sec { font-size: 9px; fill: var(--ink-3); }
+svg.map .inel { fill: var(--inel); opacity: .75; pointer-events: none; }
+svg.map text { font-size: 7px; fill: var(--ink-2); pointer-events: none; text-anchor: middle; }
+svg.map text.pid { font-size: 8px; fill: #1b2233; font-weight: 600; }
+svg.map .lock { font-size: 9px; fill: #1b2233; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--ink-2); margin-top: 8px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+.legend i.line { height: 0; border-top: 2px dashed var(--graphic); border-radius: 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--line); margin: 0 -16px 12px; padding: 0 12px; }
+.tabs button { border: 0; background: none; font: inherit; font-size: 13px; padding: 7px 8px; color: var(--ink-2); cursor: pointer; border-bottom: 2px solid transparent; }
+.tabs button.on { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+dl.kv { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 4px 10px; margin: 0; }
+dl.kv dt { color: var(--ink-3); }
+dl.kv dd { margin: 0; overflow-wrap: anywhere; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+th { color: var(--ink-3); font-weight: 500; white-space: nowrap; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.click { cursor: pointer; }
+tr.click:hover td { background: var(--line-2); }
+.scroll { overflow-x: auto; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; white-space: nowrap; }
+.chip.ok { background: var(--green-bg); color: var(--green); }
+.chip.warn { background: var(--amber-bg); color: var(--amber); }
+.chip.bad { background: var(--red-bg); color: var(--red); }
+.chip.info { background: var(--blue-bg); color: var(--blue); }
+.muted { color: var(--ink-3); }
+.small { font-size: 12px; }
+.hash { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: var(--ink-3); overflow-wrap: anywhere; }
+.events { list-style: none; padding: 0; margin: 0; }
+.events li { padding: 8px 0; border-bottom: 1px solid var(--line-2); cursor: pointer; }
+.events li.past { opacity: .55; }
+.events li b { font-variant-numeric: tabular-nums; margin-right: 6px; }
+.note { background: var(--amber-bg); color: var(--amber); padding: 8px 10px; border-radius: 8px; font-size: 13px; margin-bottom: 10px; }
+.stat { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 10px; }
+.stat div b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+.stat div span { font-size: 12px; color: var(--ink-3); }
+svg.chart { width: 100%; height: 170px; display: block; }
+svg.chart .ax { stroke: var(--line); }
+svg.chart text { font-size: 10px; fill: var(--ink-3); }
+.pager { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>天相星 地塊資料系統</h1>
+  <span class="sub">示範資料（虛構農區）・地號、坵塊、作物、經營人都有版本，可以查回任何一天</span>
+</header>
+<main>
+  <section class="card full timebar" aria-label="查詢日期">
+    <div class="row">
+      <span class="date" id="dateLabel"></span><span class="season" id="seasonLabel"></span>
+      <span style="flex:1"></span>
+      <span id="quick"></span>
+    </div>
+    <input type="range" id="slider" aria-label="查詢日期">
+    <div class="ticks" id="ticks"></div>
+  </section>
+
+  <section class="card" aria-label="地圖">
+    <div class="row layers" style="margin-bottom:8px">
+      <label><input type="checkbox" data-layer="lots" checked> 地號界線</label>
+      <label><input type="checkbox" data-layer="parcels" checked> 坵塊（依當期作物上色）</label>
+      <label><input type="checkbox" data-layer="inel" checked> 不可申報範圍</label>
+      <label><input type="checkbox" data-layer="labels" checked> 編號</label>
+      <label><input type="checkbox" data-layer="flags" checked> 標示對位偏移</label>
+    </div>
+    <div class="mapwrap"><svg class="map" id="map" role="img" aria-label="農區地圖"></svg></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section class="card" aria-label="坵塊資料" id="panel"></section>
+
+  <section class="card full" aria-label="全區">
+    <div class="tabs" id="gtabs"></div>
+    <div id="gbody"></div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.LPIS;
+  const $ = (s) => document.querySelector(s);
+  const START = '2023-01-01', END = '2026-03-31', TYPHOON = '2025-07-06';
+  const CROP = { '水稻': 'rice', '香蕉': 'banana', '麻竹筍': 'bamboo', '木瓜': 'papaya', '蔬菜': 'veg', '虱目魚': 'fish' };
+  const W = 610, H = 428, PAD = 5, PADY = 14;
+  const S = { date: TYPHOON, sel: null, tab: 'sum', gtab: 'reg', layers: { lots: 1, parcels: 1, inel: 1, labels: 1, flags: 1 }, logPage: 0, tampered: null };
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
+  function at(rows, d) { return rows.filter(r => r.valid_from <= d && (r.valid_to == null || r.valid_to > d)); }
+  function season(d) { return d.slice(0, 4) + '-' + (+d.slice(5, 7) <= 7 ? 1 : 2); }
+  function seasonName(s) { return s.slice(0, 4) + ' 年第' + (s.endsWith('1') ? '一' : '二') + '期作'; }
+  function dayIndex(d) { return Math.round((Date.parse(d) - Date.parse(START)) / 864e5); }
+  function dayStr(i) { return new Date(Date.parse(START) + i * 864e5).toISOString().slice(0, 10); }
+  function m2(v) { return v == null ? '—' : Math.round(v).toLocaleString() + ' m²'; }
+  function pct(v) { return (v * 100).toFixed(1) + '%'; }
+  function px(x) { return (x + PAD).toFixed(1); }
+  function py(y) { return (H - PADY - y).toFixed(1); }
+  function path(shape) { return shape.map(r => 'M' + r.map(p => px(p[0]) + ',' + py(p[1])).join('L') + 'Z').join(''); }
+  function center(shape) { let xs = shape[0].map(p => p[0]), ys = shape[0].map(p => p[1]); return [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2]; }
+  function lotName(id, d) { const l = at(D.lots.filter(x => x.lot_id === id), d)[0] || D.lots.filter(x => x.lot_id === id).slice(-1)[0]; return l ? l.section + ' ' + l.lot_no : id; }
+  function opName(code) { const o = D.operators.filter(x => x.operator_code === code).slice(-1)[0]; return o ? o.name + '（' + code + '）' : code; }
+  function cropAt(pid, d) { const r = at(D.crops, d).find(c => c.parcel_id === pid && c.season === season(d)); return r || null; }
+  function linksAt(pid, d) { return at(D.links, d).filter(l => l.parcel_id === pid); }
+  function chip(text, kind) { return '<span class="chip ' + kind + '">' + esc(text) + '</span>'; }
+  function statusChip(s) { return chip(s, { '已鎖定': 'ok', '待確認': 'info', '範圍需確認': 'warn', '系統已擋下': 'bad' }[s] || 'info'); }
+
+  // ---------------------------------------------------------------- 時間軸
+  const slider = $('#slider');
+  slider.min = 0; slider.max = dayIndex(END); slider.step = 1;
+  slider.addEventListener('input', () => setDate(dayStr(+slider.value)));
+  const quick = [['系統建置', START], ['颱風當天', TYPHOON], ['重測後', '2025-12-01'], ['最新', END]];
+  $('#quick').innerHTML = quick.map(([t, d]) => '<button class="btn" data-date="' + d + '">' + t + '</button>').join(' ');
+  $('#quick').addEventListener('click', e => { const d = e.target.dataset.date; if (d) setDate(d); });
+  $('#ticks').innerHTML = D.events.map(e => '<button title="' + esc(e.date + ' ' + e.title) + '" aria-label="' + esc(e.date + ' ' + e.title) + '" data-date="' + e.date + '" class="' + (e.date === TYPHOON ? 'typhoon' : '') + '" style="left:' + (dayIndex(e.date) / dayIndex(END) * 100) + '%"></button>').join('');
+  $('#ticks').addEventListener('click', e => { const d = e.target.dataset.date; if (d) setDate(d); });
+
+  function setDate(d) { S.date = d; S.logPage = 0; render(); }
+
+  // ---------------------------------------------------------------- 地圖
+  $('.layers').addEventListener('change', e => { const k = e.target.dataset.layer; if (k) { S.layers[k] = e.target.checked ? 1 : 0; drawMap(); } });
+  $('#map').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  $('#map').addEventListener('click', e => { const id = e.target.dataset && e.target.dataset.pid; if (id) select(id); });
+  $('#map').addEventListener('keydown', e => { const id = e.target.dataset && e.target.dataset.pid; if (id && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); select(id); } });
+
+  function drawMap() {
+    const d = S.date, L = S.layers, out = [];
+    const parcels = at(D.parcels, d);
+    const links = at(D.links, d);
+    const selLots = S.sel ? links.filter(l => l.parcel_id === S.sel).map(l => l.lot_id) : [];
+    const flagged = new Set(links.filter(l => l.flag === '疑似對位偏移').map(l => l.parcel_id));
+    const locked = new Set(D.baselines.filter(b => b.locked_at <= d && b.season === season(d)).map(b => b.parcel_id));
+    if (L.parcels) for (const p of parcels) {
+      const c = cropAt(p.parcel_id, d);
+      const key = c ? CROP[c.crop] || 'none' : (p.land_use === '魚塭' ? 'fish' : 'none');
+      const cls = 'parcel' + (p.parcel_id === S.sel ? ' sel' : (L.flags && flagged.has(p.parcel_id) ? ' flag' : ''));
+      out.push('<path class="' + cls + '" data-pid="' + p.parcel_id + '" tabindex="0" style="fill:var(--c-' + key + ')" d="' + path(p.shape) + '"><title>' + esc(p.parcel_id + ' ' + (c ? c.crop : '未申報') + ' ' + Math.round(p.eff_area_m2) + ' m²') + '</title></path>');
+    }
+    if (L.inel) for (const f of at(D.ineligible, d)) out.push('<path class="inel" d="' + path(f.shape) + '"><title>' + esc(f.kind) + '</title></path>');
+    if (L.lots) for (const l of at(D.lots, d)) out.push('<path class="lot' + (l.graphic ? ' graphic' : '') + (selLots.includes(l.lot_id) ? ' hl' : '') + '" d="' + path(l.shape) + '"/>');
+    if (L.labels) {
+      for (const l of at(D.lots, d)) { const [x, y] = center(l.shape); out.push('<text x="' + px(x) + '" y="' + py(y - 70) + '">' + esc(l.lot_no) + '</text>'); }
+      for (const p of parcels) { const [x, y] = center(p.shape); out.push('<text class="pid" x="' + px(x) + '" y="' + py(y) + '">' + p.parcel_id.slice(1) + '</text>'); if (locked.has(p.parcel_id)) out.push('<text class="lock" x="' + px(x) + '" y="' + py(y - 12) + '">鎖</text>'); }
+      out.push('<text class="sec" x="' + px(147) + '" y="' + py(-10) + '">竹崎段（圖解地籍，2025-11 重測）</text><text class="sec" x="' + px(453) + '" y="' + py(-10) + '">內埔段</text><text class="sec" x="' + px(147) + '" y="' + py(403) + '">頂坑段（圖解地籍）</text><text class="sec" x="' + px(453) + '" y="' + py(403) + '">內埔段（魚塭）</text>');
+    }
+    $('#map').innerHTML = out.join('');
+  }
+  $('#legend').innerHTML = Object.entries(CROP).map(([k, v]) => '<span><i style="background:var(--c-' + v + ')"></i>' + k + '</span>').join('') +
+    '<span><i style="background:var(--c-none)"></i>未申報</span><span><i style="background:var(--inel)"></i>不可申報（農路、水塘、建物、防風林）</span>' +
+    '<span><i class="line"></i>圖解地籍（與實地可能偏移）</span><span>「鎖」＝本期災前基準已鎖定</span>';
+
+  function select(pid) { S.sel = pid; render(); }
+
+  // ---------------------------------------------------------------- 坵塊面板
+  const TABS = [['sum', '概要'], ['lots', '地號對應'], ['rights', '經營人'], ['crops', '作物'], ['base', '災前基準'], ['hist', '異動'], ['obs', '觀測時序']];
+  $('#panel').addEventListener('click', e => {
+    const t = e.target.closest('[data-tab]'); if (t) { S.tab = t.dataset.tab; drawPanel(); }
+    const g = e.target.closest('[data-goto]'); if (g) setDate(g.dataset.goto);
+    const p = e.target.closest('[data-pick]'); if (p) select(p.dataset.pick);
+  });
+
+  function drawPanel() {
+    const d = S.date, pid = S.sel, el = $('#panel');
+    if (!pid) {
+      el.innerHTML = '<h2>點地圖上的一塊田</h2><p class="muted small">拉動上方日期，地圖與資料都會換成當天的版本。下面是這個農區的異動事件，點一下跳到那一天。</p><ul class="events">' +
+        D.events.map(e => '<li class="' + (e.date > d ? '' : 'past') + '" data-goto="' + e.date + '"><b>' + e.date + '</b>' + esc(e.title) + '<div class="small muted">' + esc(e.detail) + '</div></li>').join('') + '</ul>';
+      return;
+    }
+    const p = at(D.parcels.filter(x => x.parcel_id === pid), d)[0];
+    let body = '';
+    if (!p) {
+      const vs = D.parcels.filter(x => x.parcel_id === pid);
+      const first = vs[0], last = vs[vs.length - 1];
+      body = '<div class="note">' + esc(d) + ' 當天沒有這塊田。' + (d < first.valid_from ? '它在 ' + first.valid_from + ' 才建立。' : '它在 ' + last.valid_to + ' 失效（' + esc(last.reason || '') + '）。') + '</div>';
+      if (S.tab !== 'hist') S.tab = 'hist';
+    }
+    el.innerHTML = '<h2>坵塊 ' + esc(pid) + (p ? ' <span class="muted small">第 ' + p.version + ' 版</span>' : '') + ' <button class="btn" style="float:right" data-pick="">×</button></h2>' +
+      '<div class="tabs">' + TABS.map(([k, t]) => '<button data-tab="' + k + '" class="' + (S.tab === k ? 'on' : '') + '">' + t + '</button>').join('') + '</div>' + body + (p || S.tab === 'hist' ? tabBody(pid, p, d) : '');
+    el.querySelector('[data-pick=""]').addEventListener('click', e => { e.stopPropagation(); S.sel = null; render(); });
+  }
+
+  function tabBody(pid, p, d) {
+    const links = linksAt(pid, d);
+    if (S.tab === 'sum') {
+      const c = cropAt(pid, d);
+      const flags = links.filter(l => l.flag).map(l => chip(l.flag, l.flag === '疑似對位偏移' ? 'warn' : 'info'));
+      const bl = D.baselines.find(b => b.parcel_id === pid && b.season === season(d) && b.locked_at <= d);
+      return '<dl class="kv">' +
+        '<dt>土地使用</dt><dd>' + esc(p.land_use) + '</dd>' +
+        '<dt>總面積</dt><dd>' + m2(p.gross_area_m2) + '</dd>' +
+        '<dt>不可申報</dt><dd>' + m2(p.ineligible_m2) + (p.gross_area_m2 ? '（' + pct(p.ineligible_m2 / p.gross_area_m2) + '）' : '') + '</dd>' +
+        '<dt>有效種植面積</dt><dd><b>' + m2(p.eff_area_m2) + '</b></dd>' +
+        '<dt>周長</dt><dd>' + Math.round(p.perimeter_m) + ' m</dd>' +
+        '<dt>中心 TWD97</dt><dd>' + p.center_x.toFixed(1) + ', ' + p.center_y.toFixed(1) + '</dd>' +
+        '<dt>中心 WGS84</dt><dd>' + p.center_lat.toFixed(6) + ', ' + p.center_lon.toFixed(6) + '</dd>' +
+        '<dt>地號</dt><dd>' + links.map(l => esc(lotName(l.lot_id, d)) + '（' + pct(l.share_of_parcel) + '）').join('、') + ' ' + flags.join(' ') + '</dd>' +
+        '<dt>' + seasonName(season(d)) + '</dt><dd>' + (c ? esc(c.crop) + '，' + esc(opName(c.operator_code)) : '<span class="muted">未申報</span>') + '</dd>' +
+        '<dt>災前基準</dt><dd>' + (bl ? chip('已鎖定 ' + bl.locked_at, 'ok') : '<span class="muted">本期尚未鎖定</span>') + '</dd>' +
+        '<dt>範圍來源</dt><dd>' + esc(p.source) + '，' + p.valid_from + ' 起</dd></dl>';
+    }
+    if (S.tab === 'lots') {
+      const sum = links.reduce((a, l) => a + l.share_of_parcel, 0);
+      return '<p class="small muted">坵塊與地號以圖形套疊計算重疊面積。判讀結果依「佔本田」比例分攤回各地號；重疊低於 0.5% 視為邊界誤差。</p><div class="scroll"><table><tr><th>地號</th><th class="num">重疊</th><th class="num">佔本田</th><th class="num">佔地號</th><th>標示</th></tr>' +
+        links.map(l => { const lot = at(D.lots.filter(x => x.lot_id === l.lot_id), d)[0] || {}; return '<tr><td>' + esc(lotName(l.lot_id, d)) + (lot.graphic ? ' <span class="small muted">圖解</span>' : '') + '</td><td class="num">' + m2(l.overlap_m2) + '</td><td class="num">' + pct(l.share_of_parcel) + '</td><td class="num">' + pct(l.share_of_lot) + '</td><td>' + (l.flag ? chip(l.flag, l.flag === '疑似對位偏移' ? 'warn' : 'info') : '') + '</td></tr>'; }).join('') +
+        '<tr><td class="muted">合計</td><td></td><td class="num">' + pct(sum) + '</td><td></td><td>' + (Math.abs(sum - 1) > 0.02 ? chip('有一部分落在地號以外（道路或偏移）', 'warn') : '') + '</td></tr></table></div>' +
+        (links.some(l => l.flag === '疑似對位偏移') ? '<div class="note" style="margin-top:10px">圖解地籍與航照有幾公尺的偏移，田的邊緣落到隔壁地號。登錄時會列為「範圍需確認」，由公所套疊確認。</div>' : '');
+    }
+    if (S.tab === 'rights') {
+      const rows = links.flatMap(l => at(D.rights, d).filter(r => r.lot_id === l.lot_id));
+      const all = D.rights.filter(r => links.some(l => l.lot_id === r.lot_id));
+      return '<p class="small muted">可申報上限＝本筆地號面積 × 持分。文件期間外的使用權不算有效。</p><div class="scroll"><table><tr><th>地號</th><th>經營人</th><th>權利</th><th>持分</th><th>文件期間</th><th class="num">上限</th></tr>' +
+        rows.map(r => { const lot = at(D.lots.filter(x => x.lot_id === r.lot_id), d)[0]; const valid = r.doc_from <= d && (!r.doc_to || r.doc_to >= d);
+          return '<tr><td>' + esc(lotName(r.lot_id, d)) + '</td><td>' + esc(opName(r.operator_code)) + '</td><td>' + esc(r.right_type) + '</td><td>' + r.share_num + '/' + r.share_den + '</td><td>' + r.doc_from + '～' + (r.doc_to || '無期限') + (valid ? '' : ' ' + chip('已過期', 'bad')) + '</td><td class="num">' + (valid && lot ? m2(lot.reg_area_m2 * r.share_num / r.share_den) : '—') + '</td></tr>'; }).join('') +
+        '</table></div><h2 style="margin-top:14px">使用權變動</h2><table>' + all.map(r => '<tr><td>' + esc(lotName(r.lot_id, d)) + '</td><td>' + esc(opName(r.operator_code)) + '</td><td class="small">' + r.valid_from + ' 起' + (r.valid_to ? '，' + r.valid_to + ' 止' : '') + '</td><td class="small muted">' + esc(r.reason) + '</td></tr>').join('') + '</table>';
+    }
+    if (S.tab === 'crops') {
+      const rows = D.crops.filter(c => c.parcel_id === pid && c.valid_from <= d).sort((a, b) => a.season < b.season ? 1 : -1);
+      return '<div class="scroll"><table><tr><th>期作</th><th>作物</th><th>種植日</th><th>經營人</th><th>來源</th><th>證明</th></tr>' +
+        rows.map(c => '<tr' + (c.valid_to && c.valid_to <= d ? ' class="muted"' : '') + '><td>' + c.season + '</td><td>' + esc(c.crop) + '</td><td>' + (c.planting_date || '—') + '</td><td>' + esc(opName(c.operator_code)) + (c.valid_to && c.valid_to <= d ? '<div class="small">（' + c.valid_to + ' 改申報）</div>' : '') + '</td><td>' + esc(c.source) + '</td><td>' + (c.has_proof ? '有' : '—') + '</td></tr>').join('') + '</table></div>';
+    }
+    if (S.tab === 'base') {
+      const rows = D.baselines.filter(b => b.parcel_id === pid && b.locked_at <= d);
+      if (!rows.length) return '<p class="muted">到這一天為止沒有鎖定過災前基準。</p>';
+      return '<p class="small muted">鎖定時把範圍、有效面積、作物、經營人、地號對應存成快照並計算雜湊，之後不能修改（資料庫觸發器會擋下）。災後判讀一律用鎖定的版本，不再量面積。</p>' +
+        rows.map(b => '<div class="card" style="margin-bottom:8px"><dl class="kv"><dt>編號</dt><dd>' + esc(b.baseline_id) + ' ' + (D.baseline_ok[b.baseline_id] ? chip('查驗相符', 'ok') : chip('查驗不符', 'bad')) + '</dd>' +
+          '<dt>期作</dt><dd>' + seasonName(b.season) + '</dd><dt>鎖定</dt><dd>' + b.locked_at.slice(0, 10) + '，' + esc(b.method) + '</dd><dt>作物／經營人</dt><dd>' + esc(b.crop || '—') + '／' + esc(opName(b.operator_code)) + '</dd>' +
+          '<dt>有效面積</dt><dd>' + m2(b.eff_area_m2) + '</dd><dt>地號分攤</dt><dd>' + JSON.parse(b.lots_json).map(l => esc(lotName(l.lot_id, b.locked_at.slice(0, 10))) + ' ' + pct(l.share)).join('、') + '</dd>' +
+          '<dt>內容雜湊</dt><dd class="hash">' + b.content_hash + '</dd></dl></div>').join('');
+    }
+    if (S.tab === 'hist') {
+      const rows = D.log.filter(h => h.entity_id === pid || h.entity_id.endsWith('|' + pid) || (h.entity_id.startsWith('BL-') && h.entity_id.endsWith('-' + pid)) || (h.reason || '').includes('原 ' + pid) || (h.reason || '').includes(pid + '、') || (h.reason || '').includes('、' + pid));
+      return '<p class="small muted">這塊田相關的每一筆異動（含地號對應、災前基準，以及由它分割或合併出來的新坵塊）。灰色是查詢日之後才發生的。</p><div class="scroll"><table><tr><th>日期</th><th>動作</th><th>對象</th><th>原因</th></tr>' +
+        rows.map(h => { const tid = h.table_name === 'parcels' && h.entity_id !== pid ? '<a href="#" data-pick="' + h.entity_id + '">' + h.entity_id + '</a>' : esc(h.entity_id);
+          return '<tr class="' + (h.at.slice(0, 10) > d ? 'muted' : '') + '"><td>' + h.at.slice(0, 10) + '</td><td>' + esc(h.action) + '</td><td class="small">' + esc(tableName(h.table_name)) + ' ' + tid + (h.version > 1 ? ' 第' + h.version + '版' : '') + '</td><td class="small">' + esc(h.reason) + '<div class="muted">' + esc(h.actor) + '</div></td></tr>'; }).join('') + '</table></div>';
+    }
+    if (S.tab === 'obs') return obsChart(pid, d);
+    return '';
+  }
+
+  function tableName(t) { return { lots: '地號', parcels: '坵塊', ineligible: '不可申報', lot_parcel: '對應', operators: '經營人', use_rights: '使用權', crop_declarations: '作物', registrations: '登錄', baselines: '災前基準', qa_runs: '品質檢查' }[t] || t; }
+
+  function obsChart(pid, d) {
+    const rows = D.observations.filter(o => o.parcel_id === pid);
+    if (!rows.length) return '<p class="muted">沒有觀測資料。</p>';
+    const W2 = 380, H2 = 160, l = 30, r = 8, t = 10, b = 22;
+    const t0 = Date.parse('2024-01-01'), t1 = Date.parse(END);
+    const X = s => l + (Date.parse(s) - t0) / (t1 - t0) * (W2 - l - r);
+    const Y = v => t + (1 - (v + 0.3) / 1.2) * (H2 - t - b);
+    let svg = '<svg class="chart" viewBox="0 0 ' + W2 + ' ' + H2 + '" role="img" aria-label="NDVI 時序">';
+    for (const v of [0, 0.4, 0.8]) svg += '<line class="ax" x1="' + l + '" x2="' + (W2 - r) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/><text x="' + (l - 4) + '" y="' + (Y(v) + 3) + '" text-anchor="end">' + v + '</text>';
+    for (const y of ['2024', '2025', '2026']) svg += '<text x="' + X(y + '-01-01') + '" y="' + (H2 - 6) + '">' + y + '</text>';
+    svg += '<line x1="' + X(TYPHOON) + '" x2="' + X(TYPHOON) + '" y1="' + t + '" y2="' + (H2 - b) + '" stroke="var(--red)" stroke-dasharray="3 2"/>';
+    if (d >= '2024-01-01') svg += '<line x1="' + X(d) + '" x2="' + X(d) + '" y1="' + t + '" y2="' + (H2 - b) + '" stroke="var(--blue)"/>';
+    svg += '<path fill="none" stroke="var(--green)" stroke-width="1.6" d="M' + rows.map(o => X(o.date).toFixed(1) + ',' + Y(o.ndvi).toFixed(1)).join('L') + '"/>';
+    svg += rows.map(o => '<circle cx="' + X(o.date).toFixed(1) + '" cy="' + Y(o.ndvi).toFixed(1) + '" r="2.6" fill="' + (o.interpolated ? 'var(--card)' : 'var(--green)') + '" stroke="var(--green)"><title>' + o.date + ' NDVI ' + o.ndvi + '，雲量 ' + Math.round(o.cloud_frac * 100) + '%' + (o.interpolated ? '（內插）' : '') + '</title></circle>').join('');
+    svg += '</svg>';
+    return '<p class="small muted">每月坵塊平均 NDVI。空心點是雲量超過六成、以前後內插的月份；紅線為颱風當天，藍線為查詢日。</p>' + svg;
+  }
+
+  // ---------------------------------------------------------------- 全區
+  const GTABS = [['reg', '登錄佇列'], ['qa', '年度品質檢查'], ['log', '異動紀錄']];
+  $('#gtabs').innerHTML = GTABS.map(([k, t]) => '<button data-g="' + k + '">' + t + '</button>').join('');
+  $('#gtabs').addEventListener('click', e => { const k = e.target.dataset.g; if (k) { S.gtab = k; drawGlobal(); } });
+  $('#gbody').addEventListener('click', async e => {
+    const p = e.target.closest('[data-pick]'); if (p) { e.preventDefault(); select(p.dataset.pick); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    const a = e.target.closest('[data-act]'); if (!a) return;
+    if (a.dataset.act === 'verify') { S.tampered = null; await verifyChain(); }
+    if (a.dataset.act === 'tamper') { S.tampered = Math.floor(D.log.length * 0.4); await verifyChain(); }
+    if (a.dataset.act === 'prev') { S.logPage++; drawGlobal(); }
+    if (a.dataset.act === 'next') { S.logPage = Math.max(0, S.logPage - 1); drawGlobal(); }
+  });
+
+  function drawGlobal() {
+    document.querySelectorAll('#gtabs button').forEach(b => b.classList.toggle('on', b.dataset.g === S.gtab));
+    const d = S.date, el = $('#gbody');
+    if (S.gtab === 'reg') {
+      const rows = at(D.registrations, d);
+      if (!rows.length) { el.innerHTML = '<p class="muted">這一天沒有登錄資料。示範資料的農民登錄從 2026-01-12 開始（2026 年第一期作）；2025 年第一期作的災前基準是公所直接依套疊確認後鎖定。</p>'; return; }
+      const cnt = {}; rows.forEach(r => cnt[r.status] = (cnt[r.status] || 0) + 1);
+      el.innerHTML = '<div class="stat">' + ['待確認', '範圍需確認', '系統已擋下', '已鎖定'].map(s => '<div><b>' + (cnt[s] || 0) + '</b><span>' + s + '</span></div>').join('') + '</div>' +
+        '<p class="small muted">農民登錄後系統先檢查：沒有有效使用權或申報超過「本筆面積 × 持分」直接擋下；農路水塘超過一成、只租一部分、圖解地籍列為範圍需確認。公所確認後鎖定為災前基準。（這裡只有資料結構與狀態，沒有登錄畫面。）</p>' +
+        '<div class="scroll"><table><tr><th>登錄編號</th><th>坵塊</th><th>地號</th><th>經營人</th><th>作物</th><th class="num">申報</th><th class="num">上限</th><th>狀態</th><th>說明</th></tr>' +
+        rows.sort((a, b) => a.reg_id < b.reg_id ? -1 : 1).map(r => '<tr class="click" data-pick="' + r.parcel_id + '"><td class="small">' + r.reg_id + '</td><td>' + r.parcel_id + '</td><td>' + esc(lotName(r.lot_id, d)) + '</td><td>' + esc(opName(r.operator_code)) + '</td><td>' + esc(r.crop) + '</td><td class="num">' + m2(r.declared_area_m2) + '</td><td class="num">' + m2(r.cap_area_m2) + '</td><td>' + statusChip(r.status) + '</td><td class="small">' + esc(r.notes || (r.status === '已鎖定' ? r.reason : '')) + '</td></tr>').join('') + '</table></div>';
+    }
+    if (S.gtab === 'qa') {
+      const run = D.qa_runs.find(q => q.run_at.slice(0, 10) <= d);
+      if (!run) { el.innerHTML = '<p class="muted">這一天之前還沒做過品質檢查（示範資料在 2026-03-01 做第一次）。</p>'; return; }
+      const s = JSON.parse(run.summary_json);
+      const rows = D.qa_results.filter(r => r.qa_id === run.qa_id).sort((a, b) => (a.pass - b.pass) || (b.issues.length - a.issues.length));
+      el.innerHTML = '<div class="stat"><div><b>' + s.sample + '</b><span>抽樣坵塊</span></div><div><b>' + s.area_fail + '</b><span>面積超過容許差</span></div><div><b>' + (s.area_pass_rate * 100).toFixed(1) + '%</b><span>面積合格率</span></div><div><b>' + s.with_issues + '</b><span>有其他待處理事項</span></div></div>' +
+        '<p class="small muted">' + esc(run.method) + '。容許差參考歐盟坵塊系統的年度品質檢查：周長 × 1.5 公尺。不合格的坵塊要重新判釋範圍，並查是否擴耕未申報。</p>' +
+        '<div class="scroll"><table><tr><th>坵塊</th><th class="num">帳上有效面積</th><th class="num">航照量測</th><th class="num">差</th><th class="num">容許</th><th>結果</th><th>其他</th></tr>' +
+        rows.map(r => '<tr class="click" data-pick="' + r.parcel_id + '"><td>' + r.parcel_id + '</td><td class="num">' + m2(r.recorded_m2) + '</td><td class="num">' + m2(r.measured_m2) + '</td><td class="num">' + (r.diff_m2 > 0 ? '+' : '') + Math.round(r.diff_m2) + '</td><td class="num">±' + Math.round(r.tolerance_m2) + '</td><td>' + (r.pass ? chip('合格', 'ok') : chip('超過', 'bad')) + '</td><td class="small">' + esc(r.issues.split('；').filter(x => !x.startsWith('面積差')).join('；')) + '</td></tr>').join('') + '</table></div>';
+    }
+    if (S.gtab === 'log') {
+      const rows = D.log.filter(h => h.at.slice(0, 10) <= d);
+      const per = 50, pages = Math.max(1, Math.ceil(rows.length / per));
+      S.logPage = Math.min(S.logPage, pages - 1);
+      const slice = rows.slice(Math.max(0, rows.length - per * (S.logPage + 1)), rows.length - per * S.logPage).reverse();
+      el.innerHTML = '<div class="row" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px"><button class="btn" data-act="verify">重新查驗雜湊鏈</button><button class="btn red" data-act="tamper">模擬竄改一筆後查驗</button><span id="chainResult" class="small">' + (D.log_ok ? chip('建置時查驗：完整', 'ok') : chip('建置時查驗：斷裂', 'bad')) + '</span></div>' +
+        '<p class="small muted">每筆異動記下前一筆的雜湊。改掉或刪掉任何一筆，從那一筆之後就接不起來。到 ' + d + ' 為止共 ' + rows.length + ' 筆，最新的在上面。</p>' +
+        '<div class="scroll"><table><tr><th class="num">序</th><th>時間</th><th>動作</th><th>對象</th><th>原因</th><th>雜湊</th></tr>' +
+        slice.map(h => '<tr><td class="num">' + h.seq + '</td><td class="small">' + h.at.replace('T', ' ').slice(0, 16) + '</td><td>' + esc(h.action) + '</td><td class="small">' + esc(tableName(h.table_name)) + ' ' + esc(h.entity_id) + '</td><td class="small">' + esc(h.reason) + '<div class="muted">' + esc(h.actor) + '</div></td><td class="hash">' + h.hash.slice(0, 16) + '…</td></tr>').join('') + '</table></div>' +
+        '<div class="pager"><button class="btn" data-act="prev"' + (S.logPage >= pages - 1 ? ' disabled' : '') + '>較舊</button><span class="small muted">第 ' + (S.logPage + 1) + ' / ' + pages + ' 頁</span><button class="btn" data-act="next"' + (S.logPage === 0 ? ' disabled' : '') + '>較新</button></div>';
+    }
+  }
+
+  // 與 Python json.dumps(sort_keys=True, ensure_ascii=False, separators=(',', ':')) 相同的序列化
+  function canon(o) { return '{' + Object.keys(o).sort().map(k => JSON.stringify(k) + ':' + JSON.stringify(o[k])).join(',') + '}'; }
+  async function sha(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join(''); }
+  async function verifyChain() {
+    const out = $('#chainResult');
+    if (!(window.crypto && crypto.subtle)) { out.innerHTML = chip('這個瀏覽器不能在本機計算雜湊；請用 query.py verify', 'warn'); return; }
+    out.textContent = '查驗中…';
+    let prev = '0'.repeat(64);
+    for (const r of D.log) {
+      const reason = (S.tampered === r.seq) ? r.reason + '（被改過）' : r.reason;
+      const body = { at: r.at, actor: r.actor, action: r.action, table: r.table_name, entity: r.entity_id, version: r.version, valid_from: r.valid_from, reason, content_hash: r.content_hash, prev };
+      const h = await sha(canon(body));
+      if (r.prev_hash !== prev || h !== r.hash) {
+        out.innerHTML = chip('第 ' + r.seq + ' 筆接不起來', 'bad') + ' <span class="muted">' + esc(r.at.slice(0, 10) + ' ' + tableName(r.table_name) + ' ' + r.entity_id) + (S.tampered ? '（示範：只在畫面上改了這一筆的原因欄，資料檔沒有動）' : '') + '</span>';
+        return;
+      }
+      prev = r.hash;
+    }
+    out.innerHTML = chip('完整：' + D.log.length + ' 筆全部接得起來', 'ok');
+  }
+
+  // ---------------------------------------------------------------- 全部重畫
+  function render() {
+    slider.value = dayIndex(S.date);
+    $('#dateLabel').textContent = S.date;
+    $('#seasonLabel').textContent = seasonName(season(S.date)) + (S.date === TYPHOON ? '・颱風當天' : '');
+    document.querySelectorAll('#quick .btn').forEach(b => b.classList.toggle('on', b.dataset.date === S.date));
+    drawMap(); drawPanel(); drawGlobal();
+  }
+  render();
+})();
+</script>
+</body>
+</html>

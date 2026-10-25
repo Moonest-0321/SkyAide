@@ -1,0 +1,82 @@
+{
+  "_說明": "主要參數的起始值（構想書表 35）。災害開始時由 S2 鎖定並記錄雜湊，整場災害不變。",
+  "version": "skyaide-chain-0.1",
+  "s1": {
+    "pre_image_max_days": 10,
+    "min_pre_s1_scenes": 4,
+    "valid_pixel_min": 0.95
+  },
+  "preprocess": {
+    "lee_window": 5,
+    "lee_looks": 4,
+    "cloud_score_threshold": 0.60,
+    "shadow_factor": 0.75,
+    "layover_factor": 0.85
+  },
+  "parcel": {
+    "inset_px": 1,
+    "inset_px_graphic": 2,
+    "min_sentinel_px": 5,
+    "misreg_mix_frac": 0.20,
+    "misreg_ndvi_diff": 0.25
+  },
+  "flood": {
+    "otsu_max_db": -15.0,
+    "change_db": -3.0,
+    "anomaly_z": -3.0,
+    "min_votes": 2,
+    "transplant_dark_db": -17.0
+  },
+  "lodging": {
+    "moderate_db": 2.5,
+    "severe_db": 5.0,
+    "mrf_beta": 1.2,
+    "mrf_iter": 5
+  },
+  "burial": {
+    "coh_post_max": 0.5,
+    "coh_drop_min": 0.3
+  },
+  "vegetation": {
+    "drop_vs_last_year": 0.20,
+    "min_area_ha": 0.2,
+    "neighbors_max": 500,
+    "neighbors_radius_m": 2000
+  },
+  "rice": {
+    "transplant_drop_db": 2.0
+  },
+  "pond": {
+    "water_loss_ratio": 0.5,
+    "outage_ratio": 0.5,
+    "baseline_days": 30,
+    "min_rectangularity": 0.7
+  },
+  "loss": {
+    "quantiles": [0.1, 0.5, 0.9],
+    "coverage_target": 0.8,
+    "rmse_max": 10.0,
+    "lgbm": {"n_estimators": 250, "learning_rate": 0.05, "num_leaves": 15, "min_child_samples": 8}
+  },
+  "grade": {
+    "threshold": 20,
+    "a_met_lower_min": 40,
+    "a_not_met_upper_max": 10,
+    "b_confirm_range": [10, 30],
+    "area_mismatch": 0.20,
+    "photo_dhash_max_bits": 16
+  },
+  "levels": {
+    "a_precision_lb": 0.95,
+    "accuracy_lb": 0.90,
+    "direct_rate": 0.50,
+    "b_confirm_lb": 0.80,
+    "streak_for_a": 10,
+    "confidence": 0.95,
+    "sample_rate": 0.20
+  },
+  "crop_component": {
+    "accuracy_lb_min": 0.80
+  },
+  "sla_hours": 8
+}

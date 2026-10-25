@@ -1,0 +1,817 @@
+{
+ "5": {
+  "survey_loss": 22.9,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "9": {
+  "survey_loss": 6.4,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "11": {
+  "survey_loss": 42.2,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "12": {
+  "survey_loss": 53.4,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "17": {
+  "survey_loss": 30.4,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "18": {
+  "survey_loss": 26.7,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "19": {
+  "survey_loss": 55.6,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "21": {
+  "survey_loss": 25.8,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "22": {
+  "survey_loss": 28.2,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "25": {
+  "survey_loss": 3.5,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "26": {
+  "survey_loss": 14.3,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "29": {
+  "survey_loss": 64.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "30": {
+  "survey_loss": 36.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "31": {
+  "survey_loss": 0.0,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "32": {
+  "survey_loss": 93.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "33": {
+  "survey_loss": 0.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "37": {
+  "survey_loss": 97.9,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "42": {
+  "survey_loss": 19.8,
+  "survey_crop": "麻竹筍",
+  "reason": "丙等全部現勘"
+ },
+ "44": {
+  "survey_loss": 81.2,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "45": {
+  "survey_loss": 37.2,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "46": {
+  "survey_loss": 42.6,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "49": {
+  "survey_loss": 80.6,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "52": {
+  "survey_loss": 36.9,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "55": {
+  "survey_loss": 0.0,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "56": {
+  "survey_loss": 2.7,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "59": {
+  "survey_loss": 74.6,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "61": {
+  "survey_loss": 0.2,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "63": {
+  "survey_loss": 0.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "65": {
+  "survey_loss": 29.6,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "66": {
+  "survey_loss": 85.9,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "67": {
+  "survey_loss": 62.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "68": {
+  "survey_loss": 76.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "69": {
+  "survey_loss": 8.8,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "70": {
+  "survey_loss": 46.5,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "71": {
+  "survey_loss": 68.2,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "72": {
+  "survey_loss": 93.1,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "75": {
+  "survey_loss": 98.6,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "76": {
+  "survey_loss": 39.1,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "77": {
+  "survey_loss": 81.7,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "78": {
+  "survey_loss": 34.0,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "80": {
+  "survey_loss": 81.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "82": {
+  "survey_loss": 65.3,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "86": {
+  "survey_loss": 50.0,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "91": {
+  "survey_loss": 62.8,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "92": {
+  "survey_loss": 67.1,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "93": {
+  "survey_loss": 6.2,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "95": {
+  "survey_loss": 44.9,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "99": {
+  "survey_loss": 82.2,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "100": {
+  "survey_loss": 31.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "101": {
+  "survey_loss": 46.5,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "102": {
+  "survey_loss": 33.0,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "104": {
+  "survey_loss": 84.7,
+  "survey_crop": "香蕉",
+  "reason": "A 級 20% 抽查"
+ },
+ "107": {
+  "survey_loss": 85.8,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "110": {
+  "survey_loss": 0.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "111": {
+  "survey_loss": 4.7,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "112": {
+  "survey_loss": 2.9,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "114": {
+  "survey_loss": 48.8,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "116": {
+  "survey_loss": 0.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "117": {
+  "survey_loss": 34.3,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "120": {
+  "survey_loss": 40.1,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "123": {
+  "survey_loss": 82.2,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "128": {
+  "survey_loss": 78.7,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "129": {
+  "survey_loss": 65.4,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "131": {
+  "survey_loss": 3.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "137": {
+  "survey_loss": 63.9,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "141": {
+  "survey_loss": 61.9,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "143": {
+  "survey_loss": 35.3,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "144": {
+  "survey_loss": 52.6,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "145": {
+  "survey_loss": 57.6,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "147": {
+  "survey_loss": 29.4,
+  "survey_crop": "香蕉",
+  "reason": "丙等全部現勘"
+ },
+ "149": {
+  "survey_loss": 2.7,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "151": {
+  "survey_loss": 47.2,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "152": {
+  "survey_loss": 69.2,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "154": {
+  "survey_loss": 100.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "156": {
+  "survey_loss": 0.1,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "168": {
+  "survey_loss": 61.2,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "169": {
+  "survey_loss": 8.9,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "170": {
+  "survey_loss": 0.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "173": {
+  "survey_loss": 57.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "175": {
+  "survey_loss": 0.6,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "180": {
+  "survey_loss": 44.6,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "187": {
+  "survey_loss": 0.0,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "188": {
+  "survey_loss": 58.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "189": {
+  "survey_loss": 1.5,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "191": {
+  "survey_loss": 42.2,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "192": {
+  "survey_loss": 32.7,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "193": {
+  "survey_loss": 90.8,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "194": {
+  "survey_loss": 27.0,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "195": {
+  "survey_loss": 13.8,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "197": {
+  "survey_loss": 3.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "200": {
+  "survey_loss": 2.2,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "202": {
+  "survey_loss": 42.4,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "203": {
+  "survey_loss": 67.7,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "205": {
+  "survey_loss": 28.7,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "206": {
+  "survey_loss": 2.2,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "207": {
+  "survey_loss": 48.9,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "209": {
+  "survey_loss": 93.3,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "210": {
+  "survey_loss": 81.8,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "216": {
+  "survey_loss": 62.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "217": {
+  "survey_loss": 34.5,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "220": {
+  "survey_loss": 22.2,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "221": {
+  "survey_loss": 6.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "223": {
+  "survey_loss": 93.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "224": {
+  "survey_loss": 96.1,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "225": {
+  "survey_loss": 91.8,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "228": {
+  "survey_loss": 96.1,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "230": {
+  "survey_loss": 83.4,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "231": {
+  "survey_loss": 90.4,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "232": {
+  "survey_loss": 3.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "233": {
+  "survey_loss": 0.0,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "234": {
+  "survey_loss": 37.2,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "235": {
+  "survey_loss": 19.3,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "236": {
+  "survey_loss": 94.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "237": {
+  "survey_loss": 74.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "242": {
+  "survey_loss": 33.8,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "244": {
+  "survey_loss": 76.4,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "245": {
+  "survey_loss": 90.9,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "246": {
+  "survey_loss": 2.2,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "247": {
+  "survey_loss": 66.9,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "251": {
+  "survey_loss": 0.0,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "252": {
+  "survey_loss": 1.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "253": {
+  "survey_loss": 1.9,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "255": {
+  "survey_loss": 4.3,
+  "survey_crop": "水稻",
+  "reason": "乙等全部現勘"
+ },
+ "257": {
+  "survey_loss": 0.4,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "258": {
+  "survey_loss": 3.7,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "259": {
+  "survey_loss": 15.0,
+  "survey_crop": "香蕉",
+  "reason": "B、C 到場"
+ },
+ "260": {
+  "survey_loss": 30.5,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "262": {
+  "survey_loss": 53.1,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "264": {
+  "survey_loss": 3.8,
+  "survey_crop": "麻竹筍",
+  "reason": "B、C 到場"
+ },
+ "266": {
+  "survey_loss": 1.3,
+  "survey_crop": "木瓜",
+  "reason": "丙等全部現勘"
+ },
+ "268": {
+  "survey_loss": 23.1,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "270": {
+  "survey_loss": 61.0,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "271": {
+  "survey_loss": 74.4,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "272": {
+  "survey_loss": 53.9,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "273": {
+  "survey_loss": 2.2,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "274": {
+  "survey_loss": 2.9,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "276": {
+  "survey_loss": 2.4,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "277": {
+  "survey_loss": 70.3,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "279": {
+  "survey_loss": 65.2,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "280": {
+  "survey_loss": 3.1,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "285": {
+  "survey_loss": 8.6,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "286": {
+  "survey_loss": 46.3,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "287": {
+  "survey_loss": 36.8,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "292": {
+  "survey_loss": 43.0,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "294": {
+  "survey_loss": 66.2,
+  "survey_crop": "竹（山坡）",
+  "reason": "乙等全部現勘"
+ },
+ "297": {
+  "survey_loss": 81.1,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "299": {
+  "survey_loss": 54.9,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "300": {
+  "survey_loss": 92.5,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "301": {
+  "survey_loss": 70.3,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "302": {
+  "survey_loss": 52.0,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "306": {
+  "survey_loss": 43.4,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "307": {
+  "survey_loss": 40.4,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "308": {
+  "survey_loss": 2.8,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "310": {
+  "survey_loss": 76.1,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "313": {
+  "survey_loss": 4.2,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "314": {
+  "survey_loss": 81.5,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "315": {
+  "survey_loss": 46.4,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "318": {
+  "survey_loss": 51.2,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "319": {
+  "survey_loss": 84.3,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "320": {
+  "survey_loss": 5.8,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "322": {
+  "survey_loss": 71.8,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "323": {
+  "survey_loss": 0.0,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ },
+ "327": {
+  "survey_loss": 57.1,
+  "survey_crop": "魚塭",
+  "reason": "丙等全部現勘"
+ }
+}
