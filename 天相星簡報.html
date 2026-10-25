@@ -1,0 +1,1214 @@
+<title>天相星 SkyAide 簡報</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a 16:9 presentation stage that reflows on phones; every underlined item opens a reading page with the full tables. Palette follows the proposal figures (slate-teal, field green, amber, rust). */
+:root{
+  --bg:#E8EEEE; --paper:#FBFCFC; --card:#FFFFFF; --plate:#FFFFFF;
+  --ink:#16272E; --muted:#51636A; --line:#D2DDDD; --band:#EFF4F4;
+  --accent:#2C6578; --accent-soft:#E2EEF1;
+  --ga:#2F7146; --ga-soft:#E5F1E8; --gb:#94700F; --gb-soft:#FAF1D9; --gc:#AE5320; --gc-soft:#FBE9DE;
+  --inv-bg:#16343F; --inv-fg:#F1F6F6; --inv-muted:#B6CACE; --inv-accent:#9ED3E0; --inv-card:#1F4350;
+  --f-display:'Noto Serif TC','Songti TC',Georgia,serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',Arial,sans-serif;
+  --f-mono:'IBM Plex Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D1618; --paper:#132023; --card:#1A2A2E; --plate:#F4F7F7;
+  --ink:#E3ECEC; --muted:#A0B3B6; --line:#2A3D41; --band:#17262A;
+  --accent:#8BC6D6; --accent-soft:#1D3940;
+  --ga:#8FD0A2; --ga-soft:#1C3324; --gb:#E3C46B; --gb-soft:#352C14; --gc:#F0A272; --gc-soft:#3A2418;
+  --inv-bg:#1B4553; --inv-fg:#F1F6F6; --inv-muted:#C2D5D9; --inv-accent:#B5E2EC; --inv-card:#255362; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1618; --paper:#132023; --card:#1A2A2E; --plate:#F4F7F7;
+  --ink:#E3ECEC; --muted:#A0B3B6; --line:#2A3D41; --band:#17262A;
+  --accent:#8BC6D6; --accent-soft:#1D3940;
+  --ga:#8FD0A2; --ga-soft:#1C3324; --gb:#E3C46B; --gb-soft:#352C14; --gc:#F0A272; --gc-soft:#3A2418;
+  --inv-bg:#1B4553; --inv-fg:#F1F6F6; --inv-muted:#C2D5D9; --inv-accent:#B5E2EC; --inv-card:#255362; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px}
+h1,h2,h3,p,ul,ol{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.app{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:900;font-size:18px}
+.spacer{flex:1}
+.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent)}
+.btn[disabled]{opacity:.4;cursor:default}
+.count{font-family:var(--f-mono);font-size:13px;color:var(--muted);min-width:64px;text-align:center}
+
+/* slide */
+.frame{container-type:inline-size;width:100%}
+.slide{position:relative;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;
+  padding:4.2cqw 5cqw 6.4cqw;display:flex;flex-direction:column;gap:2.2cqw}
+@container (min-width:760px){.slide{aspect-ratio:16/9}}
+.slide.inv{background:var(--inv-bg);color:var(--inv-fg);border-color:transparent;justify-content:center}
+.kicker{font-family:var(--f-mono);font-size:max(11px,1.15cqw);letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.slide.inv .kicker{color:var(--inv-accent)}
+.slide h1{font-family:var(--f-display);font-weight:900;font-size:max(32px,6.6cqw);line-height:1.1;text-wrap:balance}
+.slide h2{font-family:var(--f-display);font-weight:900;font-size:max(22px,3.3cqw);line-height:1.22;text-wrap:balance}
+.slide h3{font-size:max(16px,1.8cqw);font-weight:700;line-height:1.3}
+.slide p,.slide li,.slide td,.slide th{font-size:max(14px,1.5cqw);line-height:1.55}
+.slide .sm,.slide .sm li,.slide .sm td,.slide .sm th{font-size:max(13px,1.28cqw)}
+.lead{color:var(--muted)}
+.slide.inv .lead{color:var(--inv-muted)}
+.foot{position:absolute;left:5cqw;right:5cqw;bottom:2.2cqw;font-size:max(11px,1.1cqw)!important;color:var(--muted);display:flex;gap:1.4cqw;flex-wrap:wrap;align-items:baseline}
+.slide.inv .foot{color:var(--inv-muted)}
+.pg{font-family:var(--f-mono)}
+@container (max-width:759px){.foot{position:static;margin-top:4px}}
+
+.cols{display:grid;grid-template-columns:var(--c,1fr 1fr);gap:2.6cqw;align-items:start;min-height:0}
+.row{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:1.6cqw}
+@container (max-width:759px){.cols,.row{grid-template-columns:1fr;gap:12px}}
+.cols>*,.row>*{min-width:0}
+.stack{display:flex;flex-direction:column;gap:1.3cqw}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.6cqw 1.9cqw;display:flex;flex-direction:column;gap:.6cqw}
+.slide .num{font-weight:900;font-size:max(28px,4.4cqw);line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.slide .num.m{font-size:max(22px,3.1cqw)}
+.slide .num small{font-size:.5em;font-weight:700;margin-left:.15em}
+.c-a{color:var(--accent)}.c-ga{color:var(--ga)}.c-gb{color:var(--gb)}.c-gc{color:var(--gc)}
+.slide.inv .num{color:var(--inv-fg)}
+
+/* grade + tier chips */
+.g{border-radius:10px;padding:1.4cqw 1.7cqw;display:flex;flex-direction:column;gap:.5cqw;border:1px solid transparent}
+.g h3{font-size:max(17px,2cqw)}
+.g.a{background:var(--ga-soft);border-color:color-mix(in srgb,var(--ga) 30%,transparent)}.g.a h3{color:var(--ga)}
+.g.b{background:var(--gb-soft);border-color:color-mix(in srgb,var(--gb) 30%,transparent)}.g.b h3{color:var(--gb)}
+.g.c{background:var(--gc-soft);border-color:color-mix(in srgb,var(--gc) 30%,transparent)}.g.c h3{color:var(--gc)}
+.tier{border:1px solid var(--line);border-radius:10px;padding:1.5cqw 1.8cqw;background:var(--card);display:flex;flex-direction:column;gap:.6cqw}
+.tier .t{font-family:var(--f-display);font-weight:900;font-size:max(30px,4cqw);line-height:1}
+.tier.jia{border-color:var(--ga);background:var(--ga-soft)}
+.tier.jia .t{color:var(--ga)}
+.tag{display:inline-block;font-size:max(11px,1.05cqw);font-weight:700;letter-spacing:.06em;padding:.15em .6em;border-radius:999px;background:var(--accent-soft);color:var(--accent);width:max-content}
+
+.step{display:grid;grid-template-columns:max(40px,4.6cqw) 1fr;gap:1cqw;align-items:baseline}
+.step .k{font-family:var(--f-mono);font-weight:600;color:var(--accent);font-size:max(13px,1.4cqw)}
+
+/* figures */
+.fig{background:var(--plate);border:1px solid var(--line);border-radius:8px;padding:.8cqw;cursor:zoom-in;display:block;width:100%;position:relative}
+.fig img{display:block;width:100%;height:auto;max-height:var(--mh,30cqw);object-fit:contain}
+.fig::after{content:"點圖放大";position:absolute;right:.7cqw;bottom:.6cqw;font-size:max(10px,.95cqw);color:#3F5358;background:rgba(255,255,255,.88);padding:.1em .55em;border-radius:4px}
+.cap{font-size:max(12px,1.15cqw)!important;color:var(--muted)}
+
+/* links to reading pages */
+a.go{color:inherit;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px;cursor:pointer}
+a.go::after{content:" ↗";color:var(--accent);font-weight:700}
+.slide.inv a.go{text-decoration-color:var(--inv-accent)}
+.slide.inv a.go::after{color:var(--inv-accent)}
+.more{display:flex;gap:1.6cqw;flex-wrap:wrap}
+.more a{font-size:max(13px,1.3cqw);font-weight:700}
+
+/* tables */
+.tw{overflow-x:auto;min-width:0}
+.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tbl th{text-align:left;font-weight:700;border-bottom:2px solid var(--ink);padding:.5cqw .8cqw;white-space:nowrap}
+.tbl td{border-bottom:1px solid var(--line);padding:.5cqw .8cqw;vertical-align:top}
+.tbl tr:nth-child(even) td{background:var(--band)}
+.tbl tr.hl td{font-weight:700;color:var(--accent)}
+
+/* outline strip */
+.strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.strip button{font:inherit;font-size:12px;flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);padding:4px 10px;border-radius:6px;cursor:pointer;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.strip button[aria-current="true"]{border-color:var(--accent);color:var(--ink);font-weight:700}
+.hint{color:var(--muted);font-size:13px}
+
+/* reading pages */
+.detail{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding-block:clamp(20px,4vw,44px);padding-inline:clamp(16px,4vw,44px)}
+.detail article{max-width:52rem;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.dtag{display:inline-block;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;padding:2px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);width:max-content}
+.detail h1{font-family:var(--f-display);font-weight:900;font-size:clamp(24px,3.3vw,34px);line-height:1.25;text-wrap:balance}
+.detail h2{font-size:18px;font-weight:700;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
+.detail p,.detail li{font-size:16px;line-height:1.75;max-width:46rem}
+.detail ul,.detail ol{padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+.detail table{width:100%;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums;line-height:1.55}
+.detail th{text-align:left;border-bottom:2px solid var(--ink);padding:6px 8px;white-space:nowrap}
+.detail td{border-bottom:1px solid var(--line);padding:6px 8px;vertical-align:top}
+.detail .tw table{min-width:560px}
+.detail figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.detail figure .fig img{max-height:none}
+.detail figcaption{font-size:13.5px;color:var(--muted)}
+.note{font-size:14px!important;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+.formula{font-family:var(--f-mono);font-size:14px;background:var(--band);border-radius:6px;padding:10px 14px;overflow-x:auto}
+.backrow{display:flex;gap:10px;flex-wrap:wrap}
+.refs li{font-size:14px;line-height:1.6;word-break:break-word}
+.refs .u{color:var(--muted);font-size:12.5px}
+
+
+/* figure 7 & 11 redrawn in HTML; before/after compare */
+.flow7{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:1.4cqw;align-items:start}
+.f7col,.sopcol{display:flex;flex-direction:column;gap:1cqw;min-width:0}
+.f7h{font-family:var(--f-mono);font-size:max(11px,1.1cqw);color:var(--accent);letter-spacing:.04em}
+.f7box{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:1.1cqw 1.4cqw;font-size:max(13px,1.35cqw);line-height:1.5}
+.f7box.mute{background:var(--band)}
+.f7arr{align-self:center;font-size:max(20px,2.6cqw);color:var(--muted)}
+.sop{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4cqw}
+.sbox{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:.8cqw 1.2cqw;display:flex;flex-direction:column;gap:.2cqw}
+.sbox b{font-size:max(13px,1.35cqw)} .sbox span{font-size:max(12px,1.15cqw);color:var(--muted);line-height:1.5}
+.sbox.warn{border-color:var(--gc);background:var(--gc-soft)}
+.soplog{grid-column:1/-1;border:1px dashed var(--accent);border-radius:8px;padding:.7cqw 1.2cqw;font-size:max(12px,1.15cqw);color:var(--muted)}
+@container (max-width:759px){.flow7,.sop{grid-template-columns:1fr}.f7arr{transform:rotate(90deg);justify-self:center}}
+@media (max-width:760px){.detail .flow7,.detail .sop{grid-template-columns:1fr}.detail .f7arr{transform:rotate(90deg);justify-self:center}}
+.cmp{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--plate);touch-action:pan-y}
+.cmp img{display:block;width:100%;height:auto}
+.cmp .after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(0 0 0 var(--pos))}
+.cmp .bar{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.35);pointer-events:none}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.cmp input:focus-visible+.bar,.cmp:focus-within .bar{width:4px}
+.cmp .cl{position:absolute;top:8px;font-size:12px;background:rgba(15,25,28,.72);color:#FFFFFF;padding:2px 8px;border-radius:4px;pointer-events:none}
+.cmp .cl.l{left:8px}.cmp .cl.r{right:8px}
+.detail .cmp{max-width:560px}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(8,16,18,.86);display:flex;flex-direction:column;gap:10px;
+  padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.lb .lbbar{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#E8F0F0;font-size:14px}
+.lb .lbbody{flex:1;overflow:auto;background:#FFFFFF;border-radius:6px}
+.lb .lbbody img{display:block;max-width:none;width:max(100%,1100px);height:auto}
+@media (max-width:700px){.lb .lbbody img{width:200%}}
+.lb .btn{background:#FFFFFF;color:#16272E;border-color:#FFFFFF}
+@media (prefers-reduced-motion:no-preference){.slide,.detail{animation:in .18s ease-out}@keyframes in{from{opacity:.65}to{opacity:1}}}
+</style>
+
+<div class="app">
+  <div class="bar">
+    <span class="brand">天相星 SkyAide</span>
+    <span class="spacer"></span>
+    <span id="ctl" class="bar" style="gap:8px">
+      <button class="btn" id="prev" aria-label="上一頁">← 上一頁</button>
+      <span class="count" id="count">1 / 1</span>
+      <button class="btn" id="next" aria-label="下一頁">下一頁 →</button>
+      <a class="btn" href="#x-index">資料頁目錄</a>
+    </span>
+  </div>
+  <div id="view"></div>
+  <div class="strip" id="strip" aria-label="簡報大綱"></div>
+  <p class="hint" id="hint">鍵盤 ← → 換頁。畫底線、標 ↗ 的項目會開啟資料頁，完整表格與推算都在裡面；圖片可點開放大。</p>
+</div>
+<div class="lb" id="lb" hidden role="dialog" aria-label="放大圖片">
+  <div class="lbbar"><span id="lbcap"></span><button class="btn" id="lbclose">關閉（Esc）</button></div>
+  <div class="lbbody"><img id="lbimg" alt=""></div>
+</div>
+
+<script>
+const IMG = n => 'slides-img/' + n + '.webp';
+const fig = (n, cap, mh) => `<button class="fig" data-img="${n}" data-cap="${cap||''}" style="${mh?'--mh:'+mh:''}" aria-label="放大：${cap||n}"><img src="${IMG(n)}" alt="${cap||''}" loading="lazy"></button>`;
+const dfig = (n, cap) => `<figure>${fig(n, cap)}<figcaption>${cap}</figcaption></figure>`;
+const cmp = (a, b, la, lb, cap) => `<figure><div class="cmp" style="--pos:50%"><img src="${IMG(a)}" alt="${la}"><img class="after" src="${IMG(b)}" alt="${lb}"><span class="cl l">${la}</span><span class="cl r">${lb}</span><span class="bar" aria-hidden="true"></span><input type="range" min="0" max="100" value="50" aria-label="拖動比較：${cap}"></div><figcaption>${cap}</figcaption></figure>`;
+
+/* 圖 7：先依適用程序分流，再對須認定損失率的案件分級（依構想書重繪） */
+const FIG7 = `<div class="flow7">
+ <div class="f7col"><span class="f7h">先確認救助程序</span><div class="f7box">核對當次公告、品項與證明</div>
+  <div class="f7box mute"><b>簡化程序或法定例外</b><br>依公告核對證明，辦理免勘、抽樣或相應程序</div></div>
+ <span class="f7arr" aria-hidden="true">→</span>
+ <div class="f7col"><span class="f7h">須個別認定損失率 → 五項證據檢查</span><div class="f7box">影像品質・觀測日期・來源一致・申報一致・生產事實</div>
+  <div class="g c"><h3>C 類　待補件</h3><p class="sm">資料不足：先補件或查明矛盾</p></div></div>
+ <span class="f7arr" aria-hidden="true">→</span>
+ <div class="f7col"><span class="f7h">證據齊全 → 比較 P10～P90 損失區間</span>
+  <div class="g a"><h3>A 類　初步達標</h3><p class="sm">區間下限 ≥ 40%</p></div>
+  <div class="g a"><h3>A 類　初步未達標</h3><p class="sm">區間上限 ≤ 10%</p></div>
+  <div class="g b"><h3>B 類　待確認</h3><p class="sm">其餘證據完整案件</p></div></div>
+</div>`;
+
+/* 圖 11：八步作業（依構想書重繪） */
+const FIG11 = `<div class="sop">
+ <div class="sopcol"><span class="f7h">資料輸入</span>
+  <div class="sbox"><b>S1 登錄資料並檢查</b><span>登錄公告、適用程序、衛星、申報與照片；逐檔保存來源及 SHA-256</span></div>
+  <div class="sbox"><b>S2 保存計算版本</b><span>程式、參數、套件各算雜湊；事件開始時鎖定版本</span></div>
+  <div class="sbox warn"><b>檢核未通過</b><span>記錄原因，補件或改用其他日期影像</span></div></div>
+ <div class="sopcol"><span class="f7h">模型計算</span>
+  <div class="sbox"><b>S3 判讀與損失區間</b><span>確認輸入、整理影像並分析田區；需要損失判斷時提供 P10／P50／P90</span></div>
+  <div class="sbox"><b>S4 證據檢核與分級</b><span>先依公告分流：簡化程序核對生產與申報；須認定損失者檢核證據後分 A／B／C</span></div></div>
+ <div class="sopcol"><span class="f7h">輸出與查驗</span>
+  <div class="sbox"><b>S5 簽發與通知</b><span>雜湊 → 簽章 → 時戳 → 查驗碼；預填申請，依等級通知</span></div>
+  <div class="sbox"><b>S6 公所判定</b><span>機關另行簽章，與系統結果並列保存</span></div>
+  <div class="sbox"><b>S7 封存與回填</b><span>同批報告形成 Merkle 根交公所；接回現勘結果</span></div>
+  <div class="sbox"><b>S8 檢討與評等</b><span>逐作物、災害檢查 A 類成效，決定下一場使用等級，重訓與校準</span></div></div>
+ <div class="soplog"><b>作業日誌 S1 → S8</b>　每步保存前一筆雜湊與本筆紀錄；查驗來源、簽章及封存批次，並以相同輸入與版本重算</div>
+</div>`;
+
+const SLIDES = [
+/* 1 */{t:'封面', inv:true, h:`
+<p class="kicker">2026 衛星數位應用創新大賽｜創意組｜題目五 災害通訊韌性、定位救援與災損評估</p>
+<h1>天相星 SkyAide</h1>
+<h2 style="font-weight:700">公所災後勘查衛星快篩平台</h2>
+<p style="font-family:var(--f-display);font-size:max(20px,2.6cqw)">天象天相，無相萬象。</p>
+<p class="lead">平時累積田區紀錄，災後先確認救助程序，再把須認定損失率的案件依衛星分析分為初步結果明確、待確認及待補件，供公所安排審查。</p>
+<p class="foot"><span>參賽隊伍：天相星</span><span>章節依創意構想書：一、作品摘要｜二、需求分析｜三、創意構想提案內容｜四、預期效益</span></p>`},
+
+/* 2 */{t:'一、作品摘要', h:`
+<p class="kicker">一、作品摘要</p>
+<h2>公所勘查需求已達量能的 113%，須現勘者平均約 58 天才撥款</h2>
+<div class="cols" style="--c:1.15fr 1fr">
+ <div class="stack">
+  <p>各公所農業課平均僅 4 名人員，災後大量申請集中湧入。天相星透過衛星技術降低公所勘查負擔，加快救助流程，讓受災農民更早取得救助金。</p>
+  <div class="row" style="--n:2">
+   <div class="card"><h3>衛星必要性</h3><p class="sm">長期觀測建立田區生長與耕作紀錄，供災前災後比對；雷達補充多雲期間觀測</p></div>
+   <div class="card"><h3>概念創新</h3><p class="sm">衛星分析轉成案件清單、預填申請及可查驗報告，銜接受理、審查、補件與現勘</p></div>
+   <div class="card"><h3>技術可行</h3><p class="sm">已發表的分析方法、丹娜絲影像與原型測試；前三年完成試點、校準及跨場域評估</p></div>
+   <div class="card"><h3>預期效益</h3><p class="sm">依情境評估減少約 12.6 萬筆現勘，需求 113% → 86%；約 6.7 萬件有機會提早 28 天撥款</p></div>
+  </div>
+ </div>
+ ${fig('f01','圖 1　災前紀錄、災後對照與承辦作業','31cqw')}
+</div>
+<p class="foot"><span class="pg">02</span><span>效益依適用案件及後續經機關核准使用的情境估算〔1〕〔27〕〔57〕｜<a class="go" href="#d-summary">摘要全文與圖 1</a></span></p>`},
+
+/* 3 */{t:'1.1 人力與資料缺口', h:`
+<p class="kicker">二、需求分析｜1.1 公所勘查的人力與資料缺口</p>
+<h2>每塊農田的災前資料沒有放在同一處，基本資料要等現勘才能核對</h2>
+${fig('f02','圖 2　同一田區的災前基準與災後狀態','15cqw')}
+<div class="cols">
+ <div class="card"><h3>現況</h3><p>每筆申請都要確認災前種植、本次受損與救助資格；承辦還得整理申報、照片、地籍及勘查紀錄。資料分散時，查找與補件反覆進行。</p></div>
+ <div class="card"><h3>天相星的做法</h3><p>平時累積衛星觀測，災後把最新影像、無人機照片與農民既有紀錄整合到同一塊農田。承辦沿時間線查看耕作歷程，區分正常收割、插秧灌水與天然災害。</p></div>
+</div>
+<p class="foot"><span class="pg">03</span><span><a class="go" href="#d-need">需求分析全文</a></span></p>`},
+
+/* 4 */{t:'1.2 審查時間', h:`
+<p class="kicker">二、需求分析｜1.2 審查時間與行政成本</p>
+<h2>須現勘損失率者約 58 天撥款，免勘約 24～30 天，免勘卻僅約 3.7%</h2>
+<div class="cols" style="--c:1fr 1.2fr">
+ <div class="stack">
+  <div class="card"><p class="num m">209,189 件</p><p class="sm">2021 年 8 月豪雨救助申請，平均約 55 天完成撥款</p></div>
+  <div class="card"><p class="num m c-gc">58 天 vs 24～30 天</p><p class="sm">須現勘損失率 vs 免勘案件</p></div>
+  <p>切入點是以衛星建立<b>可靠、可查證的農損證據</b>，協助公所確認案件適用的救助程序，並把需要認定損失率的案件依證據分流，減少不必要的現勘。</p>
+ </div>
+ ${fig('f03','圖 3　不同勘查方式的平均撥款天數（監察院調查報告）','27cqw')}
+</div>
+<p class="foot"><span class="pg">04</span><span>來源：監察院〔1〕</span></p>`},
+
+/* 5 */{t:'1.2 人力與行政成本', h:`
+<p class="kicker">二、需求分析｜1.2 審查時間與行政成本</p>
+<h2>21,018 人日的工作，只有 18,564 人日的量能</h2>
+<div class="cols" style="--c:1fr 1fr">
+ <div class="stack">
+  <h3>公所人力負荷</h3>
+  <div class="tw"><table class="tbl sm">
+   <tr><td>申請救助土地</td><td>327,230 筆，221 個公所辦理</td></tr>
+   <tr><td>農業課人力</td><td>平均 4 人，每人約 370 筆</td></tr>
+   <tr><td>推估須現勘</td><td>315,266 筆（以歷史免勘比例換算）</td></tr>
+   <tr><td>所需人日</td><td>每人每天 15 筆 → 約 21,018 人日</td></tr>
+   <tr><td>現有量能</td><td>221 所 × 4 人 × 21 工作日 = 18,564 人日</td></tr>
+   <tr class="hl"><td>需求 ÷ 量能</td><td>113%，超出約 13%</td></tr>
+  </table></div>
+ </div>
+ <div class="stack">
+  <h3>行政作業成本</h3>
+  ${fig('f04','圖 4　112–114 年度農災救助基金行政作業實支','15cqw')}
+  <p class="sm">2,078 萬元（112）→ 4,082 萬元（113）→ 4,852 萬元（114）。加上公所工時、加班與業務排擠，整體負擔可能更高。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">05</span><span>此 315,266 筆為後續人力與效益評估的共同基準〔1〕〔2〕</span></p>`},
+
+/* 6 */{t:'1.2 無人機與偏鄉', h:`
+<p class="kicker">二、需求分析｜1.2 審查時間與行政成本</p>
+<h2>無人機全面拍攝光飛行費就要 48.6～68 萬元，偏鄉還有路斷與停電</h2>
+<div class="cols">
+ <div class="card"><h3>無人機投入成本</h3>
+  <p>丹娜絲颱風及 0708 豪雨農作物受災 19,433 公頃。每小時拍 200 公頃、每小時 5,000～7,000 元，全面拍攝約需 97 小時，尚未含交通、影像處理與判讀。</p>
+  <p class="lead">衛星負責大範圍、持續性監測，再依分析結果安排無人機拍攝與現勘，減少全面拍攝的時間與經費。</p></div>
+ <div class="card"><h3>偏鄉的勘查困難</h3>
+  <p>山坡竹林可能因道路中斷難以進入；魚塭可能同時面臨淹水、停電及增氧設備中斷。</p>
+  <p class="lead">先用衛星掌握受災情況，協助公所確認哪些案件需要現勘、補件或進一步拍攝，並提供離線資料存取與現勘結果回填。</p></div>
+</div>
+<p class="foot"><span class="pg">06</span><span>來源：〔3〕〔4〕〔5〕〔6〕〔7〕〔8〕</span></p>`},
+
+/* 7 */{t:'1.3 平台定位與功能', h:`
+<p class="kicker">二、需求分析｜1.3 平台定位與功能</p>
+<h2>三項功能，加上兩套制度：案件分類與模型驗證</h2>
+<div class="row">
+ <div class="card"><h3>災情熱區圖</h3><p class="sm">掌握不同村里、鄉鎮的疑似受災區域，安排後續調查與資料蒐集</p></div>
+ <div class="card"><h3>案件分級清單</h3><p class="sm">整合申報、衛星影像、預估損失程度及待補資料，判斷書面審查、補件或現勘</p></div>
+ <div class="card"><h3>農損查核報告</h3><p class="sm">保存影像來源、模型版本、資料驗證紀錄及機關審查歷程，供查核、申復與審計</p></div>
+</div>
+<div class="cols">
+ <div class="stack"><h3>案件分類（須個別認定損失率者）</h3>
+  <p class="sm"><b class="c-ga">A 類 初步結果明確</b>（初步達標與未達標）・<b class="c-gb">B 類 需要進一步確認</b>・<b class="c-gc">C 類 需要補充資料</b>。符合公告簡化程序者，依規定核對證明。</p></div>
+ <div class="stack"><h3>模型驗證（依作物與災害類型）</h3>
+  <p class="sm"><b>丙等</b>以現勘資料檢驗並調整；<b>乙等</b>提供熱區、排序與審查參考；<b>甲等</b>達可信度標準並經主管機關核准，協助符合條件案件的書面審查。</p></div>
+</div>
+<p class="foot"><span class="pg">07</span><span>公所受理與審查，縣市彙整、抽查與核定，中央審核與核撥｜<a class="go" href="#d-platform">平台定位全文</a></span></p>`},
+
+/* 8 */{t:'1.4 救助制度與適用程序', h:`
+<p class="kicker">二、需求分析｜1.4 救助制度與適用程序</p>
+<h2>先確認當次公告與適用程序，只有須個別認定損失率的案件才以 20% 判斷</h2>
+<div class="cols" style="--c:1.1fr 1fr">
+ ${fig('f05','圖 5　公所依公告及證明條件選擇勘查程序','29cqw')}
+ <div class="stack">
+  <p class="sm">《農業天然災害救助辦法》第 12 條：政府可運用衛星等科學技術輔助勘查。簡化程序有客觀證明即免勘，未提供者抽樣勘查至少 20%；依第 12 條之一不需另確認損失是否達 20%。出租造林地、按畜禽數計算的項目也不受 20% 門檻限制。</p>
+  <h3>平台區分三種 20%</h3>
+  <div class="tw"><table class="tbl sm">
+   <tr><td><b>損失率門檻</b></td><td>農損是否達救助標準</td></tr>
+   <tr><td><b>法定抽樣</b></td><td>簡化程序中缺少客觀證明者，至少抽 20% 勘查</td></tr>
+   <tr><td><b>模型品質抽查</b></td><td>天相星自行規劃，持續驗證 A 類結果</td></tr>
+  </table></div>
+ </div>
+</div>
+<p class="foot"><span class="pg">08</span><span>來源：〔9〕〔10〕〔11〕〔12〕｜<a class="go" href="#d-rules">適用程序與行政時程</a></span></p>`},
+
+/* 9 */{t:'1.5 題目定位', h:`
+<p class="kicker">二、需求分析｜1.5 題目定位</p>
+<h2>選擇題目五，以農業災損評估為核心</h2>
+<div class="tw"><table class="tbl">
+<tr><th style="width:30%">題目五應用方向</th><th>本作品的對應功能</th></tr>
+<tr><td><b>災前、災後影像與 AI 災損評估</b></td><td>累積田區紀錄，分析災後積水、植生與結構變化，估計受災範圍及損失區間，銜接公所救助審查</td></tr>
+<tr><td><b>定位、災情盤點與作業安排</b></td><td>以 GNSS 核對現場照片與田區，整理熱區及案件清單，安排補件、無人機與現勘，支援後續救助作業</td></tr>
+<tr><td><b>通訊韌性與災後資料回傳</b></td><td>預先下載任務，離線保存照片與座標，經可用網路或機關既有衛星備援節點回傳</td></tr>
+</table></div>
+<p class="lead">照片依 GNSS 座標對應田區；通訊受限時，任務可離線保存，再經可用網路或衛星備援節點回傳。</p>
+<p class="foot"><span class="pg">09</span><span>來源：〔86〕</span></p>`},
+
+/* 10 */{t:'2 國內外現況', h:`
+<p class="kicker">二、需求分析｜2. 國內外現況分析</p>
+<h2>國內以公所勘查為基礎；國外已把長期衛星觀測納入申報查核</h2>
+<div class="cols" style="--c:1.15fr 1fr">
+ <div class="stack"><h3>2.1 國內現有方案</h3>
+  <div class="tw"><table class="tbl sm">
+   <tr><th>工具或流程</th><th>主要提供的資訊</th><th>作業用途</th></tr>
+   <tr><td>天氣參數與客觀證明</td><td>氣象條件、種植佐證</td><td>確認公告適用條件與種植事實</td></tr>
+   <tr><td>農災 App、無人機</td><td>定位照片、局部細節</td><td>留存現場證據、補充取像</td></tr>
+   <tr><td>救助行政系統</td><td>受理、勘查、統計與核撥</td><td>案件登錄、彙整與層報</td></tr>
+  </table></div>
+  <p class="sm lead">SkyAide 平時累積田區紀錄，災後提供前後對照與案件證據，讓承辦先掌握變化，再安排審查與現勘。</p></div>
+ <div class="stack"><h3>2.2 國外衛星監測應用</h3>
+  <p class="sm">歐盟共同農業政策的面積監測系統以 Sentinel 時序檢查申報耕作，需要釐清時再通知補件並安排人工確認。奧地利常態處理數百萬坵塊，義大利實地檢查比例下降。</p>
+  <p class="sm">天相星參考這套做法，把「資料不足」與「損失接近門檻」分開處理；臺灣農災突然、處理時間短，門檻仍需以臺灣現勘資料校準。</p></div>
+</div>
+<p class="foot"><span class="pg">10</span><span>來源：〔8〕〔13〕〔15〕〔17〕–〔22〕〔82〕</span></p>`},
+
+/* 11 */{t:'1.1–1.2 使用情境與流程', h:`
+<p class="kicker">三、創意構想提案內容｜1.1 使用對象與應用場域・1.2 農災救助作業流程</p>
+<h2>從災前建檔到結果回填，平台整理資料，機關依現行程序辦理</h2>
+<div class="cols" style="--c:1fr 1.25fr">
+ <div class="stack">
+  <p class="sm"><b>公所審查人員</b>：查閱同一塊農田的災前災後資料，安排書面審查、補件與現勘。<b>縣市政府</b>：彙整、抽查與追蹤進度。<b>農民與養殖戶</b>：查看通知、補資料、查驗報告。</p>
+  <p class="sm lead">點入案件後沿時間線查閱申報、照片與衛星影像：這塊田原本種什麼、災後有哪些變化、還缺哪些證據。</p>
+  <p class="sm lead">農民自願登錄，既有申請管道持續受理。試辦先從一個鄉鎮、少數作物與明確災害類型開始。</p>
+ </div>
+ ${fig('f06','圖 6　災前建檔至核撥、發放與結果回填','28cqw')}
+</div>
+<p class="foot"><span class="pg">11</span><span>〔9〕〔10〕｜<a class="go" href="#d-stages">階段 0～7 與文件窗口</a></span></p>`},
+
+/* 12 */{t:'1.2 階段 0～7', h:`
+<p class="kicker">三、創意構想提案內容｜1.2 農災救助作業流程</p>
+<h2>八個階段，各有負責單位、文件與交付對象</h2>
+<div class="row" style="--n:4">
+ <div class="stack"><span class="tag">階段 0</span><p class="sm"><b>機關合作與災前建檔</b>：確認試辦範圍、權限與契約；農民登錄耕作範圍、作物與期作，變動保留版本</p></div>
+ <div class="stack"><span class="tag">階段 1</span><p class="sm"><b>事件啟動與災情提報</b>：保存災前資料、模型與設定；雷達到站後 8 小時內完成第一輪分析</p></div>
+ <div class="stack"><span class="tag">階段 2</span><p class="sm"><b>公告後申請與送件</b>：依地區、品項、期間及程序預填申請；明顯變化但未申請者收到提醒</p></div>
+ <div class="stack"><span class="tag">階段 3</span><p class="sm"><b>確認程序再核對證據</b>：先定免勘、抽樣或個別損失評估，再核對地號、作物、期作、面積與 L1～L4</p></div>
+ <div class="stack"><span class="tag">階段 4</span><p class="sm"><b>公所審查、補件與現勘</b>：A 類兩組各抽查 20%，與法定抽樣、縣市抽查分開記錄</p></div>
+ <div class="stack"><span class="tag">階段 5</span><p class="sm"><b>公所送縣府彙整</b>：嘉義縣政府農業處抽查、核定與層報，缺件回原案補正</p></div>
+ <div class="stack"><span class="tag">階段 6</span><p class="sm"><b>核撥與發放</b>：農糧署審核核撥，地方依清冊發放；帳戶與轉帳由既有系統處理</p></div>
+ <div class="stack"><span class="tag">階段 7</span><p class="sm"><b>回填結果與模型校準</b>：比較預測與現場，分別追蹤初步達標與未達標，調整下一場使用等級</p></div>
+</div>
+<p class="foot"><span class="pg">12</span><span>以嘉義縣竹崎鄉、竹崎段 0418 的案件情境說明〔23〕〔24〕〔25〕｜<a class="go" href="#d-stages">完整流程與文件表</a></span></p>`},
+
+/* 13 */{t:'圖 7 先程序後分級', h:`
+<p class="kicker">三、創意構想提案內容｜1.2 農災救助作業流程・階段 3～4</p>
+<h2>先依適用程序分流，再對須認定損失率的案件分級</h2>
+${FIG7}
+<p class="lead">模型先估計損失可能落在哪個範圍（例如 52%～68%），連同資料品質交給公所參考。P10、P50、P90 為第 10 百分位、中位數及第 90 百分位。</p>
+<p class="foot"><span class="pg">13</span><span>40%／10% 為試辦安全距離，依作物校準；模型用途依導入等級與機關核准範圍辦理〔9〕〔26〕</span></p>`},
+
+/* 14 */{t:'1.3 農民端', h:`
+<p class="kicker">三、創意構想提案內容｜1.3 農民端操作畫面</p>
+<h2>申請人查進度、確認申請內容，並依通知補上所需資料</h2>
+<div class="cols" style="--c:1fr 1.15fr">
+ <div class="stack">
+  <p>畫面列出適用程序、田區分析結果及待補項目。</p>
+  <p class="lead">收到 A 未達標通知時，也能看到判斷理由、影像日期與適用依據，並透過入口補件或提出申復。</p>
+  <p class="lead">原型展示需要使用 20% 損失門檻的情境；簡化及例外案件依各自程序辦理。</p>
+ </div>
+ ${fig('f08','圖 8　農民端田區結果、補件、送件與通知（損失分級為須個案認定損失率的示例）','31cqw')}
+</div>
+<p class="foot"><span class="pg">14</span><span>〔9〕〔27〕｜<a class="go" href="#d-ui">農民端與公所端畫面</a></span></p>`},
+
+/* 15 */{t:'1.4 公所端', h:`
+<p class="kicker">三、創意構想提案內容｜1.4 公所端審查畫面</p>
+<h2>申報、災前災後影像與待辦事項放在同一個審查畫面</h2>
+<div class="cols" style="--c:1.2fr 1fr">
+ ${fig('f09','圖 9　公所審查同田區證據（須使用 20% 損失門檻的案件）','30cqw')}
+ <div class="stack">
+  <div class="step"><span class="k c-ga">A</span><p class="sm"><b>陳大明・竹崎段 0418 麻竹筍</b>，0.6200 公頃：五項證據檢查均通過，損失區間 52%～68%</p></div>
+  <div class="step"><span class="k c-gb">B</span><p class="sm"><b>香蕉田</b>：14%～33%，跨過 20%，交公所進一步確認</p></div>
+  <div class="step"><span class="k c-gc">C</span><p class="sm"><b>山坡竹林</b>：遮蔽缺少必要影像，補充觀測</p></div>
+  <div class="step"><span class="k c-ga">A</span><p class="sm"><b>鄰田香蕉</b>：0%～6%；僅在模型達甲等且作業依據適用時，才將 A 未達標交公所；農民補照片後可進入複核</p></div>
+  <p class="sm lead">甲等經核准後，公所仍核對依據，再輸入核定面積及受害率並簽章；系統估計與公所核定分別保存。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">15</span><span>〔27〕｜<a class="go" href="#d-ui">公所端審查說明</a></span></p>`},
+
+/* 16 */{t:'2.1–2.2 衛星必要性', h:`
+<p class="kicker">三、創意構想提案內容｜2. 衛星必要性分析</p>
+<h2>衛星平時留下同一塊農田的紀錄，災後判讀才有前後對照</h2>
+<div class="cols" style="--c:1fr 1.15fr">
+ <div class="stack">
+  <h3>2.1 災前紀錄與前後比較</h3>
+  <p class="sm">災後看到裸地、積水或植被減少，可能是收割、插秧、休耕，也可能是災害。結合歷史影像、往年同期與生長週期才能區分。</p>
+  <p class="sm lead">長期紀錄也能確認過去 12 個月是否正常種植、作物已長多久、異常是否在災前就出現、前次受災是否已恢復。</p>
+ </div>
+ <div class="stack"><h3>2.2 災後觀測與多種資料分工</h3>
+  <div class="tw"><table class="tbl sm">
+   <tr><th>來源</th><th>在平台的用途</th></tr>
+   <tr><td>Sentinel-1 SAR</td><td>災後積水、地表與作物結構變化；雷達時序</td></tr>
+   <tr><td>Sentinel-2 光學</td><td>植生、作物生長與歷年同期比較</td></tr>
+   <tr><td>福衛及商業精細影像</td><td>小田與熱區倒伏、堤岸、埋沒細節</td></tr>
+   <tr><td>VIIRS 夜間燈光</td><td>魚塭區停電情境的輔助資訊</td></tr>
+   <tr><td>無人機、GNSS、現場照片</td><td>補足證據缺口、現勘與抽查回填</td></tr>
+   <tr><td>魚塭感測與放養資料</td><td>確認在養事實及災害經過</td></tr>
+  </table></div></div>
+</div>
+<p class="foot"><span class="pg">16</span><span>〔28〕–〔37〕｜<a class="go" href="#d-sat">觀測能力規格</a></span></p>`},
+
+/* 17 */{t:'2.3 無人機與現勘', h:`
+<p class="kicker">三、創意構想提案內容｜2.3 無人機與現勘的銜接</p>
+<h2>衛星先做大範圍分析，再把要補拍或現勘的田區整理成工作清單</h2>
+<div class="cols" style="--c:1.25fr 1fr">
+ ${fig('f10','圖 10　公所補件、無人機派工與離線現勘','29cqw')}
+ <div class="stack">
+  <p class="sm">小田、狹長田或遮蔽區補用精細影像或無人機；資料說法不一致、疑似灌溉或難確認生產時，由公所安排調查。竹林、網室及落果搭配現勘或適用天氣參數。</p>
+  <p class="sm">補拍範圍可匯出，依相鄰位置集中派工；飛行仍須確認機型、許可、天候、道路與起降。缺的是文件，就通知農民或保管單位補齊。</p>
+  <p class="sm lead">現勘清單先下載到手機，離線記錄照片、座標與受害率，連線後回傳；機關已部署的衛星備援節點可支援傳輸。GNSS 定位樁或魚塭 IoT 依場域需要補充。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">17</span><span>〔27〕〔38〕–〔41〕</span></p>`},
+
+/* 18 */{t:'3.1 災前紀錄到案件證據', h:`
+<p class="kicker">三、創意構想提案內容｜3. 概念創新性分析・3.1 從災前紀錄到案件證據</p>
+<h2>災前紀錄、災後變化與機關判定，放在同一案號下</h2>
+${FIG11}
+<p class="foot"><span class="pg">18</span><span>圖 11　從輸入登錄到災後評等的八步作業〔21〕〔22〕〔26〕｜<a class="go" href="#d-innov">概念創新全文</a></span></p>`},
+
+/* 19 */{t:'3.2 可信度', h:`
+<p class="kicker">三、創意構想提案內容｜3.2 以可信度安排處理方式</p>
+<h2>把「缺資料」和「資料齊全但還要判斷」分開</h2>
+<div class="cols" style="--c:1fr 1.1fr">
+ ${fig('f12','圖 12　影像前處理與判讀','30cqw')}
+ <div class="stack">
+  <div class="tw"><table class="tbl sm">
+   <tr><th>可信度檢核</th><th>未通過時的處理</th></tr>
+   <tr><td>影像條件</td><td>補精細影像或確認界線</td></tr>
+   <tr><td>觀測完整</td><td>補指定時段或現場證據</td></tr>
+   <tr><td>來源一致</td><td>查明灌溉或其他衝突原因</td></tr>
+   <tr><td>申報一致</td><td>確認改種、期別或申報差異</td></tr>
+   <tr><td>生產事實</td><td>補種植、經營佐證並交承辦確認</td></tr>
+  </table></div>
+  <p class="sm">五項全過為<b>高</b>；一項未通過為<b>中</b>；生產事實未通過或兩項以上未通過為<b>低</b>。高可信度才繼續判斷 A 或 B，其餘列 C。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">19</span><span>已核准的雷達淹水證據組合可在光學被雲遮時使用〔26〕〔28〕〔55〕〔56〕〔57〕｜<a class="go" href="#d-cred">可信度檢核依據</a></span></p>`},
+
+/* 20 */{t:'3.2 分級清單', h:`
+<p class="kicker">三、創意構想提案內容｜3.2 以可信度安排處理方式</p>
+<h2>清單同時回答三件事：下一步怎麼做、證據夠不夠、結果能用到哪</h2>
+<div class="cols" style="--c:1.3fr 1fr">
+ ${fig('f13','圖 13　須認定損失率案件的公所分級清單：可信度、區間、原因碼與處理方式','28cqw')}
+ <div class="stack">
+  <div class="card"><h3>案件分類</h3><p class="sm">說明下一步怎麼處理</p></div>
+  <div class="card"><h3>可信度</h3><p class="sm">說明證據是否足夠</p></div>
+  <div class="card"><h3>丙、乙、甲等</h3><p class="sm">說明該類模型目前能用在哪些作業</p></div>
+ </div>
+</div>
+<p class="foot"><span class="pg">20</span><span>〔27〕</span></p>`},
+
+/* 21 */{t:'3.3 可查驗', h:`
+<p class="kicker">三、創意構想提案內容｜3.3 可查驗並持續改善的判讀</p>
+<h2>沿著案號，就能找到當時用的資料、分析版本與公所判定</h2>
+<div class="cols" style="--c:1.35fr 1fr">
+ <div class="stack">
+  ${fig('f14','圖 14　來源、計算與機關判定分層留存，查驗結果可定位到對應環節','19cqw')}
+  <p class="sm">SHA-256 保存內容摘要，數位簽章確認簽發者，時間戳記保存存證時間；照片另檢查位置與重複使用。公所核定另外簽章。資料目錄以 STAC 記錄來源、PROV 保存處理關係。</p>
+  <p class="sm lead">正式部署採機關憑證、RFC 3161 時戳與硬體安全模組；原型使用示範金鑰測試。現勘、抽查與申復結果回到原案後，依作物與災害校準損失區間。</p>
+ </div>
+ ${fig('f15','圖 15　查驗報告的來源、簽章、封存批次與公所判定','33cqw')}
+</div>
+<p class="foot"><span class="pg">21</span><span>〔27〕〔42〕–〔47〕〔57〕〔73〕</span></p>`},
+
+/* 22 */{t:'4.1 資料與運算架構', h:`
+<p class="kicker">三、創意構想提案內容｜4. 技術可行性分析・4.1 資料與運算架構</p>
+<h2>以同一塊農田為資料主軸，分成五層</h2>
+<div class="cols" style="--c:1.1fr 1fr">
+ ${fig('f16','圖 16　資料、處理、判讀、案件與應用五層架構','25cqw')}
+ <div class="stack">
+  <p class="sm">各層使用相同案號、田區識別與版本紀錄；點入一筆結果，就能查回用了哪張影像、哪個模型、哪次申報。</p>
+  <div class="card"><h3>運算規劃</h3><p class="sm">約 200 萬坵塊，影像整理完成後，一張 GPU 跑完作物模型約 27 分鐘。2 臺 L4 常駐、A100 重訓約 500 小時、15 TB 儲存，運算與儲存約 70 萬元／年。</p></div>
+  <div class="card"><h3>資料取得與交付</h3><p class="sm">公開影像依授權取得；申報、地籍、照片與現勘由試辦縣市及公所依權責提供。記錄來源、依據、用途與保存期限，個資依角色限制存取。</p></div>
+ </div>
+</div>
+<p class="foot"><span class="pg">22</span><span>〔48〕–〔54〕｜<a class="go" href="#d-arch">資料取得窗口與交付</a></span></p>`},
+
+/* 23 */{t:'4.2 判讀模型', h:`
+<p class="kicker">三、創意構想提案內容｜4.2 判讀模型與選用原因</p>
+<h2>作物生長、地表積水與損失比例，需要不同的觀測與模型</h2>
+<div class="cols" style="--c:1.25fr 1fr">
+ <div class="tw"><table class="tbl sm">
+  <tr><th>任務</th><th>方法與起始設定</th></tr>
+  <tr><td>作物判釋</td><td>Presto 與時序 Transformer，災前 12 個月時序；水稻加插秧灌水雷達下降 2 dB</td></tr>
+  <tr><td>淹水</td><td>Otsu（−15 dB）、前後暗化 3 dB、低於六期平均 3σ，至少兩法同意</td></tr>
+  <tr><td>光學分割</td><td>Prithvi-EO-2.0 作為後續候選，以獨立版本比較跨事件成效</td></tr>
+  <tr><td>倒伏</td><td>VH 變化 2.5 dB、對數比值＋隱馬可夫隨機場；精細影像語意分割</td></tr>
+  <tr><td>埋沒與流失</td><td>同調性低於 0.5 且下降超過 0.3，再配合影像、地形與現場</td></tr>
+  <tr><td>植生受損</td><td>NDVI／NDRE 對照同田往年同期與周邊同作物；同期差 0.2、連片 0.2 公頃</td></tr>
+  <tr><td>損失估計</td><td>LightGBM 分位數迴歸預測 P10／P50／P90，保形校準</td></tr>
+  <tr><td>魚塭</td><td>池體、池水流失與堤岸變化，連同在養、溶氧及電箱紀錄</td></tr>
+ </table></div>
+ <div class="stack">
+  ${fig('f17','圖 17　損失模型的輸入、融合與回填','19cqw')}
+  <p class="sm"><b>成效目標</b>：作物準確率下界 ≥ 80%；淹水 CSI ≥ 70%；單獨支撐 A 類的證據精確度下界 ≥ 95%；各作物 RMSE ≤ 10 個百分點。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">23</span><span>〔50〕〔55〕–〔72〕｜<a class="go" href="#d-models">前處理、各模型選用原因與照片檢查</a></span></p>`},
+
+/* 24 */{t:'4.3 驗證與導入等級', h:`
+<p class="kicker">三、創意構想提案內容｜4.3 可信度驗證與模型導入等級</p>
+<h2>依作物與災害類型分別驗證，以丙、乙、甲三級逐步導入</h2>
+<div class="row">
+ <div class="tier"><span class="t">丙</span><h3>驗證判讀能力</h3><p class="sm">模型預測與公所勘查逐筆對照，找出可辨識與易判錯的情況；既有審查程序持續辦理</p></div>
+ <div class="tier"><span class="t">乙</span><h3>提供審查參考</h3><p class="sm">熱區、案件排序、補件提醒及前後影像對照；持續回填，確認跨事件穩定</p></div>
+ <div class="tier jia"><span class="t">甲</span><h3>經核准協助書面審查</h3><p class="sm">固定版本連續至少 10 場可比較事件達標，再由機關核准範圍、依據與通知方式</p></div>
+</div>
+<div class="cols">
+ <div class="tw"><table class="tbl sm">
+  <tr><th>評估項目</th><th>目標或採用條件</th></tr>
+  <tr><td>A 類兩組的精確度</td><td>初步達標、初步未達標各自下界 ≥ 95%</td></tr>
+  <tr><td>全部 A 類判定正確率</td><td>下界 ≥ 90%</td></tr>
+  <tr><td>A 類可處理比例</td><td>須個別認定損失率案件的至少 50%</td></tr>
+  <tr><td>接近門檻的 B 類</td><td>現勘損失落在 10%～30% 的比例下界 ≥ 80%</td></tr>
+ </table></div>
+ <div class="stack">
+  <p class="sm"><b>樣本數</b>：Clopper–Pearson 95% 單側信賴下界要達 95%，零錯誤需 59 筆；1、3、10 件錯誤分別需 93、153、336 筆。</p>
+  <p class="sm"><b>甲等後</b>：兩組 A 類各以 20% 品質抽查起始，約 295 筆可得 59 筆樣本；未達條件即回到較前的使用階段。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">24</span><span>訓練與測試以整場災害分開〔73〕｜<a class="go" href="#d-levels">驗證資料與抽查畫面</a></span></p>`},
+
+/* 25 */{t:'4.4 丹娜絲影像', h:`
+<p class="kicker">三、創意構想提案內容｜4.4 實際案例與測試結果・丹娜絲衛星影像分析</p>
+<h2>丹娜絲登陸點周邊約 25,450 公頃的前後比較</h2>
+<div class="cols" style="--c:1fr 1.15fr">
+ ${fig('f19','圖 19　丹娜絲判讀總圖：植生下降、疑似積水與觀測品質','31cqw')}
+ <div class="stack">
+  <p class="sm">Sentinel-1 RTC 與 Sentinel-2 L2A 分析，列出約 <b>480 公頃</b>植生較往年同期明顯下降、約 <b>157 公頃</b>雷達疑似積水的候選範圍。</p>
+  <div class="step"><span class="k">01</span><p class="sm"><b>觀測缺口</b>：災後光學可比面積約三分之一，首輪以雷達補足</p></div>
+  <div class="step"><span class="k">02</span><p class="sm"><b>作期差異</b>：未扣往年同期為 899 公頃，加入同期對照後 480 公頃，相差約 419 公頃</p></div>
+  <div class="step"><span class="k">03</span><p class="sm"><b>灌溉</b>：疑似積水約 158 公頃中水稻約 87 公頃（約 55%），加入「疑似灌溉」原因碼</p></div>
+  <p class="sm lead">兩個作物判釋版本估得水稻約 1,592 與 4,381 公頃，試辦以鄉鎮稻作統計、申報及現勘校準。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">25</span><span>Contains modified Copernicus Sentinel data 2024–2025, processed by Microsoft Planetary Computer〔53〕〔74〕〔75〕｜<a class="go" href="#d-danas">前後對照（可拖動比較）</a></span></p>`},
+
+/* 26 */{t:'4.4 前後對照', h:`
+<p class="kicker">三、創意構想提案內容｜4.4 實際案例與測試結果</p>
+<h2>同一位置的前後影像，確認變化在哪裡、何時出現</h2>
+<div class="row" style="--n:2;max-width:64cqw;margin-inline:auto;width:100%">
+ ${cmp('f21c1','f21c2','災前 2025/6/15','災後 2025/7/18','C 區｜同田區光學影像')}
+ ${cmp('f21d1','f21d2','災前 6/28、7/4 平均','災後 2025/7/10','D 區｜同田區雷達影像')}
+</div>
+<p class="lead sm">拖動影像中的滑桿比較災前與災後。承辦可配合作期、疑似積水範圍及申報資料判斷原因。</p>
+<p class="foot"><span class="pg">26</span><span>圖 21　Contains modified Copernicus Sentinel data 2025, processed by Microsoft Planetary Computer〔74〕｜<a class="go" href="#d-danas">圖 20 植生變化對照</a></span></p>`},
+
+/* 27 */{t:'4.4 模擬判讀', h:`
+<p class="kicker">三、創意構想提案內容｜4.4 實際案例與測試結果・模擬判讀</p>
+<h2>十組模擬情境：直接判定沒有判反，區間平均覆蓋率約 87%</h2>
+<div class="cols" style="--c:1fr 1fr 1fr">
+ ${fig('f22','圖 22　淹水三法與投票結果（IoU 0.857）','27cqw')}
+ ${fig('f23','圖 23　主工況 83 坵塊的模擬真值與預測區間','27cqw')}
+ <div class="stack">
+  <p class="sm">83 個農地坵塊、40 口魚塭，跑過影像生成、三法判讀、損失區間、分級與存證。單一工況覆蓋率約 83%、中位數絕對誤差約 6 個百分點。</p>
+  <div class="row" style="--n:2"><div class="card"><p class="num m c-ga">2.2%</p><p class="sm">高可信度落在門檻另一側</p></div><div class="card"><p class="num m c-gc">11.9%</p><p class="sm">中可信度</p></div></div>
+  <p class="sm lead">769 筆模擬坵塊，兩者平均誤差接近（5.4、5.5 個百分點）。區間縮窄實驗覆蓋率 51.3%，保形校準後回到 82.6%。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">27</span><span>A 類兩組成效依前節規則以獨立現勘資料量測〔57〕〔76〕｜<a class="go" href="#d-sim">模擬與測試全文</a></span></p>`},
+
+/* 28 */{t:'4.4 防偽與長期對照', h:`
+<p class="kicker">三、創意構想提案內容｜4.4 實際案例與測試結果・流程與長期對照</p>
+<h2>流程原型簽發 49 份報告約 0.4 秒，竄改都被擋下</h2>
+<div class="cols" style="--c:1.25fr 1fr">
+ <div class="tw"><table class="tbl sm">
+  <tr><th>測試</th><th>操作或情境</th><th>原型紀錄</th></tr>
+  <tr><td class="pg">T1</td><td>相同輸入與版本重算</td><td>49／49 份雜湊相同</td></tr>
+  <tr><td class="pg">T2–T4</td><td>改區間、自行重算雜湊、非信任金鑰</td><td>查驗或信任鏈檢查失敗</td></tr>
+  <tr><td class="pg">T5</td><td>改第 10 筆、刪第 21 筆日誌</td><td>指出內容不符及序號斷開</td></tr>
+  <tr><td class="pg">T6–T7</td><td>雷達單一像元改 0.1 dB、私改門檻</td><td>輸入檢查中止或版本不一致</td></tr>
+  <tr><td class="pg">T8–T9</td><td>抽掉報告、更改公所核定</td><td>批次根或公所簽章不符</td></tr>
+  <tr><td class="pg">T10</td><td>裸地以果樹申請</td><td>列 C，附生產事實待確認</td></tr>
+  <tr><td class="pg">T11</td><td>24 份變造複本、15 組不同影像</td><td>24／24 標出；0／15 誤標</td></tr>
+  <tr><td class="pg">T12</td><td>水稻 A 類現勘受害率改為 12%</td><td>水稻列入下次停判 A 清單</td></tr>
+ </table></div>
+ <div class="stack"><h3>長期對照的模擬結果</h3>
+  <div class="tw"><table class="tbl sm">
+   <tr><th>檢核</th><th>只看災前六期 → 加入長期對照</th></tr>
+   <tr><td>L1 長期休耕</td><td>0% → 100%</td></tr>
+   <tr><td>L2 新植冒充成樹</td><td>0% → 100%</td></tr>
+   <tr><td>L3 事件前已收割</td><td>2.5% → 77.5%</td></tr>
+   <tr><td>L4 尚未恢復即再申請</td><td>72.5% → 100%</td></tr>
+  </table></div>
+  <p class="sm lead">三年時序、35% 雲遮、400 筆正常申請中 7 筆被標為疑似異常，誤標率 1.75%。</p></div>
+</div>
+<p class="foot"><span class="pg">28</span><span>模擬影像、示範金鑰與示範時戳的原型紀錄〔57〕〔83〕〔84〕〔85〕｜<a class="go" href="#d-sim">測試說明</a></span></p>`},
+
+/* 29 */{t:'4.5 導入與風險', h:`
+<p class="kicker">三、創意構想提案內容｜4.5 導入規劃與風險管理</p>
+<h2>前三年：建立試點、現勘校準、跨試點評估</h2>
+<div class="cols" style="--c:1.2fr 1fr">
+ ${fig('f24','圖 24　前三年的交付進程；甲等依後續達標成果及機關核准推進','25cqw')}
+ <div class="stack">
+  <p class="sm">年度交付與模型使用等級分開管理，完成試點不會自動進入某一等級。若僅以每年 2–3 場新增事件累積，10 場約需 3.3–5 年。</p>
+  <p class="sm"><b>作業驗收</b>：首輪資料到站後 8 小時內出件、區域總量偏差 ±20%、乙等優先清單前 30% 涵蓋至少 60% 實際受損、同輸入同版本重算一致、簽章查驗與資料完整。</p>
+  <p class="sm lead">主要風險：判讀錯誤與責任、A 未達標判錯、程序選錯、承辦負擔、個資、核准延後、小田雲遮斷網、偽造竄改。</p>
+ </div>
+</div>
+<p class="foot"><span class="pg">29</span><span>〔9〕〔45〕〔51〕｜<a class="go" href="#d-plan">導入條件（圖 25）與風險對策</a></span></p>`},
+
+/* 30 */{t:'四-1 公所人力', h:`
+<p class="kicker">四、預期效益｜1. 公所人力與作業時間</p>
+<h2>甲等並獲核准的情境：需求 113% → 86%，現勘減少約四成</h2>
+<div class="cols" style="--c:1fr 1.1fr">
+ <div class="stack">
+  <p class="formula">需求人日＝N ×〔a／200＋0.2a／15＋（1−a）／c〕</p>
+  <p class="sm">N＝315,266、a＝50%、c＝12：約 16,026 人日、占量能約 86%，比全部逐筆現勘少約 4,992 人日。實地現勘約 189,160 筆，減少約 126,106 筆。</p>
+  <div class="tw"><table class="tbl sm">
+   <tr><th>B／C 每人日</th><th>15 筆</th><th>12 筆</th><th>10 筆</th></tr>
+   <tr><td>需求人日</td><td>13,399</td><td>16,026</td><td>18,653</td></tr>
+   <tr><td>占 30 日量能</td><td>72.2%</td><td>86.3%</td><td>100.5%</td></tr>
+   <tr><td>最低直接判定率</td><td>16.1%</td><td>37.6%</td><td>50.35%</td></tr>
+  </table></div>
+ </div>
+ ${fig('f26','圖 26　須個案認定損失率的同規模情境，N＝315,266、A 占 50%','26cqw')}
+</div>
+<p class="foot"><span class="pg">30</span><span>原本已免勘的案件不重複計入；實際母體依程序分流｜<a class="go" href="#d-work">計算說明</a></span></p>`},
+
+/* 31 */{t:'四-2 撥款時效', h:`
+<p class="kicker">四、預期效益｜2. 審核與撥款時效</p>
+<h2>約 6.7 萬件有機會提早約 28 天完成審核</h2>
+<div class="cols">
+ <div class="stack">
+  <p>同規模案件中若 50% 可轉入合適的書面處理流程，以歷史 134,006 件、須現勘與較快程序相差約 28 天計算。</p>
+  <p class="formula">平均完成天數＝55 −（134,006 × a ÷ 209,189）× 28</p>
+  <p class="lead sm">採購與試辦時直接量測公告、受理、補件、勘查、送縣及核撥日期，確認改善發生在哪個環節。申請件數與土地筆數分開計算。</p>
+ </div>
+ <div class="row" style="--n:3">
+  <div class="card"><p class="num m">49.6</p><p class="sm">a＝30%（天）</p></div>
+  <div class="card"><p class="num m c-ga">46.0</p><p class="sm">a＝50%（天）</p></div>
+  <div class="card"><p class="num m">42.4</p><p class="sm">a＝70%（天）</p></div>
+ </div>
+</div>
+<p class="foot"><span class="pg">31</span><span>來源：〔1〕</span></p>`},
+
+/* 32 */{t:'四-3 成本與採購', h:`
+<p class="kicker">四、預期效益｜3. 成本與政府採購模式</p>
+<h2>每年三次同規模服務總成本約增加 4%～10%，五次時低於逐筆現勘</h2>
+<div class="cols" style="--c:1fr 1fr">
+ <div class="stack">
+  <p class="sm">全國營運 37 人，平台年度營運成本約 8,430 萬至 1 億元；每場熱區影像與無人機 390 萬至 570 萬元，扣除後其餘年度費用約 7,260 萬至 8,290 萬元。每人日成本 4,773 元。</p>
+  <p class="sm">每年五次總成本約 <b>4.75～4.94 億元</b>，低於逐筆現勘基準約 <b>5.02 億元</b>。全國 368 個公所各增聘一人約 4.32 億元／年，限 221 個辦理公所約 2.59 億元。</p>
+  <div class="row" style="--n:3">
+   <div class="card"><h3>建置費</h3><p class="sm">資料整理與系統介接</p></div>
+   <div class="card"><h3>年度服務費</h3><p class="sm">平時紀錄、平台、資安、報告查驗</p></div>
+   <div class="card"><h3>事件服務費</h3><p class="sm">分析規模、精細影像、現場補充</p></div>
+  </div>
+ </div>
+ <div class="stack">
+  ${fig('f27','圖 27　每年三次同規模適用工作量的成本情境','13cqw')}
+  ${fig('f28','圖 28　約 3.6–4.6 次交會，五次時低於逐筆現勘基準','14cqw')}
+ </div>
+</div>
+<p class="foot"><span class="pg">32</span><span>以政府採購為主，農業部或縣市採購，公所及農民使用基礎功能〔4〕〔48〕〔49〕〔77〕–〔81〕｜<a class="go" href="#d-cost">成本公式與契約</a></span></p>`},
+
+/* 33 */{t:'四-4 社會效益', h:`
+<p class="kicker">四、預期效益｜4. 社會效益</p>
+<h2>農民少跑一趟，公所把時間留給難案，縣府與審計查到同一份依據</h2>
+<div class="row" style="--n:3">
+ <div class="card"><h3>農民少跑一趟</h3><p class="sm">預填申請、指定補件與查驗碼，知道缺什麼、由誰處理；路不通的田先用既有觀測</p></div>
+ <div class="card"><h3>公所把時間用在難案</h3><p class="sm">書審、補件與現勘分流，對接近門檻或有爭議的案件投入較完整的調查</p></div>
+ <div class="card"><h3>縣府與審計查同一份依據</h3><p class="sm">系統判讀、公所核定與更正並列；爭議處理能追到當時資料</p></div>
+ <div class="card"><h3>偏鄉與養殖都有證據途徑</h3><p class="sm">山區以雷達、精細觀測與離線紀錄補足；魚塭結合在養申報、池水及設備紀錄</p></div>
+ <div class="card"><h3>持續使用自主衛星</h3><p class="sm">福衛與後續自主雷達接入跨事件作業，由鄉鎮擴至縣市，再延伸其他農業場域</p></div>
+ <div class="card"><h3>持續記錄四項成果</h3><p class="sm">減少的現勘與補件、各階段時間、各作物與災害的判斷成效、每案工時與成本</p></div>
+</div>
+<p class="foot"><span class="pg">33</span><span>各方效益透過試辦中的工作紀錄、處理時間及查驗結果持續量測</span></p>`},
+
+/* 34 */{t:'結語', inv:true, h:`
+<h1 style="font-size:max(30px,5.2cqw)">天象天相，無相萬象。</h1>
+<p class="lead" style="font-size:max(16px,1.9cqw)">讓公所看清同一塊農田的災前災後變化，再依可查證的資料完成審查。</p>
+<div class="row" style="--n:4">
+ <div class="card" style="background:var(--inv-card);border-color:transparent"><p class="num m">113% → 86%</p><p class="lead sm">公所工作需求占量能</p></div>
+ <div class="card" style="background:var(--inv-card);border-color:transparent"><p class="num m">−12.6 萬筆</p><p class="lead sm">情境估算減少的現勘</p></div>
+ <div class="card" style="background:var(--inv-card);border-color:transparent"><p class="num m">約 6.7 萬件</p><p class="lead sm">有機會提早約 28 天</p></div>
+ <div class="card" style="background:var(--inv-card);border-color:transparent"><p class="num m">T1–T12</p><p class="lead sm">竄改與重算測試</p></div>
+</div>
+<p class="lead"><a class="go" href="#x-index">資料頁目錄</a>　<a class="go" href="#d-glossary">名詞定義與用語對照</a>　<a class="go" href="#x-refs">參考資料</a></p>`}
+];
+
+/* ---------- reading pages ---------- */
+const D = {};
+const page = (id, o) => { D[id] = o; };
+
+page('d-summary',{title:'一、作品摘要',body:`
+<p>農業天然災害發生後，大量救助申請集中湧入公所，然而各公所農業課平均僅有 4 名人員，需要負責大量資料審查與現場勘查。根據歷史案件規模推估，現勘工作需求已達公所處理量能的 113%，人力負荷過重，也造成農損審查與救助款發放時間延長，須現勘損失率者平均約 58 天才能完成撥款。因此，天相星 SkyAide 將透過衛星技術降低公所勘查負擔，加快救助流程，讓受災農民更早取得救助金。〔1〕</p>
+<p>天相星累積田區紀錄，災後先依公告確認救助程序。簡化案件核對證明；須認定損失率者，依衛星分析分為初步結果明確、待確認及待補件，供公所安排審查。</p>
+<table><tr><th>面向</th><th>內容</th></tr>
+<tr><td>衛星必要性</td><td>透過長期衛星觀測建立田區生長與耕作紀錄，供災前、災後比對；雷達衛星可補充多雲期間的觀測</td></tr>
+<tr><td>概念創新</td><td>將衛星分析轉成案件清單、預填申請及可查驗報告，銜接公所受理、審查、補件與現勘作業</td></tr>
+<tr><td>技術可行</td><td>運用已發表的衛星分析方法，結合丹娜絲颱風影像與原型測試，以現勘資料驗證可信度，前三年完成試點、校準及跨場域評估〔27〕〔57〕</td></tr>
+<tr><td>預期效益</td><td>依情境評估，預計減少約 12.6 萬筆現勘，公所工作需求由處理量能的 113% 降至 86%；約 6.7 萬件有機會提早 28 天撥款。營運以政府採購為主</td></tr></table>
+${dfig('f01','圖 1　災前紀錄、災後對照與承辦作業；效益依適用案件及後續經機關核准使用的情境估算。')}`});
+
+page('d-need',{title:'二、需求分析：1.1–1.2',body:`
+<h2>1.1 公所勘查的人力與資料缺口</h2>
+<p>公所勘查面臨的主要困難，是救助申請集中湧入，而每塊農田的災前資料並未完整放在同一處。每筆申請都要確認災前種植情形、本次受損狀況與救助資格，承辦人員還得整理申報、照片、地籍及勘查紀錄，供後續層報與抽查。資料分散時，查找和補件反覆進行，許多基本資料也要等到現勘時才能核對。</p>
+<p>SkyAide 平時持續累積衛星觀測資料，災後將最新衛星影像、無人機照片及農民既有紀錄整合至同一塊農田。審查人員可透過時間線查看耕作歷程，區分正常收割、插秧灌水與天然災害造成的變化。</p>
+${dfig('f02','圖 2　同一田區的災前基準與災後狀態')}
+<h2>1.2 審查時間與行政成本</h2>
+<p>監察院引用的 2021 年 8 月豪雨救助資料中，209,189 件申請平均約 55 天完成撥款；須現勘損失率者約 58 天，免勘案件約 24～30 天，但免勘比例僅約 3.7%。〔1〕</p>
+${dfig('f03','圖 3　不同勘查方式的平均撥款天數，來源：監察院調查報告〔1〕')}
+<p><b>公所人力負荷</b>：全台 327,230 筆土地申請救助，由 221 個公所辦理；農業課平均 4 人，每人約 370 筆。以歷史免勘比例換算，推估約 315,266 筆需要現勘，作為後續人力與效益評估的共同基準。每人每天 15 筆，需約 21,018 人日；以 221 所、每所 4 人及 21 個工作日計算，量能僅 18,564 人日，需求達 113%。</p>
+<p><b>行政作業成本</b>：農業天然災害救助基金行政作業實際支出從 112 年 2,078 萬元，增至 113 年 4,082 萬元、114 年 4,852 萬元。若考量公所工時、加班需求與業務排擠，整體負擔可能更高。〔2〕</p>
+${dfig('f04','圖 4　112–114 年度農災救助基金行政作業實支〔2〕')}
+<p><b>無人機投入成本</b>：以丹娜絲颱風及 0708 豪雨 19,433 公頃受災面積為例，每小時拍 200 公頃、飛行費每小時 5,000～7,000 元，約需 97 小時，飛行費 48.6～68 萬元，尚未含交通、影像處理及判讀。〔3〕〔4〕〔5〕</p>
+<p><b>偏鄉</b>：山坡竹林可能因道路中斷難以進入，魚塭可能同時面臨淹水、停電及增氧設備中斷。天相星先以衛星掌握受災情況，協助確認哪些案件需要現勘、補件或拍攝，並提供離線存取與回填。〔6〕〔7〕〔8〕</p>`});
+
+page('d-platform',{title:'1.3 平台定位與功能',body:`
+<p>SkyAide 將衛星影像、農民申報資料及相關證據整合至同一案件，協助公所進行書面審查、資料補件及現場勘查安排。公所負責受理與審查，縣市政府進行資料彙整、抽查及依權責核定，中央負責相關審核與救助款項核撥。</p>
+<table><tr><th>功能</th><th>說明</th></tr>
+<tr><td>災情熱區圖</td><td>掌握不同村里、鄉鎮的疑似受災區域，協助政府快速了解災害範圍，安排後續調查與資料蒐集</td></tr>
+<tr><td>案件分級清單</td><td>整合每筆農田的申報內容、衛星影像、預估損失程度及待補資料，協助判斷書面審查、補件或現勘</td></tr>
+<tr><td>農損查核報告</td><td>保存衛星影像來源、分析模型版本、資料驗證紀錄及機關審查歷程，供主管機關查核、農民申復及審計追溯</td></tr></table>
+<h2>案件分類</h2>
+<p>需要個別認定農損比例的案件，依證據完整度與分析結果分為 A 類「初步結果明確」（包含初步達標與未達標）、B 類「需要進一步確認」及 C 類「需要補充資料」。符合公告簡化程序的案件，依規定核對相關證明。</p>
+<h2>模型驗證</h2>
+<p>依不同作物與災害類型逐步驗證：初期以實際現勘資料檢驗準確度並調整（丙等）；完成初步驗證後，提供災情熱區、案件排序及審查參考（乙等）；達到可信度標準並經主管機關核准後，協助符合條件案件的書面審查（甲等）。</p>`});
+
+page('d-rules',{title:'1.4 救助制度與適用程序',body:`
+<p>農業災害救助會依當次政府公告及案件證明資料，決定是否適用免勘、抽樣勘查或現場確認。天相星將申請資料、證明文件及災前災後影像整合在同一案件，協助公所核對救助條件。</p>
+${dfig('f05','圖 5　公所依公告及證明條件選擇勘查程序〔9〕〔10〕')}
+<ul><li>《農業天然災害救助辦法》第 12 條：政府可以運用衛星等科學技術輔助農損勘查。</li>
+<li>符合公告簡化程序的案件，具種植或養殖客觀證明即可免除現場勘查；未提供證明者，抽樣勘查至少 20%。依第 12 條之一，簡化程序不需另外確認農損是否達到 20%。〔9〕〔10〕〔11〕〔12〕</li>
+<li>依第 12 條之二第三款辦理的出租造林地，以及按畜禽數量計算救助金的畜牧項目，同樣不受 20% 損失率門檻限制。只有需要個別認定農損比例的案件，才以 20% 作為判斷標準，並保存當次適用的法規與公告紀錄。〔9〕</li></ul>
+<h2>三種用途不同的 20%</h2>
+<table><tr><th>20%</th><th>用途</th></tr><tr><td>損失率</td><td>農損是否達到救助標準</td></tr><tr><td>法定抽樣</td><td>簡化程序中，對缺少客觀證明案件進行的至少 20% 抽樣勘查</td></tr><tr><td>模型品質抽查</td><td>天相星自行規劃，持續驗證 A 類案件的分析結果</td></tr></table>
+<h2>行政時程</h2>
+<p>公所於救助公告翌日起 30 日內完成勘查與造冊；縣市政府及中央各自從收到對應資料翌日起算，於 7 日內完成相應作業。平台記錄申請、補件、送出與各機關收件日期。〔9〕</p>
+<h2>導入方式</h2>
+<p>完成甲等驗證並經機關核准後，系統可將證據充分的 A 類案件優先送交公所審查。對簡化程序或法定例外的案件，平台核對該程序所需的證明與生產資料，不因衛星估計損失低於 20% 就列為 A 未達標。林業保育署經管出租造林地的案件，依規定向受災地所屬工作站申請。〔9〕</p>`});
+
+page('d-stages',{title:'1.1–1.2 使用情境與作業流程',body:`
+<h2>1.1 使用對象與應用場域</h2>
+<p>天相星主要供公所審查人員辦理農災救助申請；縣市政府彙整各公所案件、安排抽查並追蹤進度；農民與養殖戶查看通知、補充資料及查驗報告。颱風過後，承辦先從清單查看各案適用的救助程序、資料是否齊全及需要完成的工作，點入後沿時間線查閱申報、照片與衛星影像。需要判定損失率的案件另有損失區間與可信度檢查；符合簡化程序者協助核對證明。農民自願登錄，既有申請管道持續受理；試辦先從一個鄉鎮、少數作物與明確災害類型開始。</p>
+${dfig('f06','圖 6　災前建檔至核撥、發放與結果回填〔9〕〔10〕')}
+<h2>1.2 各階段</h2>
+<table><tr><th>階段</th><th>內容</th></tr>
+<tr><td>0 機關合作與災前建檔</td><td>縣市與公所確認試辦區域、作物及窗口，訂定資料使用範圍、權限、保存期限與委託契約。農民登錄實際耕作範圍、作物、期作及土地使用關係；變動時保留原版本</td></tr>
+<tr><td>1 事件啟動與災情提報</td><td>颱風警報或機關指定事件後，保存這次採用的災前資料、模型與設定，整理各村里及作物疑似受災範圍；目標雷達到站後 8 小時內完成第一輪分析</td></tr>
+<tr><td>2 公告後申請與送件</td><td>依地區、品項、期間及法定程序預填申請；農民確認後向受災地公所送件；未申請但明顯變化者收到提醒</td></tr>
+<tr><td>3 確認適用程序，再核對證據</td><td>依公告、品項與客觀證明確認免勘、抽樣或個別損失評估；核對地號、作物、期作、面積、使用關係及重複申請，例如申報柚類但影像推定水稻就先確認改種或期別</td></tr>
+<tr><td>4 公所審查、補件與現勘</td><td>簡化案件依公告辦理；須評估損失率者才使用 A、B、C。驗證階段結果用於比對或參考；甲等經核准後 A 類可協助書面審查，初步未達標附理由、補件與申復方式。兩組 A 各以 20% 起始抽查，與法定抽樣、縣市抽查分開記錄</td></tr>
+<tr><td>5 公所送縣府彙整</td><td>竹崎鄉公所送嘉義縣政府農業處，縣府抽查、核定與層報；缺件回原案補正</td></tr>
+<tr><td>6 核撥與發放</td><td>農糧署審核核撥，地方依核定清冊發放；帳戶與轉帳由既有系統處理</td></tr>
+<tr><td>7 回填結果與模型校準</td><td>現勘、抽查或申復結果回原案；依作物與災害比較預測與現場，分別追蹤初步達標與未達標，調整模型與下一場使用等級</td></tr></table>
+<h2>階段 2 的文件窗口（嘉義縣竹崎鄉・竹崎段 0418）</h2>
+<div class="tw"><table><tr><th>需要的文件／資料</th><th>取得或提供單位</th><th>提交對象與用途</th></tr>
+<tr><td>農業天然災害現金救助申請表</td><td>竹崎鄉公所；農業部作業要點附件</td><td>竹崎鄉公所，建立正式申請</td></tr>
+<tr><td>身分及代理資料</td><td>申請人證件；代理人附委託資料</td><td>核對申請人及代理關係</td></tr>
+<tr><td>土地登記資料、地號與面積</td><td>竹崎地政事務所；機關依法調閱</td><td>核對田區與申報範圍</td></tr>
+<tr><td>租約、使用同意或實際耕作佐證</td><td>出租人、權利人及實際耕作者</td><td>確認實際使用關係</td></tr>
+<tr><td>種植或養殖客觀證明</td><td>公告列舉的申報、登記主管機關</td><td>核對作物、期作與田區</td></tr>
+<tr><td>災損照片及補充說明</td><td>農民以農災 App 或承辦指定方式</td><td>補足當案證據</td></tr>
+<tr><td>撥款帳戶資料</td><td>申請人本人金融帳戶佐證</td><td>公所辦理款項；平台保留核對狀態</td></tr></table></div>
+<p class="note">申請、勘查與統計表沿用農業部正式附件；補件沿用原案號，申報面積、核定面積與受害率分別保存。〔10〕〔23〕〔24〕〔25〕</p>
+<h2>長期對照項目</h2>
+<table><tr><th>項目</th><th>核對內容</th></tr><tr><td>L1 耕作物候</td><td>災前是否有符合該作物的生長變化，或長期未耕作</td></tr><tr><td>L2 作物年齡</td><td>種植多久、是否已進入申報的生產階段</td></tr><tr><td>L3 損失時點</td><td>異常是否在本次災害前就已出現，或已經收割</td></tr><tr><td>L4 前次恢復</td><td>前次災損後是否已恢復生產，再比對本次變化</td></tr></table>
+<h2>圖 7　先依適用程序分流，再分級</h2>
+${FIG7}`});
+
+page('d-ui',{title:'1.3–1.4 農民端與公所端畫面',body:`
+<h2>1.3 農民端操作畫面</h2>
+<p>農民端讓申請人查詢案件進度、確認申請內容，並依通知補上所需資料。畫面列出適用程序、田區分析結果及待補項目。收到 A 未達標通知時，也能看到判斷理由、影像日期與適用依據，並透過入口補件或提出申復。原型展示需要使用 20% 損失門檻的情境；簡化及例外案件依各自程序辦理。〔9〕〔27〕</p>
+${dfig('f08','圖 8　農民端田區結果、補件、送件與通知；損失分級為須個案認定損失率的示例〔27〕')}
+<h2>1.4 公所端審查畫面</h2>
+<p>公所端把申報資料、災前災後影像與待辦事項放在同一畫面。承辦先確認救助程序，再核對案件證據與分析結果。以陳大明位於竹崎段 0418 的平地麻竹筍園為例，示例面積 0.6200 公頃，災前紀錄、雷達變化及精細影像與申報相符，五項證據檢查均通過，估計損失區間 52%～68%。〔27〕</p>
+${dfig('f09','圖 9　公所審查同田區證據；本例為須使用 20% 損失門檻的案件〔27〕')}
+<p>模型已達甲等並經核准使用時，公所仍核對書面審查依據與案件證據，再輸入核定面積及受害率並簽章。系統估計與公所核定分別保存；人員調整結果時留下理由與版本。</p>
+<p>同一案例中，香蕉田損失區間 14%～33%，跨過 20%，列 B 類；山坡竹林因遮蔽缺少必要影像，列 C 類補充觀測；鄰田香蕉 0%～6%，只有在須評估損失率、模型達甲等且作業依據適用時，才將 A 未達標結果交公所處理，農民補充照片後可進入複核。</p>`});
+
+page('d-sat',{title:'2. 衛星必要性分析',body:`
+<h2>2.1 災前紀錄與前後比較</h2>
+<p>衛星的主要作用，是平時留下同一塊農田的觀測紀錄，讓災後判讀有前後對照。災後拍到裸地、積水或植被減少，可能是正常收割、插秧、休耕，也可能是災害；審查人員可結合歷史影像、往年同期與生長週期區分原因。相較災後才進行的現場拍攝，衛星能提供完整的災前紀錄，並以一致方式比較不同鄉鎮。〔28〕〔29〕</p>
+<p>長期紀錄也能確認過去 12 個月是否正常種植、最近一次裸地後作物已長多久、異常是否在災前就出現，以及過去受災的農田是否已恢復。平台整合不同時期的田區範圍與作物紀錄，讓歷次影像都對應到正確的農田。</p>
+<h2>2.2 災後觀測與多種資料分工</h2>
+<div class="tw"><table><tr><th>來源</th><th>觀測能力</th><th>在平台的用途</th></tr>
+<tr><td>Sentinel-1 SAR</td><td>C 波段 VV／VH；常用 10 m 像素間距，實際解析度依產品模式</td><td>災後積水、地表與作物結構變化；建立雷達時序〔28〕</td></tr>
+<tr><td>Sentinel-2 光學</td><td>多光譜，主要分析波段為 10–20 m</td><td>植生、作物生長與歷年同期比較〔30〕</td></tr>
+<tr><td>福衛及商業精細影像</td><td>依實際供應產品與授權規格採購</td><td>小田與熱區倒伏、堤岸、埋沒等細節確認〔31〕〔32〕〔33〕</td></tr>
+<tr><td>VIIRS 夜間燈光</td><td>區域尺度的夜間光照觀測</td><td>魚塭區停電情境的輔助資訊〔34〕</td></tr>
+<tr><td>無人機、GNSS 與現場照片</td><td>指定田區精細觀測及位置紀錄</td><td>補足證據缺口、現勘與抽查回填〔8〕</td></tr>
+<tr><td>魚塭感測與放養資料</td><td>溶氧、電箱紀錄、放養與收成申報〔35〕</td><td>確認在養事實及災害經過〔36〕</td></tr></table></div>
+<p>平台依實際拍攝日期、軌道、雲量與品質安排分析，顯示當次真正可用的觀測。福衛九號等自主雷達依供應進度接入，並保留更換影像來源的介面。〔29〕〔37〕〔34〕〔36〕</p>
+<h2>2.3 無人機與現勘的銜接</h2>
+<p>小田、狹長田或遮蔽區補用精細衛星影像或無人機照片；資料說法不一致、疑似正常灌溉或難以確認是否生產時，由公所安排調查。竹林、網室及落果案件依能觀察到的內容，搭配現勘或適用的天氣參數，衛星提供災前背景。補拍範圍可匯出並依相鄰位置集中派工；無人機飛行仍須確認機型、許可、天候、道路及起降條件。資料補回原案件後，平台重新檢查及分類。〔38〕〔39〕</p>
+${dfig('f10','圖 10　公所補件、無人機派工與離線現勘〔27〕')}
+<p>現勘清單先下載到手機，離線記錄照片、座標與受害率，連線後回傳；機關已部署的衛星備援節點可支援災後傳輸。GNSS 定位樁或魚塭 IoT 依場域需要補充直接量測。〔40〕〔41〕</p>`});
+
+page('d-innov',{title:'3. 概念創新性分析・3.1',body:`
+<p>天相星的創新在於把長期衛星觀測接入農災救助作業，讓分析結果能直接用於受理、補件、審查與抽查。平台把同一塊農田的災前紀錄、災後變化及機關判定放在同一案號下，承辦能查到過去發生什麼、現在缺哪些資料，以及每次判斷的依據。現勘結果也會回到原案件，用來改善下一次的分析。</p>
+<h2>3.1 從災前紀錄到案件證據</h2>
+<p>平時保存最近可用影像、往年同期狀況、作物與耕作範圍，公所據此區分收割、插秧灌水與災害造成的變化。農田改種、分割或重新登錄時保留當時版本。每筆分析附案號、農田範圍、影像日期、損失區間、資料缺口原因與適用程序；農民補件、公所審查、縣市抽查及申復都查閱同一份紀錄。〔21〕〔22〕〔26〕</p>
+<h2>圖 11　八步作業</h2>
+${FIG11}
+<p>每場災害分析開始時，平台先保存當次公告、資料、模型與設定。S1～S8 從資料登錄、環境鎖定、影像判讀及案件分類，到報告簽發、公所判定、封存回填與成效檢查；之後也能依當時版本重新計算。</p>`});
+
+page('d-cred',{title:'3.2 以可信度安排處理方式',body:`
+<p>天相星先檢查證據是否足夠，再判斷案件應交書面審查、進一步確認或補件。影像被雲遮住、位置對不準或申報與影像不一致時，先列出要補的資料；證據齊全但損失區間仍難判斷時，交公所進一步確認。簡化程序依其要求核對文件與生產事實。</p>
+${dfig('f12','圖 12　影像前處理與判讀；成果依適用程序使用，須認定損失率者再進行案件分級〔28〕〔55〕〔56〕〔57〕')}
+<div class="tw"><table><tr><th>可信度檢核</th><th>承辦可查看的依據</th><th>未通過時的處理</th></tr>
+<tr><td>影像條件</td><td>有效像元、地籍對位與陰影</td><td>補精細影像或確認界線</td></tr>
+<tr><td>觀測完整</td><td>前後日期、作期與必備觀測</td><td>補指定時段或現場證據</td></tr>
+<tr><td>來源一致</td><td>雷達、光學及現場資料的結論</td><td>查明灌溉或其他衝突原因</td></tr>
+<tr><td>申報一致</td><td>作物機率、期別與申報紀錄</td><td>確認改種、期別或申報差異</td></tr>
+<tr><td>生產事實</td><td>災前生長、作物年齡、損失時點及前次恢復紀錄</td><td>補種植、經營佐證並交承辦確認</td></tr></table></div>
+<p>五項都通過列高可信度；一般一項未通過為中可信度；生產事實未通過或兩項以上未通過為低可信度。需要評估損失率的案件在高可信度下繼續判斷 A 或 B，其餘列 C。已經核准的雷達淹水證據組合，可在光學被雲遮住時使用；可用資料彼此矛盾時仍先查明原因。〔26〕</p>
+${dfig('f13','圖 13　須認定損失率案件的公所分級清單：列出可信度、區間、原因碼與處理方式〔27〕')}
+<p>畫面分開顯示三種資訊：案件分類說明下一步怎麼處理，可信度說明證據是否足夠，丙、乙、甲等說明該類模型目前能用在哪些作業。</p>
+<h2>3.3 可查驗並持續改善的判讀</h2>
+<p>來源紀錄、數位簽章與版本保存讓報告可以查驗。SHA-256 保存內容摘要，數位簽章確認簽發者，時間戳記保存存證時間；照片另檢查位置與重複使用情形；公所核定另外簽章。〔42〕〔43〕〔44〕〔45〕</p>
+${dfig('f14','圖 14　來源、計算與機關判定分層留存，查驗結果可定位到對應環節')}
+${dfig('f15','圖 15　查驗報告的來源、簽章、封存批次與公所判定〔27〕')}
+<p>查驗畫面顯示資料來源、封存批次、系統分析及公所判定。資料目錄以 STAC 記錄來源，以 PROV 保存處理關係。正式部署規劃採機關憑證、RFC 3161 時戳與硬體安全模組，原型則使用示範金鑰測試。現勘、抽查及申復結果回到原案件後，依作物與災害類型校準損失區間、整理常見缺件原因，再檢查模型適合使用到哪個階段。〔46〕〔47〕〔57〕〔73〕</p>`});
+
+page('d-arch',{title:'4.1 資料與運算架構',body:`
+<p>平台以同一塊農田為資料主軸，分成資料取得、影像處理、模型判讀、案件整理與操作應用五個部分。衛星影像與申報資料先依日期、位置及耕作範圍對齊，模型分析農田變化，最後整理成案件清單與報告。各部分使用相同的案號、田區識別與版本紀錄。</p>
+${dfig('f16','圖 16　資料、處理、判讀、案件與應用五層架構；案件層先記錄適用程序，再使用所需的證據與判讀')}
+<p><b>運算規劃</b>：約 200 萬坵塊，在影像已整理完成的條件下，一張 GPU 跑完作物模型約 27 分鐘；下載與影像整理時間另計。年度雲端規劃 2 臺 NVIDIA L4 常駐、A100 重訓約 500 小時、保存 15 TB，運算與儲存費約 70 萬元。平台會分別記錄影像下載、資料整理及模型分析所花的時間。〔48〕〔49〕〔50〕</p>
+<h2>資料取得與交付</h2>
+<div class="tw"><table><tr><th>資料名稱</th><th>取得窗口</th><th>提出的文件／資料</th><th>平台收到後產出</th></tr>
+<tr><td>Sentinel 影像及目錄</td><td>Copernicus Data Space；Microsoft Planetary Computer</td><td>區域、時間、產品查詢與授權紀錄</td><td>影像來源清單、時序與分析特徵〔53〕〔54〕</td></tr>
+<tr><td>福衛精細影像</td><td>國家太空中心公佈的影像經銷服務窗口</td><td>範圍、日期、解析度、授權用途與採購文件</td><td>小田與熱區證據及授權紀錄〔33〕</td></tr>
+<tr><td>數值地籍圖檔</td><td>內政部國土測繪中心，由試辦機關提出</td><td>申請書、地段、格式、用途及受託者</td><td>田區對位、地號關聯及品質標記〔52〕</td></tr>
+<tr><td>申請、勘查及核定清冊</td><td>竹崎鄉公所；跨鄉鎮由嘉義縣政府統籌</td><td>委託契約、事件清單、欄位與個資處理規格</td><td>逐案索引、訓練／評估資料及回填紀錄</td></tr>
+<tr><td>種植申報與照片</td><td>公所或縣府向既有系統權責機關取得</td><td>核准用途、資料期間、欄位與介接／匯出申請</td><td>申請資料核對、作期與來源一致性檢核</td></tr>
+<tr><td>養殖申報與現場紀錄</td><td>養殖場所在地公所及縣府漁業業務單位</td><td>場址、期間、在養資料與受託範圍</td><td>魚塭在養及受災證據</td></tr></table></div>
+<p>平台產出的資料先交給委託的公所或縣市政府，再按救助流程交給下一個辦理單位。公開影像與含個資的案件資料分開管理；帳戶資料仍由既有行政系統處理。〔51〕〔52〕</p>`});
+
+page('d-models',{title:'4.2 判讀模型與選用原因',body:`
+<p>時序模型辨識作物，雷達方法找出疑似積水與結構變化，損失模型再整合各項特徵估計受損範圍。各方法結果最後都回到同一塊農田，供公所連同申報及現場證據查看。</p>
+<h2>影像前處理</h2>
+<ul><li><b>雷達強度</b>：依 Sentinel-1 產品已完成的校正項目，補上軌道、熱雜訊、輻射校正、Lee 濾波及地形處理；保存 VV、VH、VH／VV、軌道及陰影與疊置遮罩。RTC 產品先確認處理紀錄，避免重複校正。〔28〕〔55〕</li>
+<li><b>雷達同調性</b>：使用保留相位資訊的 Sentinel-1 SLC，配對並對準後計算；GRD、RTC 用於強度分析，兩類輸入分開登錄。</li>
+<li><b>光學影像</b>：Sentinel-2 L2A 排除雲及陰影，CloudScore+ 0.60 為試辦起始門檻，計算 NDVI、NDRE、NDWI、MNDWI；補值資料另外標示。〔56〕</li>
+<li><b>田區對位</b>：邊界內縮 10 m、至少保留 5 個有效像元，再依田形校準；小田或狹長田像元不足時標出原因並安排精細影像。</li></ul>
+<h2>各項判讀任務與模型選擇</h2>
+<div class="tw"><table><tr><th>任務</th><th>做法</th><th>選用原因</th></tr>
+<tr><td>作物判釋</td><td>Presto 與時序 Transformer，災前 12 個月 Sentinel-1／2、氣象與地形，以臺灣申報與現勘微調；水稻搭配插秧灌水雷達下降 2 dB 規則，與鄉鎮稻作面積校準</td><td>單張影像容易混淆作期或裸地；Presto 模型較小，適合地方標註有限時作基礎〔50〕〔58〕〔59〕</td></tr>
+<tr><td>淹水</td><td>Otsu 上限 −15 dB、前後暗化 3 dB、低於六期平均 3σ，至少兩法同意；另標示可能的插秧或灌溉</td><td>減少單一雷達門檻造成的零散誤判</td></tr>
+<tr><td>光學分割</td><td>Prithvi-EO-2.0 以獨立版本加入光學分析，比較跨事件結果；官方模型使用六個光學波段</td><td>以多光譜地球觀測資料訓練，適合研究積水與植被範圍〔60〕–〔63〕</td></tr>
+<tr><td>倒伏</td><td>VH 變化 2.5 dB；對數比值與隱馬可夫隨機場降低噪點，再以精細影像語意分割</td><td>雷達快速觀測大片區域，作物別倒伏型態需要細節確認〔64〕–〔67〕</td></tr>
+<tr><td>埋沒與流失</td><td>同調性低於 0.5 且下降超過 0.3，配合前後影像、地形及現場證據</td><td>找出地表結構明顯改變的候選範圍〔68〕</td></tr>
+<tr><td>植生受損</td><td>NDVI／NDRE 與同田往年同期、周邊同作物比較；同期差 0.2、連片 0.2 公頃</td><td>先排除作期差異，作為排序及損失估計特徵〔21〕〔22〕</td></tr>
+<tr><td>損失估計</td><td>LightGBM 預測 P10、P50、P90，以獨立資料校準區間寬度；半經驗損傷函數作為另一組特徵或融合方法</td><td>能處理表格資料與非線性關係，方便呈現影響結果的特徵〔69〕〔70〕〔71〕</td></tr>
+<tr><td>魚塭</td><td>池體、池水流失與堤岸變化，連同在養、溶氧及電箱紀錄</td><td>魚塭原本就是水面，需要回答在養、設備與池體三件事〔34〕〔36〕〔72〕</td></tr></table></div>
+${dfig('f17','圖 17　損失模型的輸入、融合與回填；20% 門檻機率僅供須個案認定損失率的適用案件使用〔69〕〔70〕〔71〕')}
+<p>圖中的綠、黃、紅為檢核提示。只有須個案認定損失率的案件，才以區間、證據品質與使用等級進行 A／B／C 分級；簡化或例外案件的損失估計另列為參考。</p>
+<h2>照片與日期檢查</h2>
+<p>照片轉成 dHash 視覺摘要，以摘要距離 ≤ 16 作為疑似重複的起始設定；災前影像先採距事件 ≤ 10 日。數值隨版本保存，再依照片與作物生長週期校準。</p>
+<h2>成效目標</h2>
+<p>作物辨識各作物準確率下界至少 80%；淹水範圍 CSI 至少 70%；某組證據要單獨支撐 A 類時，精確度下界至少 95%；損失估計各作物 RMSE 不超過 10 個百分點，並檢查現勘值落在 P10～P90 的比例。〔50〕〔60〕〔70〕〔71〕</p>`});
+
+page('d-levels',{title:'4.3 可信度驗證與模型導入等級',body:`
+<table><tr><th>等級</th><th>用途與條件</th></tr>
+<tr><td>丙等：驗證模型判讀能力</td><td>保存模型預測，與公所實際勘查結果逐筆對照，找出可辨識與容易判錯的情況，累積校準與評估資料；既有審查程序持續辦理</td></tr>
+<tr><td>乙等：提供公所審查參考</td><td>產出熱區、案件排序、補件提醒及前後影像對照；持續回填現勘，確認不同災害事件下是否穩定</td></tr>
+<tr><td>甲等：經核准後協助書面審查</td><td>符合成效要求，且在固定版本下連續至少 10 場可比較事件達標，再由機關核准使用範圍、程序依據與通知方式；最終認定仍由機關辦理</td></tr></table>
+<h2>如何確認判斷正確</h2>
+<p>A 類的「初步達標」與「初步未達標」分別與現勘比對：前者檢查是否把未達標判成達標，後者檢查是否漏掉實際達標的案件。符合簡化程序的案件，另外檢查文件核對是否正確及處理時間是否改善。抽查案件少時，採 95% 單側信賴下界，把樣本數一起納入。〔73〕</p>
+<table><tr><th>評估項目</th><th>目標或採用條件</th></tr>
+<tr><td>A 類兩組的精確度</td><td>初步達標、初步未達標各自的精確度下界均至少 95%</td></tr>
+<tr><td>全部 A 類的判定正確率</td><td>下界至少 90%，並同時符合前一項</td></tr>
+<tr><td>A 類可處理比例</td><td>須個別認定損失率案件的至少 50%，另量測公所實際工作量</td></tr>
+<tr><td>接近門檻的 B 類</td><td>損失區間跨過門檻的子群中，現勘損失落在 10%～30% 的比例下界至少 80%；其他 B 類另列原因</td></tr>
+<tr><td>乙等進入甲等</td><td>固定版本下連續至少 10 場可比較事件達標，並完成機關使用核准</td></tr></table>
+<h2>如何取得足夠的驗證資料</h2>
+<p>丙、乙等以完整現勘回填建立對照，另抽部分案件由兩位承辦獨立勘查，了解人工判定的一致程度。訓練與測試以整場災害分開。以 Clopper–Pearson 計算，下界要達 95%，零錯誤需 59 筆；1、3、10 件錯誤分別至少 93、153、336 筆。每種作物與災害的兩組 A 類各自滿足樣本要求。〔73〕</p>
+<p>甲等導入後，兩組 A 類分別以 20% 為品質抽查起始比例，並接回 B、C 類的確認結果；同類 A 案件約 295 筆可取得 59 筆抽查樣本。案件較少時提高抽查比例，或累積同版本、可比較事件的資料。成效未達條件時，該類模型回到較前的使用階段。</p>
+${dfig('f18','圖 18　模型品質抽查與下一場使用等級；原型畫面為須判斷損失率的案件〔27〕')}`});
+
+page('d-danas',{title:'4.4 丹娜絲衛星影像分析',body:`
+<p>團隊以 Sentinel-1 RTC 與 Sentinel-2 L2A 分析丹娜絲登陸點周邊約 25,450 公頃，列出約 480 公頃「植生較往年同期明顯下降」與約 157 公頃「雷達疑似積水」的候選範圍。影像清單保留各景產品編號與日期；分析網頁提供前後影像滑桿及 A–E 放大區。原始資料索引、分析程式與結果公開於專案儲存庫。〔27〕〔53〕〔74〕〔75〕</p>
+${dfig('f19','圖 19　丹娜絲判讀總圖：植生下降、疑似積水與觀測品質。Contains modified Copernicus Sentinel data 2024–2025, processed by Microsoft Planetary Computer〔53〕〔74〕')}
+<ol><li>災後光學可比面積約三分之一，首輪觀測以雷達補足。</li><li>未扣往年同期時植生下降約 899 公頃，加入同期對照後為 480 公頃，相差約 419 公頃，作期校正會影響範圍估計。</li><li>作物粗分輸出中，疑似積水分類面積約 158 公頃，水稻約 87 公頃、約 55%，需比對插秧灌水時程，加入「疑似灌溉」原因碼。總圖的 157 公頃另排除高反射人造物。〔75〕</li></ol>
+<p>兩個作物判釋版本估得的水稻面積約 1,592 與 4,381 公頃，兩版模型與插秧雷達門檻不同，試辦以鄉鎮稻作統計、申報及現勘校準。上述面積是影像分析的候選異常範圍，案件損失率以逐田標註與回填建立評估基礎。</p>
+${dfig('f20','圖 20　同區域的災前、災後與植生變化對照〔74〕〔75〕')}
+<h2>圖 21　同位置的前後對照（拖動滑桿）</h2>
+${cmp('f21c1','f21c2','災前 2025/6/15','災後 2025/7/18','C 區｜同田區光學影像')}
+${cmp('f21d1','f21d2','災前 6/28、7/4 平均','災後 2025/7/10','D 區｜同田區雷達影像')}
+<p class="note">Contains modified Copernicus Sentinel data 2025, processed by Microsoft Planetary Computer.〔74〕</p>`});
+
+page('d-sim',{title:'4.4 模擬判讀、防偽與長期對照',body:`
+<h2>模擬判讀</h2>
+<p>以 83 個農地坵塊及 40 口魚塭建立模擬資料，跑過影像生成、三法判讀、損失區間、分級與存證。十組情境中，原型的直接判定結果沒有把門檻以上與以下判反，區間平均覆蓋率約 87%，淹水三法投票 IoU 0.857。本提案對 A 類兩組的成效，則以獨立現勘資料分別量測。〔57〕〔76〕</p>
+${dfig('f22','圖 22　淹水三法與投票結果。橘色為單法支持，深藍為至少兩法同意〔76〕')}
+${dfig('f23','圖 23　主工況 83 個坵塊的模擬真值與預測區間：點為預測中位數，垂直線段為第 10–90 百分位區間〔76〕')}
+<p>單一工況區間覆蓋率約 83%、中位數絕對誤差約 6 個百分點。769 筆模擬坵塊中，高可信度有 2.2% 被分到門檻另一側，中可信度 11.9%，平均誤差接近（5.4、5.5 個百分點），顯示要另外關注門檻附近的誤判。區間縮窄實驗覆蓋率 51.3%，保形校準後回到 82.6%。〔57〕</p>
+<h2>流程與防偽測試</h2>
+<p>流程原型以 83 坵塊簽發 49 份報告，約 0.4 秒。公開程式包含流程執行、獨立查驗、竄改測試及現勘回填；49 份報告的內容雜湊、資料中心簽章及示範時戳可由信任清單逐份核對。測試操作與通過條件見測試程式〔83〕，逐項結果見完整結果表〔84〕及原始結果檔〔85〕。</p>
+<div class="tw"><table><tr><th>測試</th><th>操作或情境</th><th>原型紀錄</th></tr>
+<tr><td>T1</td><td>相同輸入與版本重算</td><td>49／49 份雜湊相同</td></tr>
+<tr><td>T2–T4</td><td>改損失區間、自行重算雜湊、非信任金鑰簽發</td><td>報告查驗或信任鏈檢查失敗</td></tr>
+<tr><td>T5</td><td>更改第 10 筆、刪除第 21 筆日誌</td><td>指出內容不符及序號斷開</td></tr>
+<tr><td>T6–T7</td><td>雷達單一像元改 0.1 dB、私改門檻</td><td>輸入檢查中止或版本不一致</td></tr>
+<tr><td>T8–T9</td><td>抽掉報告、更改公所核定</td><td>批次根或公所簽章不符</td></tr>
+<tr><td>T10</td><td>裸地以果樹申請</td><td>列 C，附生產事實待確認原因</td></tr>
+<tr><td>T11</td><td>24 份變造複本與 15 組不同影像比對</td><td>重複 24／24 標出；不同影像 0／15 誤標</td></tr>
+<tr><td>T12</td><td>將水稻 A 類案件的現勘受害率改為 12%</td><td>水稻列入下次停判 A 清單</td></tr></table></div>
+<p>每批交付以同一執行編號綁定報告、日誌與根雜湊，查驗通過後封存。正式導入的評估再加入兩組 A 類的 95% 單側信賴下界與跨事件驗證條件。</p>
+<h2>長期對照的模擬結果</h2>
+<p>模擬三年時序、35% 雲遮與 400 筆正常申請，加入長期對照後，正常申請 7 筆被列為疑似異常，誤標率 1.75%（約 2%）；四類情境各 40 筆。〔57〕</p>
+<table><tr><th>長期檢核</th><th>模擬情境</th><th>只看災前六期 → 加入長期對照</th></tr>
+<tr><td>L1 耕作物候</td><td>長期休耕</td><td>0% → 100%</td></tr><tr><td>L2 作物年齡</td><td>新植冒充成樹</td><td>0% → 100%</td></tr><tr><td>L3 損失時點</td><td>事件前已收割</td><td>2.5% → 77.5%</td></tr><tr><td>L4 前次恢復</td><td>尚未恢復即再次申請</td><td>72.5% → 100%</td></tr></table>
+<p>試辦將以歷年申報、影像與現勘資料建立地方曲線，按作物評估正常耕作被標出的比例。</p>`});
+
+page('d-plan',{title:'4.5 導入規劃與風險管理',body:`
+<p>前三年先完成一個鄉鎮、單一作物的資料建置與試辦，再取得現勘對照進行校準，第三年擴至可比較的試點。每年交付可操作的平台、資料與成效報告，並依驗證結果決定模型可使用的範圍。</p>
+${dfig('f24','圖 24　前三年的交付進程：建立試點、現勘校準與跨試點評估；甲等依後續達標成果及機關核准推進')}
+<p>年度交付進度與模型使用等級分開管理，第一年完成試點不會自動進入某一等級。甲等導入條件是同一類別在固定版本下連續至少 10 場可比較事件達標，並取得機關對使用範圍、審查程序及通知方式的核准。若僅以每年 2–3 場新增事件累積，10 場約需 3.3–5 年；第三年交付使用等級評估。福衛與其他影像按供應及授權接入。</p>
+${dfig('f25','圖 25　準備、丙、乙、甲等的導入條件與可用功能')}
+<p><b>作業驗收</b>：首輪資料到站後 8 小時內出件、區域總量偏差 ±20%、乙等優先清單前 30% 涵蓋至少 60% 實際受損案件、同輸入同版本重算一致、簽章查驗及資料完整性。區域、案件、系統三種指標分開計算。</p>
+<h2>風險與對策</h2>
+<div class="tw"><table><tr><th>風險或情境</th><th>處理方式</th></tr>
+<tr><td>判讀錯誤與責任歸屬</td><td>機關保有最終認定；證據未齊列 C 補足，分類別指標未達門檻時調整下一場使用等級。系統結果與機關判定分別留存</td></tr>
+<tr><td>A 未達標判錯而未被申復發現</td><td>A 達標與 A 未達標各設品質抽查；通知列明影像日期、理由與補件入口，主動追蹤抽查結果</td></tr>
+<tr><td>法定程序選錯或 A 未達標誤用</td><td>先核對公告與例外；簡化程序不以衛星低估損失作成未達標結論。須認定損失率者，通知、補件與申復一併納入機關核准範圍</td></tr>
+<tr><td>承辦工作增加或農民誤解</td><td>災前確認併既有申報時程；以清單匯出與預填減少重複輸入，畫面說明案件狀態、下一步及公所認定</td></tr>
+<tr><td>個資與資料用途</td><td>依機關委託範圍處理，採角色權限及存取紀錄，告知用途；帳戶資料由既有行政系統管理</td></tr>
+<tr><td>政府審核或介接時程延後</td><td>先維持審查參考用途，提供熱區圖、排序、預填及補件提醒；以機關核准的匯出檔銜接既有系統</td></tr>
+<tr><td>小田、雲遮與災後斷網</td><td>按缺失安排精細影像、無人機或現勘；預先下載任務，手機離線保存照片與座標，恢復連線後回傳</td></tr>
+<tr><td>來源偽造、文件竄改或紀錄遺失</td><td>比對官方來源檢查碼、簽章與批次根；保留原始版本、備份及重算紀錄，機關可獨立查驗已封存資料</td></tr></table></div>
+<p class="note">品質抽查與依法辦理的勘查、抽查分別記錄；模型評估、通知及案件認定都連回同一案號。〔9〕〔51〕〔45〕</p>`});
+
+page('d-work',{title:'四、預期效益：1. 公所人力與作業時間',body:`
+<p>在模型達甲等並獲核准使用的估算情境中，天相星可將公所工作需求由處理量能的約 113% 降至 86%，並減少約四成現勘。依法免勘、法定抽樣及需要個別評估損失率的案件各有不同工作量；主要比較採需要評估損失率的同規模案件，原本已免勘的案件不重複計入平台效益。</p>
+<p>效益模型借用歷史事件換算的 315,266 筆工作量建立同規模比較基準，並以 18,564 人日為量能。這個基準不預設該事件所有案件均適用 20% 損失門檻；實際導入先依公告分流，再代入須個案認定損失率的案件數。A 類每人日書審或通知 200 筆、模型品質抽查 15 筆，B／C 每人日採 10、12、15 筆。</p>
+<p class="formula">適用案件需求人日＝N ×〔a／200＋0.2a／15＋（1−a）／c〕</p>
+<p>N＝315,266、a＝50%、c＝12 時需約 16,026 人日、占量能約 86%；相較全部逐筆現勘約 21,018 人日，差約 4,992 人日。整場總工時再加回另兩類法定程序的作業量。</p>
+${dfig('f26','圖 26　須個案認定損失率的同規模情境，N＝315,266、A 占 50%；實際母體依程序分流')}
+<p class="formula">實地現勘筆數＝315,266 ×〔（1−0.5）＋0.2×0.5〕≈ 189,160 筆（減少約 126,106 筆）</p>
+<table><tr><th>B／C 每人日處理量</th><th>15 筆</th><th>12 筆</th><th>10 筆</th></tr>
+<tr><td>直接判定 50% 的需求</td><td>13,399 人日</td><td>16,026 人日</td><td>18,653 人日</td></tr>
+<tr><td>占 30 日量能</td><td>72.2%</td><td>86.3%</td><td>100.5%</td></tr>
+<tr><td>回到量能所需最低直接判定率</td><td>約 16.1%</td><td>約 37.6%</td><td>約 50.35%</td></tr></table>
+<p>人力是否回到期限內，取決於複雜案件的處理速度；c＝10 時直接判定率需至少約 50.35%，作業規劃可取 50.4% 以上。</p>
+<h2>2. 審核與撥款時效</h2>
+<p>若同規模案件中有 50% 可轉入合適的書面處理流程，估計約 6.7 萬件有機會提早完成審核。以歷史 134,006 件比較，須現勘與較快程序相差約 28 天。以全體平均 55 天及總申請 209,189 件計算：</p>
+<p class="formula">平均完成天數＝55 −（134,006 × a ÷ 209,189）× 28</p>
+<p>a 為 30%、50%、70% 時，約為 49.6、46.0、42.4 天。採購與試辦時直接量測公告、受理、補件、勘查、送縣及核撥日期。〔1〕</p>`});
+
+page('d-cost',{title:'四、預期效益：3. 成本與政府採購模式',body:`
+<p>平台以政府採購為主要營運方式，由農業部或縣市政府採購建置與持續服務，公所及農民使用基礎功能。前三年依試辦範圍編列建置與服務費。以下成本以未來全國平台、模型達甲等及相同適用工作量為情境。</p>
+<p>全國營運以 37 人專業團隊負責平台維運、資料管理及影像分析。每年三次同規模服務的情境下，年度營運成本約 8,430 萬至 1 億元；每場熱區影像與無人機服務估計 390 萬至 570 萬元，從三次總額扣除後，其餘年度費用約 7,260 萬至 8,290 萬元。〔48〕〔49〕〔77〕〔78〕〔79〕〔80〕〔4〕</p>
+<p>每人日成本採 4,773 元：以大肚區公所預算人事費 6,335.5 萬元、54 人及每年 250 個工作日換算，再加每日 80 元交通情境；與基金行政決算另列，不重複相加。〔77〕〔81〕</p>
+${dfig('f27','圖 27　每年三次同規模適用工作量的成本情境；N＝315,266、A 占 50%，並計入全國平台營運費')}
+<p>每次 N＝315,266、A 占 50%、B／C 每人日 12 筆的情境中，每年三次總成本約增加 4%～10%，工作量由量能的 113% 降至 86%；每年五次總成本約 4.75～4.94 億元，低於逐筆現勘基準約 5.02 億元。次數代表相同適用工作量的年度服務次數，不直接等同颱風次數。</p>
+${dfig('f28','圖 28　每次 N＝315,266 的相同適用工作量；約 3.6–4.6 次交會，五次時估算範圍低於逐筆現勘基準')}
+<p class="formula">現行＝n × 21,018 × 4,773 ÷ 10,000<br>導入後＝7,260–8,290＋n ×〔16,026 × 4,773 ÷ 10,000＋390–570〕（萬元）</p>
+<p>每年一次約 1.53–1.65 億元，三次約 3.14–3.29 億元，五次約 4.75–4.94 億元；B／C 處理速度改變時交會點也會移動。</p>
+<p>按同一人事成本基準，每人每年約 117.3 萬元。全國 368 個公所各增聘一人約 4.32 億元／年；若限於歷史事件的 221 個辦理公所，約 2.59 億元。〔77〕</p>
+<h2>契約與收費</h2>
+<ul><li>第一階段：試辦建置與資料整理契約，交付農田基準、操作平台、匯出格式、現勘回填及成效報告；之後以年度維運契約提供持續服務，搭配按事件或區域計費的影像分析與補充取像。</li>
+<li>建置費：資料整理與系統介接。</li><li>年度服務費：平時衛星紀錄、操作平台、資安及報告查驗。</li><li>事件服務費：依分析規模、精細影像及現場補充需求計算。</li>
+<li>契約列明資料權利、歷史報告保存、匯出格式、重算環境與移轉條件，方便政府後續擴充或承接。</li>
+<li>縣市、農會及產險的延伸服務可包括異常提醒、在養佐證及授權範圍內的報告查驗；農民救助資格與款項仍依公告及機關認定辦理。</li></ul>
+<h2>4. 社會效益</h2>
+<ul><li><b>農民少跑一趟，也能瞭解原因</b>：預填申請、指定補件與查驗碼讓農民知道缺什麼、由誰處理；路不通的田區先使用既有觀測與遠端資料。</li>
+<li><b>公所把時間用在難案</b>：書審、資料補足與現勘分流，對接近門檻或有爭議案件投入較完整的調查。</li>
+<li><b>縣府與審計能查到同一份依據</b>：系統判讀、公所核定及後續更正並列，爭議處理能追到當時資料。</li>
+<li><b>偏鄉與養殖都有適合的證據途徑</b>：山區以雷達、精細觀測及離線紀錄補足；魚塭結合在養申報、池水及設備紀錄。</li>
+<li><b>持續使用自主衛星影像</b>：福衛影像及後續自主雷達接入跨事件作業，由鄉鎮擴至縣市，再延伸其他農業場域。</li></ul>`});
+
+page('d-glossary',{title:'名詞定義與用語對照',body:`
+<div class="tw"><table><tr><th>名詞</th><th>本報告的用法</th></tr>
+<tr><td>坵塊／地號</td><td>坵塊為實際耕作範圍；地號為土地行政索引，兩者保留對應關係</td></tr>
+<tr><td>A 達標／A 未達標</td><td>限須個案認定損失率的適用案件；證據完整且達到相應安全距離的分類</td></tr>
+<tr><td>B／C</td><td>B 為證據完整但需人工確認；C 為有證據缺口，依原因補足</td></tr>
+<tr><td>丙／乙／甲等</td><td>依作物與災害分別驗證：丙等以實際現勘結果檢驗及校準模型；乙等提供審查參考；甲等達標且經核准後協助書面審查</td></tr>
+<tr><td>可信度</td><td>證據品質檢核的高、中、低，與作物機率分開呈現</td></tr>
+<tr><td>損失區間</td><td>經模型與校準得到的下限、中位數、上限；另量測實際覆蓋率</td></tr>
+<tr><td>精確度／準確率</td><td>判為某類的案件中實際正確比例／全部樣本的分類正確比例</td></tr>
+<tr><td>單側信賴下界</td><td>由抽查樣本推估精確度的保守下界；以指定信心水準計算</td></tr>
+<tr><td>直接判定率</td><td>可歸入 A 類的案件，占須個別認定損失率案件的比例；由公所依核准範圍使用</td></tr>
+<tr><td>CSI／IoU</td><td>預測範圍與參考範圍的交集除以聯集，用於空間辨識</td></tr>
+<tr><td>RMSE／覆蓋率</td><td>預測損失與現勘差距的量度／現勘值落在區間內的比例</td></tr>
+<tr><td>GRD／RTC／SLC</td><td>地距強度產品／地形校正產品／保留相位的複數資料；依任務選用</td></tr>
+<tr><td>雜湊／簽章／時戳</td><td>內容摘要／簽發者與內容驗證／對指定內容的時間證明</td></tr>
+<tr><td>存證報告</td><td>含來源、計算、分級與機關紀錄的電子文件</td></tr></table></div>`});
+
+const REFS = [
+['監察院。農業天然災害現金救助撥款調查報告','https://cybsbox.cy.gov.tw/CYBSBoxSSL/edoc/download/61399'],
+['農業天然災害救助基金。112–114 年度決算',null],
+['農糧署（2025-07-21）。丹娜絲颱風及 0708 豪雨農作物災害統計',null],
+['PRO360：空拍攝影價格','https://www.pro360.com.tw/price/aerial_photography'],
+['DJI：Phantom 4 RTK specs','https://dji.com/phantom-4-rtk/info'],
+['公視：古坑竹林勘災不易被判不合格','https://news.pts.org.tw/article/639374'],
+['公視（2025）：丹娜絲停電、增氧機停擺與發電機補助','https://news.pts.org.tw/article/761566'],
+['農業部：農災 App 多點勘災與本機調查專案','https://www.moa.gov.tw/ws.php?id=2517321'],
+['全國法規資料庫。農業天然災害救助辦法第 12 條、第 12 條之一及第 12 條之二（115 年 6 月 29 日修正）',null],
+['農業部（2025）。農產業天然災害救助作業要點','https://law.moa.gov.tw/LawContent.aspx?id=GL000268'],
+['農業部（2025）。種植客觀證明免勘與抽樣勘查公告','https://files.chcg.gov.tw/files/71_20250502104232659_農業部　公告.pdf'],
+['農業部（2025-04-18）。農糧字第 1141108673 號公告','https://gazette.nat.gov.tw/EG_FileManager/eguploadpub/eg031071/ch07/type3/gov88/num27/Eg.pdf'],
+['農業部：災害性與災損天氣參數','https://www.moa.gov.tw/ws.php?id=2513431'],
+['農業部：農災 App、天氣參數與農地覆蓋物資料庫','https://www.moa.gov.tw/ws.php?id=2517236'],
+['農業部電子報：農試所 UAV 災損判釋','https://www.moa.gov.tw/office_epaper/epaper/infoexplorer/online/52/content_1.html'],
+['農糧署（2013）：衛星影像在河川區農作物災損勘查應用之成效',null],
+['European Commission (2022). Regulation (EU) 2022/1173','https://eur-lex.europa.eu/eli/reg_impl/2022/1173/oj/eng/pdf'],
+['AMA (2024). Austria\'s area monitoring for CAP','https://philab.esa.int/wp-content/uploads/sites/3/2024/12/20241127_ESA_EO_Comm_Austrias_area_monitoring_for_CAP.pdf'],
+['ESPI: Impact case studies – AGEA','https://space-economy.esa.int/documents/ESPI%20Impact%20Case%20Studies%20-%20AGEA_6a3a9e1358da1.pdf'],
+['European Court of Auditors (2020). Special report 04/2020, CAP monitoring','https://op.europa.eu/webpub/eca/special-reports/new-tech-in-agri-monitoring-4-2020/en/index.html'],
+['Copernicus Data Space Ecosystem (2023). CAP monitoring at national scale in Slovenia','https://dataspace.copernicus.eu/node/791'],
+['European Commission JRC：Checks by Monitoring — Overview of the marker detection tool','https://jrc-cbm.readthedocs.io/en/latest/md_overview.html'],
+['農業部。竹崎鄉及民雄鄉高接梨穗現金救助公告',null],
+['內政部（115 年）。非都市地籍圖整合工作地區表',null],
+['農業部。農災救助作業及附件表單',null],
+['Angelopoulos et al. (2021). Learn then Test','https://arxiv.org/abs/2110.01052'],
+['天相星團隊（2026）。SkyAide 專案資料與原型，版本 49a2426',null],
+['Copernicus SentiWiki. Sentinel-1 products','https://sentiwiki.copernicus.eu/web/s1-products'],
+['Copernicus (2026). Sentinel-1D user data opening','https://dataspace.copernicus.eu/node/3176'],
+['Planet: Sentinel-2 L1C & L2A','https://docs.planet.com/data/public-data/copernicus/sentinel-2'],
+['Airbus：Pléiades Neo','https://space-solutions.airbus.com/imagery/our-optical-and-radar-satellite-imagery/pleiades-neo/'],
+['UP42：ICEYE 取像模式與規格','https://docs.up42.com/data/iceye'],
+['國家太空中心：福衛影像經銷服務','https://www.tasa.org.tw/zh-TW/service-and-tech/formosat-images/purchase'],
+['NASA Black Marble product','https://viirsland.gsfc.nasa.gov/Products/NASA/BlackMarble.html'],
+['臺中市地政局。e-GNSS 即時動態定位應用研究','https://rdnet.taichung.gov.tw/media/428383/61201875458.pdf'],
+['中央社（2021）：台南虱目魚寒害現金救助','https://www.cna.com.tw/news/aloc/202101140060.aspx'],
+['聯合報：福衛九號雷達衛星發射規劃','https://udn.com/news/story/7266/9227232'],
+['Parrot ANAFI Ai 技術規格與測繪功能','https://www.parrot.com/us/drones/anafi-ai/technical-documentation/photogrammetry'],
+['數位時代（2024）：民航局遙控無人機檢驗、註冊與資安檢測規劃','https://www.bnext.com.tw/article/79949/drone-regulations-revision'],
+['iThome（2024）：數發部非同步軌道衛星備援站點建置進度','https://www.ithome.com.tw/news/163833'],
+['陳清福（2020）：衛星定位技術應用於潛在大規模崩塌之地表位移研究','https://etds.lib.ntnu.edu.tw/thesis/detail/3e4c7c8580d9657c296743fe6a8cdfbe'],
+['Copernicus (2025). Sentinel checksum recalculation','https://dataspace.copernicus.eu/node/2490'],
+['Biswas & Blanco-Medina (2021). State of the art: image hashing','https://arxiv.org/abs/2108.11794'],
+['Adams et al. (2001). RFC 3161, Time-Stamp Protocol','https://www.rfc-editor.org/rfc/rfc3161'],
+['政府憑證管理中心。GPKI 憑證及憑證廢止清冊格式','https://grca.nat.gov.tw/download/modify-GPKI_Cert_and_CRL_Profiles_v2.4.pdf'],
+['STAC. SpatioTemporal Asset Catalogs','https://stacspec.org/en'],
+['W3C (2013). PROV-Overview','https://www.w3.org/TR/prov-overview/'],
+['Google Cloud：Accelerator-optimized machine pricing','https://cloud.google.com/products/compute/pricing/accelerator-optimized?hl=en'],
+['AWS S3 價格整理（2026）','https://upstash.com/blog/aws-s3-pricing-explained-2026'],
+['Rußwurm et al. (2020). BreizhCrops','https://arxiv.org/abs/1905.11893'],
+['個人資料保護法全文（國發會）','https://ws.ndc.gov.tw/001/administrator/30/laws/4/1e71c611-d58c-4ff4-8d1e-405987f5a5e4.pdf'],
+['國土測繪中心。地籍圖檔申請書','https://ws.moi.gov.tw/001/Upload/OldFile_NLSC/uploadfile/1070301/1070301%E6%B5%81%E9%80%9A%E4%BD%9C%E6%A5%AD%E8%A6%81%E9%BB%9E_%E9%99%84%E8%A1%A8%E5%85%AD_%E5%9C%B0%E7%B1%8D%E5%9C%96%E6%AA%94%E7%94%B3%E8%AB%8B%E6%9B%B8.pdf'],
+['Microsoft Planetary Computer. Sentinel-1 RTC / Sentinel-2 L2A','https://planetarycomputer.microsoft.com/catalog'],
+['European Commission: Copernicus Sentinel data licence','https://ads.atmosphere.copernicus.eu/licences/ec-sentinel'],
+['Mullissa et al. (2021). Sentinel-1 SAR backscatter analysis ready data preparation in Google Earth Engine','https://doaj.org/article/103f5e1094994facba05434cdd914e81'],
+['Pasquarella et al. (2023). Cloud Score+','https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_CLOUD_SCORE_PLUS_V1_S2_HARMONIZED'],
+['天相星團隊（2026）。S1–S8 程式、公開測試紀錄與可信度分析',null],
+['Tseng et al. (2023). Lightweight, Pre-trained Transformers for Remote Sensing Timeseries','https://arxiv.org/abs/2304.14065'],
+['Mapping of paddy field by Sentinel-1 SAR images and cadastre data. IJRS 46(12), 2025','https://scholars.ncu.edu.tw/en/publications/mapping-of-paddy-field-by-sentinel-1-sar-images-and-cadastre-data/'],
+['Bonafilia et al. (2020). Sen1Floods11. CVPR Workshops','https://openaccess.thecvf.com/content_CVPRW_2020/papers/w11/Bonafilia_Sen1Floods11_A_Georeferenced_Dataset_to_Train_and_Test_Deep_Learning_CVPRW_2020_paper.pdf'],
+['Jakubik et al. (2023). Foundation models for generalist geospatial artificial intelligence','https://arxiv.org/abs/2310.18660'],
+['Szwarcman et al. (2024). Prithvi-EO-2.0','https://arxiv.org/abs/2412.02732'],
+['IBM–NASA. Prithvi-EO-2.0-600M model card',null],
+['Ajadi et al. (2020). Landscape-scale crop lodging assessment using SAR images','https://mdpi-res.com/d_attachment/remotesensing/remotesensing-12-03885/article_deploy/remotesensing-12-03885.pdf'],
+['Chauhan et al. (2020). Understanding wheat lodging using multi-temporal Sentinel-1 and Sentinel-2 data. RSE 243','https://research.utwente.nl/en/publications/understanding-wheat-lodging-using-multi-temporal-sentinel-1-and-s/'],
+['Wu et al. (2019). Cloud-based typhoon-derived paddy rice flooding and lodging detection','https://agris.fao.org/search/en/records/65dfe0c10f3e94b9e5dd2ea3'],
+['Winter wheat lodging area extraction using deep learning with GaoFen-2 satellite imagery. Remote Sensing (2022)','https://doaj.org/article/2008f5ddad924901921c13d4096d20b2'],
+['Meneses & Blanco (2022). Rapid mapping of damages due to Typhoon Rai using Sentinel-1','https://philsa.gov.ph/journal/rapid-mapping-and-assessment-of-damages-due-to-typhoon-rai-using-sentinel-1-synthetic-aperture-radar-data/'],
+['Ke et al. (2017). LightGBM. NeurIPS','https://proceedings.neurips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf'],
+['Romano, Patterson & Candès (2019). Conformalized quantile regression','https://arxiv.org/abs/1905.03222'],
+['Ha et al. (2022). Quantifying hail damage in crops using Sentinel-2 imagery','https://mdpi-res.com/d_attachment/remotesensing/remotesensing-14-00951/article_deploy/remotesensing-14-00951.pdf'],
+['Ottinger et al. (2022). Mapping aquaculture ponds for the coastal zone of Asia. Remote Sensing 14(1)','https://opus.bibliothek.uni-wuerzburg.de/files/25220/remotesensing-14-00153.pdf'],
+['Clopper & Pearson (1934). Biometrika 26(4)','https://doi.org/10.1093/biomet/26.4.404'],
+['天相星團隊（2026）。丹娜絲衛星影像分析報告',null],
+['天相星團隊（2026）。技術驗證報告',null],
+['天相星團隊（2026）。模擬工況與程式報告',null],
+['臺中市大肚區公所 115 年度單位預算書','https://www.dadu.taichung.gov.tw/media/1268844/02070臺中市大肚區公所單位預算-上傳官網版-1-71-修.pdf'],
+['1111 人力銀行（2026）：行業薪資差距','https://www.1111.com.tw/news/jobns/164013'],
+['LAND INFO（2026）：Satellite imagery pricing','https://landinfo.com/satellite-imagery-pricing.html'],
+['SkyFi (2025). Pricing, August 2025','https://skyfi.com/files/SkyFi_Pricing_August_2025.pdf'],
+['行政院（2025 生效）。國內出差旅費報支要點修正對照表','https://tsps.chc.edu.tw/storage/074691/open_files/11會計室/法令規章/國內出差旅費/1130523行政院修正國內出差旅費報支要點部分規定(1140101生效)/1130523國內出差旅費部分規定修正對照%20表.pdf'],
+['雲林縣政府農業處（2025/9/9）：建議中央研議推動農業災損科技勘查並導入無人機',null],
+['天相星團隊（2026）。T1–T12 測試程式 tamper_tests.py，版本 1fd9b56',null],
+['天相星團隊（2026）。防偽與可重現測試完整結果表，版本 1fd9b56',null],
+['天相星團隊（2026）。T1–T12 原始測試結果 JSON，版本 1fd9b56',null],
+['數位發展部數位產業署（2026）。2026 衛星數位應用創新大賽申請須知，創意組題目五',null]
+];
+
+/* before/after slider */
+document.addEventListener('input', e => { const r = e.target.closest('.cmp input'); if(r) r.parentElement.style.setProperty('--pos', r.value + '%'); });
+
+/* ---------- render ---------- */
+const view = document.getElementById('view'), strip = document.getElementById('strip');
+const prevB = document.getElementById('prev'), nextB = document.getElementById('next'), countEl = document.getElementById('count');
+const hint = document.getElementById('hint');
+let cur = 0, lastSlide = 0;
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+
+SLIDES.forEach((s,i)=>{const b=document.createElement('button');b.textContent=(i+1)+'. '+s.t;b.onclick=()=>go('s'+(i+1));strip.appendChild(b);});
+
+function chrome(onSlide){ strip.hidden = !onSlide; hint.hidden = !onSlide; prevB.hidden = nextB.hidden = countEl.hidden = !onSlide; }
+function showSlide(i){
+  cur = Math.max(0,Math.min(SLIDES.length-1,i)); lastSlide = cur;
+  const s = SLIDES[cur];
+  view.innerHTML = `<div class="frame"><section class="slide${s.inv?' inv':''}" aria-label="第 ${cur+1} 頁：${esc(s.t)}">${s.h}</section></div>`;
+  countEl.textContent = (cur+1)+' / '+SLIDES.length;
+  prevB.disabled = cur===0; nextB.disabled = cur===SLIDES.length-1;
+  [...strip.children].forEach((b,k)=>b.setAttribute('aria-current',k===cur?'true':'false'));
+  chrome(true);
+}
+function indexBody(){
+  const used = {};
+  SLIDES.forEach((s,i)=>{ (s.h.match(/#d-[a-z-]+/g)||[]).forEach(h=>{ const k=h.slice(1); (used[k]=used[k]||[]).push(i+1); }); });
+  return `<p>所有資料頁依簡報順序排列，括號為引用它的頁碼。</p><ul>${Object.entries(D).map(([k,d])=>`<li><a href="#${k}">${esc(d.title)}</a> <span class="meta" style="color:var(--muted)">${used[k]?'（第 '+[...new Set(used[k])].join('、')+' 頁）':''}</span></li>`).join('')}<li><a href="#x-refs">參考資料（${REFS.length} 筆）</a></li></ul>`;
+}
+function refsBody(){
+  return `<p>編號與創意構想書相同；團隊內部文件與未附網址者僅列名稱。</p><ol class="refs">${REFS.map(([t,u])=>`<li>${esc(t)}${u?`<br><a href="${esc(u)}" target="_blank" rel="noopener" class="u">${esc(u)}</a>`:''}</li>`).join('')}</ol>`;
+}
+function showDetail(id){
+  let d;
+  if(id==='x-index') d={title:'資料頁目錄',body:indexBody(),tag:'目錄'};
+  else if(id==='x-refs') d={title:'參考資料',body:refsBody(),tag:'參考資料'};
+  else d = D[id];
+  if(!d){ showSlide(lastSlide); return; }
+  const bi = lastSlide, bs = SLIDES[bi];
+  view.innerHTML = `<div class="detail"><article>
+   <div class="backrow"><a class="btn" href="#s${bi+1}">← 回到第 ${bi+1} 頁：${esc(bs.t)}</a><a class="btn" href="#x-index">資料頁目錄</a></div>
+   <span class="dtag">${d.tag||'資料頁'}</span>
+   <h1>${esc(d.title)}</h1>
+   ${d.body}
+   <div class="backrow"><a class="btn" href="#s${bi+1}">← 回到第 ${bi+1} 頁</a></div>
+  </article></div>`;
+  chrome(false);
+  window.scrollTo(0,0);
+}
+function go(token){ if(location.hash==='#'+token) route(); else location.hash = token; }
+function route(){
+  const h = location.hash.slice(1);
+  const m = /^s(\d+)$/.exec(h);
+  if(m) showSlide(parseInt(m[1],10)-1);
+  else if(/^(d|x)-/.test(h)) showDetail(h);
+  else showSlide(0);
+}
+prevB.onclick=()=>go('s'+cur); nextB.onclick=()=>go('s'+(cur+2));
+
+/* lightbox */
+const lb = document.getElementById('lb'), lbimg = document.getElementById('lbimg'), lbcap = document.getElementById('lbcap');
+let lbReturn = null;
+function openLb(n, cap, from){ lbimg.src = IMG(n); lbimg.alt = cap; lbcap.textContent = cap; lb.hidden = false; lbReturn = from; document.getElementById('lbclose').focus(); }
+function closeLb(){ lb.hidden = true; lbimg.removeAttribute('src'); if(lbReturn) lbReturn.focus(); }
+document.addEventListener('click', e=>{ const f = e.target.closest('.fig'); if(f){ openLb(f.dataset.img, f.dataset.cap, f); } });
+document.getElementById('lbclose').onclick = closeLb;
+lb.addEventListener('click', e=>{ if(e.target===lb) closeLb(); });
+
+document.addEventListener('keydown',e=>{
+  if(!lb.hidden){ if(e.key==='Escape') closeLb(); return; }
+  const inDetail = /^#(d|x)-/.test(location.hash);
+  if(!inDetail && (e.key==='ArrowRight'||e.key==='PageDown')){ if(cur<SLIDES.length-1) go('s'+(cur+2)); }
+  else if(!inDetail && (e.key==='ArrowLeft'||e.key==='PageUp')){ if(cur>0) go('s'+cur); }
+  else if(inDetail && e.key==='Escape'){ go('s'+(lastSlide+1)); }
+});
+window.addEventListener('hashchange',route);
+route();
+</script>
